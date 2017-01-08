@@ -20,7 +20,7 @@ class RequisitionAdmin(admin.ModelAdmin):
     inlines = [
         ItemInline,
     ]
-    fields = (('department'), 'vendor', 'total')
+    fields = ('created_by', 'department', 'vendor', 'total')
     readonly_fields = ('total',)
 
     list_display = ('created_by', 'created', 'total', 'view_button')
@@ -29,7 +29,7 @@ class RequisitionAdmin(admin.ModelAdmin):
     search_fields = ['created_by__username', 'created_by__first_name', 'created_by__last_name']
 
     def view_button(self, obj):
-        return "<a href='{url}' _target='blank'>View</a>".format(url=obj.view_requisition())
+        return "<a href='{url}' target='_blank'>View</a>".format(url=obj.view_requisition())
     view_button.allow_tags = True
     view_button.short_description = 'Column description'
 
@@ -48,8 +48,8 @@ class RequisitionAdmin(admin.ModelAdmin):
     def save_model(self, request, instance, form, change):
         user = request.user
         instance = form.save(commit=False)
-        if not change or not instance.created_by:
-            instance.created_by = user
+        # if not change or not instance.created_by:
+        #     instance.created_by = user
         instance.modified_by = user
         instance.save()
         form.save_m2m()
