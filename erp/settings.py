@@ -25,8 +25,9 @@ SECRET_KEY = '_^m0rs47dn9)i2k=2jffso7$=(@2k&#=kd*%q1!f*(4u@c^o+b'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = ['172.16.16.172']
-ALLOWED_HOSTS = []
+HOSTNAME = socket.gethostname()
+
+ALLOWED_HOSTS = ['172.16.16.172' if HOSTNAME == 'erp' else '']
 
 
 # Application definition
