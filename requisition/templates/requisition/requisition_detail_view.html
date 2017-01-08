@@ -44,7 +44,7 @@
     }
 </script>
 
-<div class="container" id="mydiv">
+<div class="container" id="mydiv" style="margin-left: 150px;">
     <div class="row">
         <div class="col-xs-12">
             <div class="invoice-title">
@@ -155,20 +155,37 @@
     </div>
 
 	<div class="spacer"></div>
+	<div class="spacer"></div>
+	<div class="spacer"></div>
+	<div class="spacer"></div>
 
 	<div class="row">
 		<div class="col-xs-4">
 			____________________ <br/>
-			<small>Head of Department</small>
+			<small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Requested By</small>
 		</div>
 		<div class="col-xs-4 text-center">
 			____________________ <br/>
-			<small>Head of Accounts</small>
+			<small>Reviewed By</small>
 		</div>
 		<div class="col-xs-4 text-right">
 			____________________ <br/>
-			<small>Chairman</small>
+			<small>Approved By&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small>
 		</div>
 	</div>
+
+{#	<table style="width: 100%;">#}
+{#		<tr>#}
+{#			<td align="left">___________________</td>#}
+{#			<td align="center">___________________</td>#}
+{#			<td align="right">___________________</td>#}
+{#		</tr>#}
+{##}
+{#		<tr>#}
+{#			<td align="left">Requested By</td>#}
+{#			<td align="center">Reviewed By</td>#}
+{#			<td align="right">Approved By</td>#}
+{#		</tr>#}
+{#	</table>#}
 </div>
 {% endblock %}
