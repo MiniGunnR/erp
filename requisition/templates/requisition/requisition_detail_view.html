@@ -1,0 +1,174 @@
+{% extends "requisition.html" %}
+
+{% block main %}
+<script type="text/javascript">
+    function PrintElem(elem) {
+        Popup($(elem).html());
+    }
+
+    function Popup(data) {
+        var mywindow = window.open('', 'my div', 'height=600,width=800');
+        mywindow.document.write('<html><head><title>my div</title>');
+        /*optional stylesheet*/ //mywindow.document.write('<link rel="stylesheet" href="main.css" type="text/css" />');
+	    mywindow.document.write('<link href="/static/css/bootstrap.min.css" rel="stylesheet">');
+	    mywindow.document.write('<link href="/static/css/style.css" rel="stylesheet">');
+	    mywindow.document.write('<style type="text/css" media="print">' +
+			    '@page' +
+			    '{' +
+			    'size:  auto;   /* auto is the initial value */' +
+			    'margin: 0mm;  /* this affects the margin in the printer settings */' +
+			    '} ' +
+			    'html' +
+			    '{' +
+			    'background-color: #FFFFFF;' +
+			    'margin: 0px;  /* this affects the margin on the html before sending to printer */' +
+			    '}' +
+			    'body' +
+			    '{' +
+			    'border: solid 0px blue ;' +
+			    'margin: 10mm 15mm 10mm 15mm; /* margin you want for the content */' +
+			    '}' +
+			    '</style>');
+	    mywindow.document.write('</head><body >');
+
+        mywindow.document.write(data);
+        mywindow.document.write('</body></html>');
+
+        mywindow.document.close(); // necessary for IE >= 10
+        mywindow.focus(); // necessary for IE >= 10
+
+        mywindow.print();
+        mywindow.close();
+
+        return true;
+    }
+</script>
+
+<div class="container" id="mydiv">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="invoice-title">
+                <h2>Design Ace Ltd.</h2><h3 class="pull-right">Requisition # {{ object.pk }}</h3>
+	            <p style="line-height: 0.5em;">365/4, Road - 6, Baridhara DOHS, Dhaka - 1206</p>
+            </div>
+            <hr>
+	        <div class="row">
+                <div class="col-xs-5">
+                    <address>
+                    <strong>Prepared By:</strong><br>
+                        {{ object.created_by.get_full_name }}<br>
+                    </address>
+                </div>
+		        <div class="col-xs-3"></div>
+                <div class="col-xs-4 text-right">
+                    <address>
+                    <strong>Issue Date:</strong><br>
+                        {{ object.created|date }}<br>
+                    </address>
+                </div>
+            </div>
+	        <div class="row">
+                <div class="col-xs-5">
+                    <address>
+                    <strong>Employee ID:</strong><br>
+	                    {{ object.created_by.profile.employee_id }}
+                    </address>
+                </div>
+		        <div class="col-xs-3"></div>
+                <div class="col-xs-4 text-right">
+                    <address>
+                    </address>
+                </div>
+            </div>
+	        <div class="row">
+                <div class="col-xs-5">
+	                <address>
+                    <strong>Issue Date:</strong><br>
+                        {{ object.issue_date }}<br>
+                    </address>
+                </div>
+		        <div class="col-xs-3"></div>
+                <div class="col-xs-4 text-right">
+                    <address>
+                    <strong>Department:</strong><br>
+                        {{ object.department }}<br><br>
+                    </address>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>Order summary</strong></h3>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <td><strong>Item</strong></td>
+                                    <td class="text-center"><strong>Quantity</strong></td>
+                                    <td class="text-center"><strong>Price</strong></td>
+                                    <td class="text-right"><strong>Totals</strong></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- foreach ($order->lineItems as $line) or some such thing here -->
+                                {% for item in items %}
+                                <tr>
+                                    <td>
+	                                    {{ item.name }} <br/>
+	                                    <small>{{ item.description }}</small>
+                                    </td>
+                                    <td class="text-center">{{ item.quantity }} pc{{ item.quantity|pluralize }}</td>
+                                    <td class="text-center">৳ {{ item.price }}</td>
+                                    <td class="text-right">৳ {{ item.amount }}</td>
+                                </tr>
+                                {% endfor %}
+                                <tr>
+                                    <td class="thick-line"></td>
+                                    <td class="thick-line"></td>
+                                    <td class="thick-line text-center"><strong>Total</strong></td>
+                                    <td class="thick-line text-right">৳ {{ object.total }}</td>
+                                </tr>
+{#	                                <tr>#}
+{#	                                    <td class="no-line"></td>#}
+{#	                                    <td class="no-line"></td>#}
+{#	                                    <td class="no-line text-center"><strong>Shipping</strong></td>#}
+{#	                                    <td class="no-line text-right">$15</td>#}
+{#	                                </tr>#}
+{#	                                <tr>#}
+{#	                                    <td class="no-line"></td>#}
+{#	                                    <td class="no-line"></td>#}
+{#	                                    <td class="no-line text-center"><strong>Total</strong></td>#}
+{#	                                    <td class="no-line text-right">$685.99</td>#}
+{#	                                </tr>#}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	<div class="spacer"></div>
+
+	<div class="row">
+		<div class="col-xs-4">
+			____________________ <br/>
+			<small>Head of Department</small>
+		</div>
+		<div class="col-xs-4 text-center">
+			____________________ <br/>
+			<small>Head of Accounts</small>
+		</div>
+		<div class="col-xs-4 text-right">
+			____________________ <br/>
+			<small>Chairman</small>
+		</div>
+	</div>
+</div>
+{% endblock %}
