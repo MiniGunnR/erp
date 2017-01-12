@@ -5,6 +5,13 @@ from utils.models import Timestamped
 from django.contrib.auth.models import User
 
 
+class Company(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
 class Vendor(Timestamped):
     name = models.CharField(max_length=255)
     address_line_1 = models.CharField(max_length=100)
@@ -16,6 +23,8 @@ class Vendor(Timestamped):
 
 
 class Requisition(Timestamped):
+    company = models.ForeignKey(Company)
+
     created_by = models.ForeignKey(User, related_name='created_requisitions')
     modified_by = models.ForeignKey(User, related_name='modified_requisitions')
 

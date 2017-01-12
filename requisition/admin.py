@@ -2,8 +2,9 @@ from django.contrib import admin
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 
-from .models import Requisition, Item, Vendor
+from .models import Requisition, Item, Vendor, Company
 
+admin.site.register(Company)
 
 class ItemInline(admin.TabularInline):
     model = Item
@@ -20,7 +21,7 @@ class RequisitionAdmin(admin.ModelAdmin):
     inlines = [
         ItemInline,
     ]
-    fields = ('created_by', 'department', 'vendor', 'total')
+    fields = ('company', 'created_by', 'department', 'vendor', 'total')
     readonly_fields = ('total',)
 
     list_display = ('created_by', 'created', 'total', 'view_button')
