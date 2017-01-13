@@ -12,7 +12,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT credit FROM cc_card WHERE username = ".$_GET['query'." LIMIT 1"];
+$sql = "SELECT credit FROM cc_card WHERE username = ".$_GET['query']." LIMIT 1";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
