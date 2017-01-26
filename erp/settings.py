@@ -127,5 +127,6 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 LOGIN_URL = '/admin/login/'
+LOGOUT_REDIRECT_URL = '/'
 
 AUTH_USER_MODEL = 'auth.User'
