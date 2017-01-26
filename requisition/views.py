@@ -11,3 +11,13 @@ class RequisitionDetailView(DetailView):
         context = super(RequisitionDetailView, self).get_context_data(**kwargs)
         context['items'] = Item.objects.filter(requisition=self.object)
         return context
+
+
+class PurchaseOrderDetailView(DetailView):
+    model = Requisition
+    template_name = "requisition/purchase_order.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(PurchaseOrderDetailView, self).get_context_data(**kwargs)
+        context['items'] = Item.objects.filter(requisition=self.object)
+        return context
