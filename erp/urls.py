@@ -4,6 +4,8 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^', include('core.urls', namespace='core')),
 
+    url(r'^attendance/', include('attendance.urls', namespace='attendance')),
+
     url(r'^billing/', include('billing.urls', namespace='billing')),
 
     url(r'^admin/', admin.site.urls),
