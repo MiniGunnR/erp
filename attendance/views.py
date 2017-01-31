@@ -13,7 +13,7 @@ def select_by_date(request):
     r = requests.get('http://172.16.16.172/php/mdb.php', params=payload)
 
     txt = r.text.replace('null', '')
-    file = os.path.join(settings.BASE_DIR, "attendance_date.txt")
+    file = os.path.join(settings.BASE_DIR, "media", "attendance", "attendance_date.txt")
     f= open(file, "w+")
     f.write(txt)
     f.close()
