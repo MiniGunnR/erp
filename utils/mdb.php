@@ -16,7 +16,7 @@ $stmt = $conn->query($sql);
 while ($row = $stmt->fetch()) {
 //    $data[$row['id']] = array('date' => $row['C_Date'], 'time' => $row['C_Time'], 'unique' => $row['C_Unique']);
 //    $data += array('date' => $row['C_Date'], 'time' => $row['C_Time'], 'unique' => $row['C_Unique']);
-    echo chr(11);
+    echo "0".chr(11);
     echo $row['C_Date'].chr(11);
     echo $row['C_Time'].chr(11);
     echo $row['C_Unique'].":\n";
