@@ -19,7 +19,7 @@ while ($row = $stmt->fetch()) {
     echo "0".chr(11);
     echo $row['C_Date'].chr(11);
     echo $row['C_Time'].chr(11);
-    echo $row['C_Unique'].":\n";
+    echo $row['C_Unique'].":\r\n";
 
 header('Content-Type: application/json');
 echo json_encode($data);

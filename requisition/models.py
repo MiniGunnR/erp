@@ -32,7 +32,7 @@ class Requisition(Timestamped):
     created_by = models.ForeignKey(User, related_name='created_requisitions')
     modified_by = models.ForeignKey(User, related_name='modified_requisitions')
 
-    # issue_date = models.DateField(auto_now_add=True)
+    issue_date = models.DateField(blank=True, null=True)
 
     department = models.ForeignKey(Department)
 
