@@ -7,6 +7,11 @@ def attendance(request):
 
 
 def select_by_date(request):
+    date = '20170101'
+    payload = {'date': date}
+    r = requests.get('http://172.16.16.172/php/mdb.php', params=payload)
+    for item in r.json():
+        print(item)
     return render(request, "attendance/select_by_date.html")
 
 
