@@ -14,8 +14,9 @@ $sql .= " WHERE C_Date = '" . $_GET['date'] . "'";
 
 $stmt = $conn->query($sql);
 while ($row = $stmt->fetch()) {
-    $data = []
-    $data += array('date' => $row['C_Date'], 'time' => $row['C_Time'], 'unique' => $row['C_Unique']);
+    $data = array();
+    $data[$row['id']] = array('date' => $row['C_Date'], 'time' => $row['C_Time'], 'unique' => $row['C_Unique']);
+//    $data += array('date' => $row['C_Date'], 'time' => $row['C_Time'], 'unique' => $row['C_Unique']);
 
 header('Content-Type: application/json');
 echo json_encode($data);
