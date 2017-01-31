@@ -10,7 +10,7 @@ if (!file_exists($dbName)) {
 $conn = new PDO("odbc:DRIVER=MDBTools; DBQ=$dbName; Uid='admin'; Pwd='unisamho';");
 
 $sql  = "SELECT C_Date, C_Time, C_Unique FROM tEnter";
-$sql .= " WHERE C_Date = '" . $_GET['date'] . "' AND C_Unique != ''";
+$sql .= " WHERE C_Date = '" . $_GET['date'] . "'";
 
 $stmt = $conn->query($sql);
 while ($row = $stmt->fetch()) {
