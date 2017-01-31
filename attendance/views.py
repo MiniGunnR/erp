@@ -11,13 +11,12 @@ def select_by_date(request):
     date = '20170101'
     payload = {'date': date}
     r = requests.get('http://172.16.16.172/php/mdb.php', params=payload)
-    for item in r.json():
-        print(item)
+    print(r.text)
     return render(request, "attendance/select_by_date.html")
 
 
 def select_by_month(request):
-    response = []
+    response = ''
 
     if request.method == "POST":
         for num in range(1, 32):
@@ -33,6 +32,8 @@ def select_by_month(request):
 
             payload = {'date': date}
             r = requests.get('http://172.16.16.172/php/mdb.php', params=payload)
+
+            print(r.text)
 
     return render(request, "attendance/select_by_month.html", { "response": response })
 
