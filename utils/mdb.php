@@ -16,6 +16,7 @@ $stmt = $conn->query($sql);
 while ($row = $stmt->fetch()) {
 //    $data[$row['id']] = array('date' => $row['C_Date'], 'time' => $row['C_Time'], 'unique' => $row['C_Unique']);
 //    $data += array('date' => $row['C_Date'], 'time' => $row['C_Time'], 'unique' => $row['C_Unique']);
+    echo "1\n";
     echo $row['C_Date']."\n";
     echo $row['C_Time']."\n";
     echo $row['C_Unique'].":\n";
