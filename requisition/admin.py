@@ -21,7 +21,7 @@ class RequisitionAdmin(admin.ModelAdmin):
     inlines = [
         ItemInline,
     ]
-    fields = ('company', 'created_by', 'department', 'vendor', 'total')
+    fields = ('issue_date', 'company', 'created_by', 'department', 'vendor', 'total')
     readonly_fields = ('total',)
 
     list_display = ('created_by', 'created', 'total', 'view_button')
