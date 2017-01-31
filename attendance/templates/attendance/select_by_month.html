@@ -1,1 +1,18 @@
 <h1>Select by Month</h1>
+
+<form method="get" action=".">
+	{% csrf_token %}
+
+	<select name="year">
+		<option value="2017">2017</option>
+	</select>
+
+	<select name="month">
+		<option value="01">Jan</option>
+		<option value="02">Feb</option>
+		<option value="03">Mar</option>
+		<option value="04">Apr</option>
+	</select>
+
+	<input type="submit" value="Submit" />
+</form>
