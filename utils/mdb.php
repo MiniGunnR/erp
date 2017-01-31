@@ -16,10 +16,10 @@ $stmt = $conn->query($sql);
 while ($row = $stmt->fetch()) {
 //    $data[$row['id']] = array('date' => $row['C_Date'], 'time' => $row['C_Time'], 'unique' => $row['C_Unique']);
 //    $data += array('date' => $row['C_Date'], 'time' => $row['C_Time'], 'unique' => $row['C_Unique']);
-    echo "1^K";
-    echo $row['C_Date']."^K";
-    echo $row['C_Time']."^K";
-    echo $row['C_Unique'].":^K";
+    echo "1;";
+    echo $row['C_Date'].";";
+    echo $row['C_Time'].";";
+    echo $row['C_Unique'].":\n";
 
 header('Content-Type: application/json');
 echo json_encode($data);
