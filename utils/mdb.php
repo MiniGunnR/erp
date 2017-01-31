@@ -19,7 +19,6 @@ while ($row = $stmt->fetch()) {
     echo $row['C_Date']."\n";
     echo $row['C_Time']."\n";
     echo $row['C_Unique'].":\n";
-    echo "\n";
 
 header('Content-Type: application/json');
 echo json_encode($data);
