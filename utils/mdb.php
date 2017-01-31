@@ -16,9 +16,9 @@ $stmt = $conn->query($sql);
 while ($row = $stmt->fetch()) {
 //    $data[$row['id']] = array('date' => $row['C_Date'], 'time' => $row['C_Time'], 'unique' => $row['C_Unique']);
 //    $data += array('date' => $row['C_Date'], 'time' => $row['C_Time'], 'unique' => $row['C_Unique']);
-    echo $row['C_Date']."-";
-    echo $row['C_Time']."--";
-    echo $row['C_Unique'].":::";
+    echo $row['C_Date']."\n";
+    echo $row['C_Time']."\n";
+    echo $row['C_Unique'].":\n";
 
 header('Content-Type: application/json');
 echo json_encode($data);

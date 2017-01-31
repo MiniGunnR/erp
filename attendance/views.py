@@ -33,7 +33,7 @@ def select_by_month(request):
             payload = {'date': date}
             r = requests.get('http://172.16.16.172/php/mdb.php', params=payload)
 
-            print(r.text)
+            print(r.text.replace('null', ''))
 
     return render(request, "attendance/select_by_month.html", { "response": response })
 
