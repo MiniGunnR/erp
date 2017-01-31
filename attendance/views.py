@@ -1,5 +1,6 @@
 from django.shortcuts import render
 import requests
+import simplejson as json
 
 
 def attendance(request):
@@ -33,7 +34,5 @@ def select_by_month(request):
             payload = {'date': date}
             r = requests.get('http://172.16.16.172/php/mdb.php', params=payload)
 
-            for entry in r.json():
-                print(entry)
     return render(request, "attendance/select_by_month.html", { "response": response })
 
