@@ -1,6 +1,6 @@
 <h1>Select by Month</h1>
 
-<form method="get" action=".">
+<form method="post" action=".">
 	{% csrf_token %}
 
 	<select name="year">
@@ -16,3 +16,5 @@
 
 	<input type="submit" value="Submit" />
 </form>
+
+{{ response }}

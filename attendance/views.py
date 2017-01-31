@@ -1,4 +1,5 @@
 from django.shortcuts import render
+import requests
 
 
 def attendance(request):
@@ -10,5 +11,24 @@ def select_by_date(request):
 
 
 def select_by_month(request):
-    return render(request, "attendance/select_by_month.html")
+    response = []
+
+    if request.method == "POST":
+        for num in range(1, 32):
+            year = request.POST.get('year')
+            month = request.POST.get('month')
+
+            if num < 10:
+                day = '0' + str(num)
+            else:
+                day = str(num)
+
+            date = str(year) + str(month) + str(day)
+
+            payload = {'date': date}
+            r = requests.get('http://172.16.16.172/php/mdb.php', params=payload)
+
+            for entry in r.json():
+                print(entry)
+    return render(request, "attendance/select_by_month.html", { "response": response })
 
