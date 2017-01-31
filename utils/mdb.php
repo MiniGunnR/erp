@@ -1,7 +1,7 @@
 <?php
 
-//$dbName = $_SERVER["DOCUMENT_ROOT"] . "/php/unis.mdb";
-$dbName = "smb://172.16.16.8/C$/Program Files/UNIS/unis.mdb";
+$dbName = $_SERVER["DOCUMENT_ROOT"] . "/php/unis.mdb";
+//$dbName = "smb://172.16.16.8/C$/Program Files/UNIS/unis.mdb";
 
 if (!file_exists($dbName)) {
     die("Could not find database file.");
