@@ -1,6 +1,6 @@
 {% extends "billing.html" %}
 
 {% block content %}
-	<p>Name: </p>
+	<p>Sip: {{ request.GET.sip }}</p>
 	<p>Balance: {{ balance }}</p>
 {% endblock %}
