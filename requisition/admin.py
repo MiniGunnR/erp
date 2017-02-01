@@ -7,10 +7,12 @@ from .models import Requisition, Item, Vendor, Company, PurchaseOrder
 admin.site.register(Company)
 admin.site.register(PurchaseOrder) # need to make requisition field read only in admin
 
+
 class ItemInline(admin.TabularInline):
     model = Item
     extra = 0
     readonly_fields = ('amount',)
+
 
 class RequisitionAdmin(admin.ModelAdmin):
     class Media:

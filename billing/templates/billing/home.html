@@ -1,2 +1,11 @@
-<p>Your balance is {{ balance }}.</p>
+{% extends "billing.html" %}
 
+{% block content %}
+	<p>Your balance is {{ balance }}</p>
+
+	<form method="get" action="{% url 'billing:check-employee-balance' %}">
+		<input type="text" name="sip" id="sip" />
+
+		<input type="submit" value="Check" />
+	</form>
+{% endblock %}
