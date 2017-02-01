@@ -108,7 +108,7 @@
                     <div class="table-responsive">
                         <table class="table table-condensed">
                             <thead>
-                                <tr>
+                                <tr style="border-bottom: solid; border-width: 2px;">
                                     <td><strong>Item</strong></td>
                                     <td class="text-center"><strong>Quantity</strong></td>
                                     <td class="text-center"><strong>Price</strong></td>
@@ -119,13 +119,13 @@
                                 <!-- foreach ($order->lineItems as $line) or some such thing here -->
                                 {% for item in items %}
                                 <tr>
-                                    <td>
+                                    <td style="border-bottom: solid; border-width: 1px;">
 	                                    {{ item.name }} <br/>
 	                                    <small>{{ item.description }}</small>
                                     </td>
-                                    <td class="text-center">{{ item.quantity }} pc{{ item.quantity|pluralize }}</td>
-                                    <td class="text-center">৳ {{ item.price }}</td>
-                                    <td class="text-right">৳ {{ item.amount }}</td>
+                                    <td class="text-center" style="border-bottom: solid; border-width: 1px;">{{ item.quantity }} pc{{ item.quantity|pluralize }}</td>
+                                    <td class="text-center" style="border-bottom: solid; border-width: 1px;">৳ {{ item.price }}</td>
+                                    <td class="text-right" style="border-bottom: solid; border-width: 1px;">৳ {{ item.amount }}</td>
                                 </tr>
                                 {% endfor %}
                                 <tr>

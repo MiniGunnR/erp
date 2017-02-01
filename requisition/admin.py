@@ -2,9 +2,10 @@ from django.contrib import admin
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 
-from .models import Requisition, Item, Vendor, Company
+from .models import Requisition, Item, Vendor, Company, PurchaseOrder
 
 admin.site.register(Company)
+admin.site.register(PurchaseOrder) # need to make requisition field read only in admin
 
 class ItemInline(admin.TabularInline):
     model = Item
@@ -30,9 +31,9 @@ class RequisitionAdmin(admin.ModelAdmin):
     search_fields = ['created_by__username', 'created_by__first_name', 'created_by__last_name']
 
     def view_button(self, obj):
-        return "<a href='{url}' target='_blank'>View</a>".format(url=obj.view_requisition())
+        return "<a class='button' href='{req_url}' target='_blank'>Requisition</a> <a class='button' href='{po_url}' target='_blank'>Purchase Order</a>".format(req_url=obj.view_requisition(), po_url=obj.view_work_order())
     view_button.allow_tags = True
-    view_button.short_description = 'Column description'
+    view_button.short_description = 'Actions'
 
     # def response_add(self, request, obj, post_url_continue="../%s/"):
     #     if not '_continue' in request.POST:

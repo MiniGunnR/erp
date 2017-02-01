@@ -47,7 +47,7 @@ class Requisition(Timestamped):
         return reverse("requisition:requisition-detail-view", args=[str(self.id)])
 
     def view_work_order(self):
-        pass
+        return reverse("requisition:purchase-order", args=[str(self.id)])
 
 
 class Item(Timestamped):

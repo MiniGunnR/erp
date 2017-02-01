@@ -1,5 +1,9 @@
 {% extends "requisition.html" %}
 
+{% block title %}
+	Purchase Order
+{% endblock %}
+
 {% block print %}
 <script type="text/javascript">
     function PrintElem(elem) {
@@ -8,7 +12,7 @@
 
     function Popup(data) {
         var mywindow = window.open('', 'print', 'height=600,width=800');
-        mywindow.document.write('<html><head><title>Requisition</title>');
+        mywindow.document.write('<html><head><title>Purchase Order</title>');
         /*optional stylesheet*/ //mywindow.document.write('<link rel="stylesheet" href="main.css" type="text/css" />');
 	    mywindow.document.write('<link href="/static/css/bootstrap.min.css" rel="stylesheet">');
 	    mywindow.document.write('<link href="/static/css/style.css" rel="stylesheet">');
@@ -55,7 +59,8 @@
 	        <div class="row">
                 <div class="col-xs-5">
                     <address>
-                        <small>Document No.</small> PO-DAL-2017-0036<br>
+	                    <br/>
+                        <small>Document No.</small> {{ po.reference_no }}<br>
                     </address>
                 </div>
 		        <div class="col-xs-3"></div>
@@ -66,21 +71,30 @@
                     </address>
                 </div>
             </div>
+	        <hr/>
 	        <div class="row">
-                <div class="col-xs-5">
-                    <address>
-{#                    <strong>Employee ID:</strong><br>#}
-{#	                    {{ object.created_by.profile.employee_id }}#}
-                    </address>
+                <div class="col-xs-6">
+                    <small>
+                        <strong>To</strong><br>
+	                    <p>{{ object.vendor.name }} <br/>
+	                    {{ object.vendor.address_line_1 }}<br/>
+	                    {{ object.vendor.address_line_2 }}<br/>
+	                    {{ object.vendor.phone }}</p>
+                    </small>
                 </div>
-		        <div class="col-xs-3"></div>
-                <div class="col-xs-4 text-right">
-                    <address>
-                    </address>
+                <div class="col-xs-6 text-right">
+                    <small>
+	                    <strong>Requisitioner</strong>
+	                    <p>Group Design Ace Ltd<br/>
+	                    Head Office, DOHS, Baridhara<br/>
+	                    Dhaka</p>
+                    </small>
                 </div>
             </div>
         </div>
     </div>
+
+	<br/>
 
     <div class="row">
         <div class="col-md-12">
@@ -92,7 +106,7 @@
                     <div class="table-responsive">
                         <table class="table table-condensed">
                             <thead>
-                                <tr>
+                                <tr style="border-bottom: solid; border-width: 2px;">
                                     <td><strong>Item</strong></td>
                                     <td class="text-center"><strong>Quantity</strong></td>
                                     <td class="text-center"><strong>Price</strong></td>
@@ -103,13 +117,13 @@
                                 <!-- foreach ($order->lineItems as $line) or some such thing here -->
                                 {% for item in items %}
                                 <tr>
-                                    <td>
+                                    <td style="border-bottom: solid; border-width: 1px;">
 	                                    {{ item.name }} <br/>
 	                                    <small>{{ item.description }}</small>
                                     </td>
-                                    <td class="text-center">{{ item.quantity }} pc{{ item.quantity|pluralize }}</td>
-                                    <td class="text-center">৳ {{ item.price }}</td>
-                                    <td class="text-right">৳ {{ item.amount }}</td>
+                                    <td class="text-center" style="border-bottom: solid; border-width: 1px;">{{ item.quantity }} pc{{ item.quantity|pluralize }}</td>
+                                    <td class="text-center" style="border-bottom: solid; border-width: 1px;">৳ {{ item.price }}</td>
+                                    <td class="text-right" style="border-bottom: solid; border-width: 1px;">৳ {{ item.amount }}</td>
                                 </tr>
                                 {% endfor %}
                                 <tr>
