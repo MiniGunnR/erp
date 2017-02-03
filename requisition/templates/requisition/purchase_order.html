@@ -5,50 +5,55 @@
 {% endblock %}
 
 {% block print %}
-<script type="text/javascript">
-    function PrintElem(elem) {
-        Popup($(elem).html());
-    }
+{#<script type="text/javascript">#}
+{#    function PrintElem(elem) {#}
+{#        Popup($(elem).html());#}
+{#    }#}
+{##}
+{#    function Popup(data) {#}
+{#        var mywindow = window.open('', 'print', 'height=600,width=800');#}
+{#        mywindow.document.write('<html><head><title>Purchase Order</title>');#}
+{#        /*optional stylesheet*/ //mywindow.document.write('<link rel="stylesheet" href="main.css" type="text/css" />');#}
+{#	    mywindow.document.write('<link href="/static/css/bootstrap.min.css" rel="stylesheet">');#}
+{#	    mywindow.document.write('<link href="/static/css/style.css" rel="stylesheet">');#}
+{#	    mywindow.document.write('<style type="text/css" media="print">' +#}
+{#			    '@page' +#}
+{#			    '{' +#}
+{#			    'size:  auto;   /* auto is the initial value */' +#}
+{#			    'margin: 0mm;  /* this affects the margin in the printer settings */' +#}
+{#			    '} ' +#}
+{#			    'html' +#}
+{#			    '{' +#}
+{#			    'background-color: #FFFFFF;' +#}
+{#			    'margin: 0px;  /* this affects the margin on the html before sending to printer */' +#}
+{#			    '}' +#}
+{#			    'body' +#}
+{#			    '{' +#}
+{#			    'border: solid 0px blue ;' +#}
+{#			    'margin: 10mm 15mm 10mm 15mm; /* margin you want for the content */' +#}
+{#			    '}' +#}
+{#			    'footer' +#}
+{#			    '{' +#}
+{#			    'position: fixed;' +#}
+{#			    'bottom: 0px;' +#}
+{#			    '}' +#}
+{#			    '</style>');#}
+{#	    mywindow.document.write('</head><body >');#}
+{##}
+{#        mywindow.document.write(data);#}
+{#        mywindow.document.write('</body></html>');#}
+{##}
+{#        mywindow.document.close(); // necessary for IE >= 10#}
+{#        mywindow.focus(); // necessary for IE >= 10#}
+{##}
+{#        mywindow.print();#}
+{#        mywindow.close();#}
+{##}
+{#        return true;#}
+{#    }#}
+{#</script>#}
 
-    function Popup(data) {
-        var mywindow = window.open('', 'print', 'height=600,width=800');
-        mywindow.document.write('<html><head><title>Purchase Order</title>');
-        /*optional stylesheet*/ //mywindow.document.write('<link rel="stylesheet" href="main.css" type="text/css" />');
-	    mywindow.document.write('<link href="/static/css/bootstrap.min.css" rel="stylesheet">');
-	    mywindow.document.write('<link href="/static/css/style.css" rel="stylesheet">');
-	    mywindow.document.write('<style type="text/css" media="print">' +
-			    '@page' +
-			    '{' +
-			    'size:  auto;   /* auto is the initial value */' +
-			    'margin: 0mm;  /* this affects the margin in the printer settings */' +
-			    '} ' +
-			    'html' +
-			    '{' +
-			    'background-color: #FFFFFF;' +
-			    'margin: 0px;  /* this affects the margin on the html before sending to printer */' +
-			    '}' +
-			    'body' +
-			    '{' +
-			    'border: solid 0px blue ;' +
-			    'margin: 10mm 15mm 10mm 15mm; /* margin you want for the content */' +
-			    '}' +
-			    '</style>');
-	    mywindow.document.write('</head><body >');
-
-        mywindow.document.write(data);
-        mywindow.document.write('</body></html>');
-
-        mywindow.document.close(); // necessary for IE >= 10
-        mywindow.focus(); // necessary for IE >= 10
-
-        mywindow.print();
-        mywindow.close();
-
-        return true;
-    }
-</script>
-
-<div class="container" id="mydiv" style="margin-left: 150px;">
+<div class="container" id="mydiv">
     <div class="row">
         <div class="col-xs-12">
             <div class="invoice-title">
@@ -132,18 +137,6 @@
                                     <td class="thick-line text-center"><strong>Total</strong></td>
                                     <td class="thick-line text-right">৳ {{ object.total }}</td>
                                 </tr>
-{#	                                <tr>#}
-{#	                                    <td class="no-line"></td>#}
-{#	                                    <td class="no-line"></td>#}
-{#	                                    <td class="no-line text-center"><strong>Shipping</strong></td>#}
-{#	                                    <td class="no-line text-right">$15</td>#}
-{#	                                </tr>#}
-{#	                                <tr>#}
-{#	                                    <td class="no-line"></td>#}
-{#	                                    <td class="no-line"></td>#}
-{#	                                    <td class="no-line text-center"><strong>Total</strong></td>#}
-{#	                                    <td class="no-line text-right">$685.99</td>#}
-{#	                                </tr>#}
                             </tbody>
                         </table>
                     </div>
@@ -154,7 +147,7 @@
 
 	<div class="spacer"></div>
 	<div class="spacer"></div>
-	<div class="row">
+	<div class="row" id="terms">
 		<div class="col-xs-12">
 			<small>
 			<strong><u>Terms & Condition:</u></strong>
@@ -169,13 +162,19 @@
 		</div>
 	</div>
 
-	<hr/>
-
-	<div class="row">
+	<div class="row" id="comp-gen">
 		<div class="col-xs-12">
 			<small>&ast; This is a computer generated document. No signature of any kind is required.</small>
 		</div>
 	</div>
+
+	<footer class="text-center">
+		<hr style="margin-bottom: 15px;"/>
+		<small>
+		<strong>Head Office:</strong> House No. 365/4, Road No. 6, Baridhara DOHS, Dhaka - 1206 &nbsp;
+		Tel: 880-2-8416323, 8416324, Email: info@groupdesignace.com
+		</small>
+	</footer>
 
 </div>
 {% endblock %}
