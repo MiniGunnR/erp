@@ -1,0 +1,8 @@
+{% if messages %}
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+	<hr/>
+{% endif %}
+
+<a href="{% url 'europarts:create-product-request-list' %}">Create Product Request List</a>

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'core',
     'billing',
     'requisition',
+    'europarts',
 ]
 
 MIDDLEWARE = [
