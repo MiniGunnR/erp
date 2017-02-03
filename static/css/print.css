@@ -20,4 +20,10 @@
         position: fixed;
         bottom: 4.5em;
     }
+    #signatures {
+        position: absolute;
+        left: 5cm;
+        right: 1.6cm;
+        bottom: 1.6cm;
+    }
 }

@@ -44,7 +44,7 @@
 {#    }#}
 {#</script>#}
 
-<div class="container" id="mydiv" style="margin-left: 50px;">
+<div class="container" id="mydiv">
     <div class="row">
         <div class="col-xs-12">
             <div class="invoice-title">
@@ -159,7 +159,7 @@
 	<div class="spacer"></div>
 	<div class="spacer"></div>
 
-	<div class="row">
+	<div class="row" id="signatures">
 		<div class="col-xs-4">
 			____________________ <br/>
 			<small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Requested By</small>
@@ -172,20 +172,6 @@
 			____________________ <br/>
 			<small>Approved By&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small>
 		</div>
-	</div>
-
-{#	<table style="width: 100%;">#}
-{#		<tr>#}
-{#			<td align="left">___________________</td>#}
-{#			<td align="center">___________________</td>#}
-{#			<td align="right">___________________</td>#}
-{#		</tr>#}
-{##}
-{#		<tr>#}
-{#			<td align="left">Requested By</td>#}
-{#			<td align="center">Reviewed By</td>#}
-{#			<td align="right">Approved By</td>#}
-{#		</tr>#}
-{#	</table>#}
+	</div class="row">
 </div>
 {% endblock %}
