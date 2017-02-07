@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 
 from .models import Requisition, Item, Vendor, Company, PurchaseOrder
 
-admin.site.register(Company)
+# admin.site.register(Company)
 admin.site.register(PurchaseOrder) # need to make requisition field read only in admin
 
 

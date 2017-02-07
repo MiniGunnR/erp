@@ -4,7 +4,9 @@
 	<ul>
 {#		<li><a href="#">Users</a></li>#}
 {#		<li><a href="#">Company Profile</a></li>#}
-		<li><a href="{% url 'europarts:home' %}">Europarts</a></li>
+		{% if perms.europarts.can_view_cost_price or perms.europarts.can_add_cost_price or perms.europarts.can_view_selling_price %}
+			<li><a href="{% url 'europarts:home' %}">Europarts</a></li>
+			{% endif %}
 		<li><a href="{% url 'billing:home' %}">Billing</a></li>
 		<li><a href="/admin/">Admin</a></li>
 {#		<li><a href="#">Apps</a></li>#}

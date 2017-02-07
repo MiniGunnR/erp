@@ -1,52 +1,60 @@
 {% extends "europarts.html" %}
 
+{% load static from staticfiles %}
+
 {% block content %}
-	{% if messages %}
-	    {% for message in messages %}
-	        <p>{{ message }}</p>
-	    {% endfor %}
-		<hr/>
-	{% endif %}
 
-<a href="#" id="add-product">Add Product</a>
-
-<form method="post">
+<form id="myForm" method="post">
 	{% csrf_token %}
 
-	{{ product_list_form.as_p }}
-
-	{{ product_formset.management_form }}
-
 	<table cellspacing="10" cellpadding="10">
+
 		<tr>
-			<th>Description</th>
+			<td>Reference No.</td>
+			<td>{{ list_form.ref_no }}</td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+
+		<tr>
 			<th>Part No.</th>
+			<th>Description</th>
 			<th>Brand</th>
 			<th>Quantity</th>
 			<th>Unit</th>
 			<th></th>
 		</tr>
+
+	<tbody>
+	{{ product_formset.management_form }}
+
 	{% for form in product_formset %}
-		<tr id="id_form-{{ forloop.counter0 }}-tr">
-			<td>{{ form.description }}</td>
+		<tr class="trt">
 			<td>{{ form.part_no }}</td>
+			<td>{{ form.description }}</td>
 			<td>{{ form.brand }}</td>
 			<td>{{ form.quantity }}</td>
 			<td>{{ form.unit }}</td>
 			<td></td>
 		</tr>
 		{% endfor %}
+	</tbody>
 	</table>
 
 	<p>
 		<input type="submit" value="Save" />
 	</p>
 
-{% if link_formset.non_form_errors %}
-    {% for error in link_formset.non_form_errors %}
-        {{ error|escape }}
-    {% endfor %}
-{% endif %}
-
 </form>
+{% endblock %}
+
+{% block extra-js %}
+	<script src="{% static 'js/europarts.js' %}"></script>
+
+	<script type="text/javascript">
+	    $(function() {
+	        $('.trt').formset();
+	    });
+	</script>
 {% endblock %}

@@ -4,16 +4,18 @@ from django.urls import reverse
 from utils.models import Timestamped
 from django.contrib.auth.models import User
 
+from core.models import Company
 
-class Company(models.Model):
-    name = models.CharField(max_length=100)
-    address = models.CharField(max_length=255)
 
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name_plural = 'Companies'
+# class Company(models.Model):
+#     name = models.CharField(max_length=100)
+#     address = models.CharField(max_length=255)
+#
+#     def __str__(self):
+#         return self.name
+#
+#     class Meta:
+#         verbose_name_plural = 'Companies'
 
 
 class Vendor(Timestamped):

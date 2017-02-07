@@ -5,4 +5,16 @@
 	<hr/>
 {% endif %}
 
-<a href="{% url 'europarts:create-product-request-list' %}">Create Product Request List</a>
+<p>
+	<a href="{% url 'europarts:product-request-listview' %}">Product Request List</a>
+</p>
+
+{% if perms.europarts.can_add_product_list %}
+	<p>
+		<a href="{% url 'europarts:product-request-list-create' %}">Create Product Request List</a>
+	</p>
+{% else %}
+	<p>
+		<a href="#">Create Quotation</a>
+	</p>
+	{% endif %}

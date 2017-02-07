@@ -7,11 +7,11 @@ from django.core.validators import MaxValueValidator
 
 class Company(models.Model):
     name = models.CharField(max_length=100)
-    address_line_1 = models.CharField(max_length=100)
-    address_line_2 = models.CharField(max_length=100)
-    email = models.EmailField()
-    phone_1 = models.CharField(max_length=50)
-    phone_2 = models.CharField(max_length=50)
+    address_line_1 = models.CharField(max_length=100, blank=True, null=True)
+    address_line_2 = models.CharField(max_length=100, blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+    phone_1 = models.CharField(max_length=50, blank=True, null=True)
+    phone_2 = models.CharField(max_length=50, blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -81,10 +81,10 @@ class Bank(models.Model):
 
 class BaseProfile(Timestamped):
     user = models.OneToOneField(settings.AUTH_USER_MODEL)
-    company = models.ForeignKey(Company)
+    company = models.ForeignKey(Company, blank=True, null=True)
 
     proximity_id = models.CharField(max_length=20, blank=True, null=True)
-    joining_date = models.DateField()
+    joining_date = models.DateField(blank=True, null=True)
     designation = models.ForeignKey(Designation, blank=True, null=True)
 
     photo = models.ImageField(upload_to=os.path.join(settings.BASE_DIR, 'media', 'user', 'photo'), blank=True, null=True)
@@ -146,14 +146,14 @@ class BaseProfile(Timestamped):
     phone_1 = models.CharField(max_length=50, blank=True, null=True)
     phone_2 = models.CharField(max_length=50, blank=True, null=True)
 
-    date_of_birth = models.DateField()
+    date_of_birth = models.DateField(blank=True, null=True)
     national_id = models.CharField(max_length=20, blank=True, null=True)
     national_id_new = models.CharField(max_length=20, blank=True, null=True)
 
-    nominee = models.CharField(max_length=50)
-    nominee_address_line_1 = models.CharField(max_length=100)
+    nominee = models.CharField(max_length=50, blank=True, null=True)
+    nominee_address_line_1 = models.CharField(max_length=100, blank=True, null=True)
     nominee_address_line_2 = models.CharField(max_length=100, blank=True, null=True)
-    nominee_phone_1 = models.CharField(max_length=50)
+    nominee_phone_1 = models.CharField(max_length=50, blank=True, null=True)
     nominee_phone_2 = models.CharField(max_length=50, blank=True, null=True)
     nominee_national_id = models.CharField(max_length=20, blank=True, null=True)
     nominee_national_id_new = models.CharField(max_length=20, blank=True, null=True)
@@ -161,9 +161,9 @@ class BaseProfile(Timestamped):
     spouse = models.CharField(max_length=50, blank=True, null=True)
     spouses_contact = models.CharField(max_length=50, blank=True, null=True)
 
-    fathers_name = models.CharField(max_length=50)
+    fathers_name = models.CharField(max_length=50, blank=True, null=True)
     fathers_contact = models.CharField(max_length=50, blank=True, null=True)
-    mothers_name = models.CharField(max_length=50)
+    mothers_name = models.CharField(max_length=50, blank=True, null=True)
     mothers_contact = models.CharField(max_length=50, blank=True, null=True)
 
     department = models.ForeignKey(Department, blank=True, null=True)

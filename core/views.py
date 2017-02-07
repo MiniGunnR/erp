@@ -2,12 +2,46 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
+from django.contrib.auth.models import Group, Permission
+from django.contrib.contenttypes.models import ContentType
+
+from europarts.models import Product
+
 from .forms import CreateUserForm, BaseProfileForm
 
 
 @login_required
 def dashboard(request):
     return render(request, "core/dashboard.html")
+
+
+def initial(request):
+    europarts, created = Group.objects.get_or_create(name='Europarts')
+    europarts_buyer, created = Group.objects.get_or_create(name='EuropartsBuyer')
+    europarts_admin, created = Group.objects.get_or_create(name='EuropartsAdmin')
+
+    view_cost_price = Permission.objects.get(codename='can_view_cost_price')
+    add_cost_price = Permission.objects.get(codename='can_add_cost_price')
+    edit_cost_price = Permission.objects.get(codename='can_edit_cost_price')
+
+    view_selling_price = Permission.objects.get(codename='can_view_selling_price')
+    add_selling_price = Permission.objects.get(codename='can_add_selling_price')
+    edit_selling_price = Permission.objects.get(codename='can_edit_selling_price')
+
+    add_product_list = Permission.objects.get(codename='can_add_product_list')
+
+    europarts.permissions.add(view_selling_price)
+
+    europarts_buyer.permissions.add(add_cost_price)
+    europarts_buyer.permissions.add(edit_cost_price)
+
+    europarts_admin.permissions.add(view_cost_price)
+    europarts_admin.permissions.add(add_selling_price)
+    europarts_admin.permissions.add(edit_selling_price)
+    europarts_admin.permissions.add(add_product_list)
+
+    return HttpResponse("OK")
+
 
 
 def create_user(request):

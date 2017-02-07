@@ -1,0 +1,101 @@
+{% extends "europarts.html" %}
+
+{% load europarts_extras %}
+{% load static from staticfiles %}
+
+{% block content %}
+
+<form id="myForm" method="post">
+	{% csrf_token %}
+
+	<table cellspacing="10" cellpadding="10">
+
+		<tr>
+			<td>Reference No.</td>
+			<td>{{ list_obj }}</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+
+		<tr>
+			<th>Part No.</th>
+			<th>Description</th>
+			<th>Brand</th>
+			<th>Quantity</th>
+			<th>Unit</th>
+			{% if list_obj.cost_price_quoted or perms.europarts.can_add_cost_price %}
+			<th>
+				{% if not perms.europarts.can_view_selling_price %}
+					Cost Price
+					{% endif %}
+			</th>
+			{% if perms.europarts.can_add_selling_price or perms.europarts.can_edit_selling_price %}
+				<th>Selling Price</th>
+			{% elif perms.europarts.can_view_selling_price %}
+				<th>Price</th>
+				{% endif %}
+			{% endif %}
+		</tr>
+
+	<tbody>
+	{{ product_formset.management_form }}
+
+	{% for form in product_formset %}
+		<tr class="trt">
+			<td>
+				<input id="id_form-{{ forloop.counter0 }}-part_no" maxlength="50" name="form-{{ forloop.counter0 }}-{{ form.part_no.name }}" type="text" value="{{ form.part_no.value }}" {% if request.user|has_group:"EuropartsBuyer" or list_obj.cost_price_quoted %}readonly="readonly"{% endif %} />
+			</td>
+			<td>
+				<input id="id_form-{{ forloop.counter0 }}-description" maxlength="255" name="form-{{ forloop.counter0 }}-{{ form.description.name }}" type="text" value="{{ form.description.value }}" {% if request.user|has_group:"EuropartsBuyer" or list_obj.cost_price_quoted %}readonly="readonly"{% endif %} />
+			</td>
+			<td>
+				<input id="id_form-{{ forloop.counter0 }}-brand" maxlength="50" name="form-{{ forloop.counter0 }}-{{ form.brand.name }}" type="text" value="{{ form.brand.value }}" {% if request.user|has_group:"EuropartsBuyer" or list_obj.cost_price_quoted %}readonly="readonly"{% endif %} />
+			</td>
+			<td>
+				<input id="id_form-{{ forloop.counter0 }}-quantity" name="form-{{ forloop.counter0 }}-{{ form.quantity.name }}" type="number" value="{{ form.quantity.value }}" {% if request.user|has_group:"EuropartsBuyer" or list_obj.cost_price_quoted %}readonly="readonly"{% endif %} />
+			</td>
+			<td>
+				<input id="id_form-{{ forloop.counter0 }}-unit" maxlength="20" name="form-{{ forloop.counter0 }}-{{ form.unit.name }}" type="text" value="{{ form.unit.value }}" {% if request.user|has_group:"EuropartsBuyer" or list_obj.cost_price_quoted %}readonly="readonly"{% endif %} />
+			</td>
+			{% if list_obj.cost_price_quoted or perms.europarts.can_add_cost_price %}
+			<td>
+				{% if perms.europarts.can_add_cost_price or perms.europarts.can_edit_cost_price %}
+					{{ form.cost_price }}
+				{% elif perms.europarts.can_view_cost_price %}
+					<input id="id_form-{{ forloop.counter0 }}-cost_price" name="form-{{ forloop.counter0 }}-cost_price" type="number" value="{{ form.cost_price.value }}" readonly="readonly" />
+					{% endif %}
+			</td>
+			<td>
+				{% if perms.europarts.can_add_selling_price or perms.europarts.can_edit_selling_price %}
+					{{ form.selling_price }}
+				{% elif perms.europarts.can_view_selling_price %}
+					<input id="id_form-{{ forloop.counter0 }}-selling_price" name="form-{{ forloop.counter0 }}-selling_price" type="number" value="{{ form.selling_price.value }}" readonly="readonly" />
+					{% endif %}
+			</td>
+			{% endif %}
+		</tr>
+		{% endfor %}
+	</tbody>
+	</table>
+
+	<p>
+		{% if request.user|has_group:"EuropartsAdmin" or request.user|has_group:"EuropartsBuyer" %}<input type="submit" value="Save" />{% endif %}
+	</p>
+
+</form>
+{% endblock %}
+
+{% block extra-js %}
+	<script src="{% static 'js/europarts.js' %}"></script>
+
+	{% if perms.europarts.can_add_product_list %}
+<script type="text/javascript">
+    $(function() {
+        $('.trt').formset();
+    });
+</script>
+	{% endif %}
+{% endblock %}

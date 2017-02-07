@@ -5,6 +5,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
+
     url(r'^', include('core.urls', namespace='core')),
 
     url(r'^attendance/', include('attendance.urls', namespace='attendance')),
