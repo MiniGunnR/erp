@@ -5,8 +5,6 @@ from django.http import HttpResponse
 from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
 
-from europarts.models import Product
-
 from .forms import CreateUserForm, BaseProfileForm
 
 

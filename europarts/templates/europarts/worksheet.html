@@ -1,0 +1,17 @@
+{% extends "europarts/home.html" %}
+
+{% block nav-content %}
+	<div class="btn-toolbar" style="margin: 10px;">
+		<div class="btn-group">
+			<a id="worksheet-create" href="{% url 'europarts:worksheet_create' %}" class="btn btn-danger btn-sm">Create</a>
+		</div>
+
+		<div class="btn-group">
+			<a id="worksheet-list" href="{% url 'europarts:worksheet_list' %}" class="btn btn-default btn-sm">List</a>
+			<a href="#" class="btn btn-default btn-sm disabled">Details</a>
+		</div>
+	</div>
+
+	{% block worksheet-content %}{% endblock %}
+{% endblock %}
+

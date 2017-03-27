@@ -1,0 +1,108 @@
+{% extends "europarts_old_2.html" %}
+{% load static from staticfiles %}
+
+{% block content %}
+	<a href="" id="print-quotation-btn" class="btn btn-default" onclick="printDiv('quotation-div'); return false;">Print Quotation</a>
+	{% if not work_order_printed %}
+		<a href="#" id="print-work-order-btn" data-id="{{ pk }}" onclick="printDiv('work-order-div');" class="btn btn-default">Print Work Order</a>
+		{% endif %}
+	<hr/>
+	{% for product in products %}
+		<p>
+			{{ product.auto_part }} -- {{ product.price }} -- {{ product.quantity }} -- {{ product.total }}
+		</p>
+		{% endfor %}
+
+	<div id="quotation-div" style="display: none;">
+		<b>Ref.</b> Quotation No EPBD/{{ pk }}/{% now 'Y' %}
+		<span style="float: right;"><b>Date:</b> {% now 'M d, Y' %}</span>
+
+		<br/>
+		<br/>
+		<br/>
+		<h2 class="text-center">Price Offer / Invoice</h2>
+		<br/>
+		<br/>
+		<br/>
+
+		<span style="font-size: 1.2em;">
+			{{ recipient }} <br/>
+			{{ recipient_address }}
+		</span>
+
+		<table class="table">
+			<tr>
+				<th>Particulars</th>
+				<th>Part No.</th>
+				<th>Price</th>
+				<th>Quantity</th>
+				<th>Total</th>
+			</tr>
+
+			{% for product in products %}
+			<tr>
+				<td>{{ product.auto_part.brand }} {{ product.auto_part.auto_type }}</td>
+				<td>{{ product.auto_part.part_no }}</td>
+				<td>{{ product.price }}</td>
+				<td>{{ product.quantity }}</td>
+				<td>{{ product.total }}</td>
+			</tr>
+			{% endfor %}
+
+			<tr style="border-top: solid;">
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>Total (excluding VAT and AIT):</td>
+				<td>{{ total }}</td>
+			</tr>
+		</table>
+	</div>
+
+	<div id="work-order-div" style="display: none;">
+		<h1>Work Order</h1>
+		<table class="table">
+			<tr>
+				<th>Auto Part</th>
+				<th>Price</th>
+				<th>Quantity</th>
+				<th>Total</th>
+			</tr>
+
+			{% for product in products %}
+			<tr>
+				<td>{{ product.auto_part }}</td>
+				<td>{{ product.price }}</td>
+				<td>{{ product.quantity }}</td>
+				<td>{{ product.total }}</td>
+			</tr>
+			{% endfor %}
+		</table>
+	</div>
+{% endblock %}
+
+{% block extra-js %}
+	<script type="text/javascript">
+		function printDiv(elemID) {
+			var divToPrint=document.getElementById(elemID);
+
+			var newWin=window.open('','Print-Window');
+
+			newWin.document.open();
+
+			var bootstrap_css = '<link rel="stylesheet" href="/static/css/bootstrap.min.css">';
+
+			newWin.document.write('<html>' +
+							bootstrap_css +
+							'<body onload="window.print()">' +
+							divToPrint.innerHTML +
+							'</body></html>');
+
+			newWin.document.close();
+
+			setTimeout(function(){newWin.close();},100);
+		}
+	</script>
+
+	<script src="{% static 'js/europarts_old_2.js' %}"></script>
+{% endblock %}

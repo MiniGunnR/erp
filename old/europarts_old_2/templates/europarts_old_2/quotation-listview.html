@@ -1,0 +1,7 @@
+{% extends "europarts_old_2.html" %}
+
+{% block content %}
+	{% for quotation in quotations %}
+		<p><a href="{% url 'europarts_old_2:quotation-details' quotation.pk %}">{{ quotation }}</a></p>
+		{% endfor %}
+{% endblock %}

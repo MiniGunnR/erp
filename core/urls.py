@@ -11,6 +11,6 @@ urlpatterns = [
 
     url(r'^create/user/$', views.create_user, name='create-user'),
 
-    url(r'^login/$', login, name="my_login"),
+    url(r'^login/$', login, name="my_login", kwargs={'redirect_authenticated_user': True}),
     url(r'^logout/$', logout, name="my_logout"),
 ]

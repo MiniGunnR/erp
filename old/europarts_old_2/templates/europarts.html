@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% load static from staticfiles %}
+
+{% block extra-css %}
+	<link href="{% static 'css/europarts_old_2.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+{% block main %}
+	<div class="row">
+		<div class="col-md-2">
+			{% block sidebar %}
+				<ul class="nav nav-pills nav-stacked">
+					<li class="{% if '/europarts_old_2/product/request/list/' == request.path %}active{% endif %}"><a href="{% url 'europarts_old_2:product-request-listview' %}">Product Request List</a></li>
+					{% if perms.europarts.can_add_product_list %}
+						<li class="{% if '/europarts_old_2/product/request/list/create/' == request.path %}active{% endif %}"><a href="{% url 'europarts_old_2:product-request-list-create' %}">Create Product Request List</a></li>
+						{% endif %}
+					<li class="{% if '/europarts_old_2/create/quotation/' == request.path %}active{% endif %}"><a href="{% url 'europarts_old_2:create-quotation' %}">Create Quotation</a></li>
+					<li class="{% if '/europarts_old_2/list/quotations/' == request.path %}active{% endif %}"><a href="{% url 'europarts_old_2:quotation-listview' %}">List Quotations</a></li>
+				</ul>
+			{% endblock %}
+		</div>
+
+		<div class="col-md-10">
+			{% block content %}{% endblock %}
+		</div>
+	</div>
+{% endblock %}
+
+{% block extra-js %}
+	<script src="{% static 'js/europarts_old_2.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% load static from staticfiles %}
+
+<link href="{% static 'css/europarts_old_2.css' %}" rel="stylesheet"/>
+
+{% block content %}
+{% endblock %}
+
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/jquery.formset.js' %}"></script>
+{% block extra-js %}{% endblock %}

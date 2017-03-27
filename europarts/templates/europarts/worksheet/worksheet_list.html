@@ -1,0 +1,18 @@
+{% extends "europarts/worksheet.html" %}
+
+{% block worksheet-content %}
+	{% for worksheet in worksheets %}
+		<p>{{ worksheet }}</p>
+		{% empty %}
+		<h4>No worksheets available.</h4>
+		{% endfor %}
+{% endblock %}
+
+{% block extra-js %}
+	<script type="text/javascript">
+
+		$("#worksheet-tab").addClass("active");
+
+		$("#worksheet-list").addClass("active");
+	</script>
+{% endblock %}

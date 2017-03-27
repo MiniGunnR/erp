@@ -1,20 +1,11 @@
-{% if messages %}
-    {% for message in messages %}
-        <p>{{ message }}</p>
-    {% endfor %}
-	<hr/>
-{% endif %}
+{% extends "base.html" %}
 
-<p>
-	<a href="{% url 'europarts:product-request-listview' %}">Product Request List</a>
-</p>
-
-{% if perms.europarts.can_add_product_list %}
-	<p>
-		<a href="{% url 'europarts:product-request-list-create' %}">Create Product Request List</a>
-	</p>
-{% else %}
-	<p>
-		<a href="#">Create Quotation</a>
-	</p>
-	{% endif %}
+{% block main %}
+	<ul class="nav nav-tabs">
+		<li id="worksheet-tab"><a href="{% url 'europarts:worksheet_list' %}">Worksheet</a></li>
+		<li id="quotaton-tab"><a href="#">Quotation</a></li>
+	</ul>
+	{% block nav-content %}
+		<h3>Please click on one of the above links to work on appropriate categories.</h3>
+	{% endblock %}
+{% endblock %}

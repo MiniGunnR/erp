@@ -1,0 +1,12 @@
+{% extends "europarts_old_2.html" %}
+
+{% block content %}
+
+	{% if messages %}
+	    {% for message in messages %}
+	        <p class="alert alert-success">{{ message }}</p>
+	    {% endfor %}
+		<br/>
+	{% endif %}
+
+{% endblock %}

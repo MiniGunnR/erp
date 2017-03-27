@@ -1,0 +1,66 @@
+{% extends "europarts_old_2.html" %}
+{% load project_tags %}
+{% load europarts_extra %}
+
+{% block content %}
+{% if request.user|has_group:'EuropartsInternational' %}
+	<a href="{% url 'europarts_old_2:add-cost-price' object.pk %}">{{ object.cost_price_quoted|ternary:"Edit,Add" }} Cost Price</a>
+	{% endif %}
+
+{% if request.user|has_group:'EuropartsAdmin' and object.cost_price_quoted %}
+	<a href="{% url 'europarts_old_2:add-selling-price' object.pk %}">{{ object.selling_price_quoted|ternary:"Edit,Add" }} Selling Price</a>
+	{% endif %}
+
+<h4>{{ object.ref_no }}</h4>
+
+	<table class="table table-bordered">
+
+	<tr>
+		<th>Brand</th>
+		<th>Type</th>
+		<th>Part No.</th>
+		{% if request.user|has_group:'EuropartsAdmin' or request.user|has_group:'EuropartsInternational' %}
+			{% if object.cost_price_quoted %}
+				<th>Cost Price</th>
+				{% endif %}
+			{% endif %}
+		{% if request.user|has_group:'EuropartsAdmin' or request.user|has_group:'EuropartsLocal' %}
+			{% if object.selling_price_quoted %}
+				<th>Selling Price</th>
+				{% endif %}
+			{% endif %}
+	</tr>
+
+{% for product in products %}
+	<tr>
+		<td>
+			{{ product.auto_part.brand }}
+		</td>
+
+		<td>
+			{{ product.auto_part.auto_type }}
+		</td>
+
+		<td>
+			{{ product.auto_part.part_no }}
+		</td>
+
+		{% if request.user|has_group:'EuropartsAdmin' or request.user|has_group:'EuropartsInternational' %}
+			{% if object.cost_price_quoted %}
+				<td>
+					{{ product.cost_price }}
+				</td>
+				{% endif %}
+			{% endif %}
+
+		{% if request.user|has_group:'EuropartsAdmin' or request.user|has_group:'EuropartsLocal' %}
+			{% if object.selling_price_quoted %}
+				<td>
+					{{ product.selling_price }}
+				</td>
+				{% endif %}
+			{% endif %}
+	</tr>
+	{% endfor %}
+	</table>
+{% endblock %}

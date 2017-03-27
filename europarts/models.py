@@ -1,54 +1,49 @@
 from django.db import models
+
 from utils.models import Timestamped
 
 
-class CarPart(Timestamped):
-    part_no = models.CharField(max_length=50, unique=True)
-    description = models.CharField(max_length=255)
-    brand = models.CharField(max_length=50)
+class Brand(Timestamped):
+    name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
-        return "{description} - {part_no}".format(description=self.description, part_no=self.part_no)
+        return self.name
 
 
-class List(Timestamped):
-    ref_no = models.CharField(max_length=20, unique=True)
+class Type(Timestamped):
+    name = models.CharField(max_length=50, unique=True)
 
-    cost_price_quoted = models.BooleanField(default=False)
-    selling_price_quoted = models.BooleanField(default=False)
+    def __str__(self):
+        return self.name
+
+
+class Part(Timestamped):
+    brand = models.ForeignKey(Brand)
+    type = models.ForeignKey(Type)
+    part_no = models.CharField(max_length=100, unique=True)
+    description = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.part_no
+
+
+class Worksheet(Timestamped):
+    ref_no = models.CharField(max_length=100)
 
     def __str__(self):
         return self.ref_no
 
-    class Meta:
-        permissions = (
-            ("can_add_product_list", "Can add product list"),
-        )
-        ordering = ['-created']
 
-
-class Product(Timestamped):
-    product_list = models.ForeignKey(List)
-    car_part = models.ForeignKey(CarPart)
-
-    quantity = models.SmallIntegerField()
-    unit = models.CharField(max_length=20, default='pcs')
-
-    cost_price = models.IntegerField(blank=True, null=True)
-
-    selling_price = models.IntegerField(blank=True, null=True)
+class WorksheetRow(Timestamped):
+    worksheet = models.ForeignKey(Worksheet)
+    part_no = models.CharField(max_length=100)
+    brand = models.CharField(max_length=50)
+    type = models.CharField(max_length=50)
+    description = models.CharField(max_length=255)
+    quantity = models.IntegerField()
+    cost_price = models.DecimalField(max_digits=10, decimal_places=2)
+    sale_price = models.DecimalField(max_digits=10, decimal_places=2)
+    total = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return "{list} - {product}".format(list=self.product_list.ref_no, product=self.car_part)
-
-    class Meta:
-        permissions = (
-            ("can_view_cost_price", "Can view cost price"),
-            ("can_add_cost_price", "Can add cost price"),
-            ("can_edit_cost_price", "Can edit cost price"),
-
-            ("can_view_selling_price", "Can view selling price"),
-            ("can_add_selling_price", "Can add selling price"),
-            ("can_edit_selling_price", "Can edit selling price"),
-        )
-
+        return self.part_no

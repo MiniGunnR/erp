@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block main %}
+{% for thread in object_list %}
+	<p>
+		<a href="{% url 'msgs:fetch-msg' thread.pk %}">{{ thread }}</a>
+	</p>
+	{% endfor %}
+{% endblock %}

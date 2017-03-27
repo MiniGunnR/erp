@@ -1,0 +1,24 @@
+{% extends "europarts_old_2.html" %}
+
+{% load europarts_extra %}
+
+{% block content %}
+{{ product_list }}
+<hr/>
+
+<form method="post">
+	{% csrf_token %}
+
+	{{ add_sp_formset.management_form }}
+
+	{% for form in add_sp_formset %}
+		<p>
+			{{ form.auto_part.value|fetch_auto_part_details }} {{ form.auto_part }}
+			{{ form.cost_price.value }} {{ form.cost_price }}
+			{{ form.selling_price }}
+		</p>
+		{% endfor %}
+
+	<input type="submit" value="Save"/>
+</form>
+{% endblock %}

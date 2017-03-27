@@ -1,0 +1,60 @@
+{% extends "europarts_old_2.html" %}
+
+{% load static from staticfiles %}
+
+{% block content %}
+
+<form id="myForm" method="post">
+	{% csrf_token %}
+
+	<table cellspacing="10" cellpadding="10">
+
+		<tr>
+			<td>Reference No.</td>
+			<td>{{ list_form.ref_no }}</td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+
+		<tr>
+			<th>Part No.</th>
+			<th>Description</th>
+			<th>Brand</th>
+			<th>Quantity</th>
+			<th>Unit</th>
+			<th></th>
+		</tr>
+
+	<tbody>
+	{{ product_formset.management_form }}
+
+	{% for form in product_formset %}
+		<tr class="trt">
+			<td>{{ form.part_no }}</td>
+			<td>{{ form.description }}</td>
+			<td>{{ form.brand }}</td>
+			<td>{{ form.quantity }}</td>
+			<td>{{ form.unit }}</td>
+			<td></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+	</table>
+
+	<p>
+		<input type="submit" value="Save" />
+	</p>
+
+</form>
+{% endblock %}
+
+{% block extra-js %}
+	<script src="{% static 'js/europarts_old_2.js' %}"></script>
+
+	<script type="text/javascript">
+	    $(function() {
+	        $('.trt').formset();
+	    });
+	</script>
+{% endblock %}

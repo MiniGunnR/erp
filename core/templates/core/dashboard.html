@@ -1,19 +1,33 @@
 {% extends "base.html" %}
+{% load project_tags %}
+
+{% block navbar %}{% endblock %}
 
 {% block main %}
-	<ul>
+	<div id="dashboard-wrap">
+		<div class="list-group">
+			<a href="{% url 'attendance:attendance' %}" class="list-group-item">Attendance</a>
+			<a href="{% url 'billing:home' %}" class="list-group-item">Billing</a>
+			{% if request.user|has_group:'Europarts' %}
+				<a href="{% url 'europarts:home' %}" class="list-group-item">Europarts</a>
+				{% endif %}
+		</div>
+
+		<div class="list-group">
+			<a href="/admin/" class="list-group-item active">Admin</a>
+		</div>
+	</div>
+{#	<ul>#}
 {#		<li><a href="#">Users</a></li>#}
 {#		<li><a href="#">Company Profile</a></li>#}
-		{% if perms.europarts.can_view_cost_price or perms.europarts.can_add_cost_price or perms.europarts.can_view_selling_price %}
-			<li><a href="{% url 'europarts:home' %}">Europarts</a></li>
-			{% endif %}
-		<li><a href="{% url 'billing:home' %}">Billing</a></li>
-		<li><a href="/admin/">Admin</a></li>
+{##}
+{#		<li></li>#}
+{#		<li></li>#}
 {#		<li><a href="#">Apps</a></li>#}
 {#		<li><a href="#">Support</a></li>#}
 {#		<li><a href="#">Reports</a></li>#}
 {#		<li><a href="#">Inventory</a></li>#}
 {#		<li><a href="{% url 'requisition:home' %}">Requisition</a></li>#}
-		<li><a href="{% url 'attendance:attendance' %}">Attendance</a></li>
-	</ul>
+{#		<li></li>#}
+{#	</ul>#}
 {% endblock %}

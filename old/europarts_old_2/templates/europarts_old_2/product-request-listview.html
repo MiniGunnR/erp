@@ -1,0 +1,9 @@
+{% extends "europarts_old_2.html" %}
+
+{% block content %}
+	{% for list in lists %}
+		<p>
+			<a href="{% url 'europarts_old_2:product-request-detail' list.pk %}">{{ list }}</a>
+		</p>
+		{% endfor %}
+{% endblock %}

@@ -1,0 +1,5 @@
+{% for item in object_list %}
+	<p>
+		<a href="{% url 'europarts_old_2:edit-product-request-list' item.pk %}">{{ item }}</a>
+	</p>
+	{% endfor %}

@@ -17,6 +17,8 @@ urlpatterns = [
     url(r'^requisition/', include('requisition.urls', namespace='requisition')),
 
     url(r'^europarts/', include('europarts.urls', namespace='europarts')),
+
+    url(r'^msgs/', include('msgs.urls', namespace='msgs')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

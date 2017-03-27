@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'billing',
     'requisition',
     'europarts',
+    'msgs',
 ]
 
 MIDDLEWARE = [
@@ -66,6 +67,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries': {
+                'project_tags': 'utils.templatetags.project_extras',
+            },
         },
     },
 ]
@@ -135,6 +139,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 LOGIN_URL = '/login/'
 
 LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/login/'
 
 AUTH_USER_MODEL = 'auth.User'
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'my_cache_table',
+    }
+}

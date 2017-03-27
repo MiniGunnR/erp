@@ -1,0 +1,62 @@
+{% extends "europarts_old_2.html" %}
+{% load static from staticfiles %}
+{% load europarts_extra %}
+
+{% block content %}
+	<form method="post" action="."> {% csrf_token %}
+		<div class="row">
+			<div class="col-md-2">
+				<input type="text" name="recipient" id="recipient" placeholder="To" value="{{ recipient }}" />
+			</div>
+
+			<div class="col-md-2">
+				<input type="text" name="recipient_address" id="recipient_address" placeholder="Address" value="{{ recipient_address }}" />
+			</div>
+		</div>
+
+		<br/>
+
+		<div class="row">
+			<div class="col-md-2">
+				<select name="auto_parts" id="auto_parts">
+					{% for auto_part in auto_parts %}
+						<option value="{{ auto_part.id }}">{{ auto_part }}</option>
+						{% endfor %}
+				</select>
+			</div>
+
+			<div class="col-md-2" id="description"></div>
+			<div class="col-md-1" id="price"></div>
+			<div class="col-md-2">
+				<input type="submit" class="btn btn-default" value="Add" />
+			</div>
+			<div class="col-md-3">
+				<a href="{% url 'europarts_old_2:generate-quotation' %}" class="btn btn-success">Generate Quotation</a>
+				<a href="{% url 'europarts_old_2:clear-quotation' %}" class="btn btn-danger">Clear</a>
+			</div>
+		</div>
+	</form>
+
+	<div class="row">
+		<table class="table">
+			{% for key, value in quotation.items %}
+				<tr id="{{ key }}">
+					<td>{{ key|fetch_auto_part_details }}</td>
+					<td>{{ value }}</td>
+					<td>
+						<a href="{% url 'europarts_old_2:add-item-to-quotation' key %}">add</a> &nbsp;
+						<a href="{% url 'europarts_old_2:remove-item-from-quotation' key %}">remove</a>
+					</td>
+				</tr>
+				{% endfor %}
+		</table>
+	</div>
+{% endblock %}
+
+{% block extra-js %}
+	<script src="{% static 'js/europarts_old_2.js' %}"></script>
+
+	<script type="text/javascript">
+		$("select").select2();
+	</script>
+{% endblock %}
