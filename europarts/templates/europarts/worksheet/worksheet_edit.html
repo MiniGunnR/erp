@@ -1,0 +1,95 @@
+{% extends "europarts/worksheet_base.html" %}
+{% load project_tags %}
+{% load static from staticfiles %}
+
+{% block worksheet-content %}
+	<form id="worksheetForm" method="post" action=".">
+		{% csrf_token %}
+		Ref No : <b>{{ worksheet.ref_no }}</b>
+
+		<input class="btn btn-default btn-sm" type="submit" value="Save"/>
+
+		<hr/>
+
+		{{ row_formset.management_form }}
+
+		<table>
+
+		<tr>
+			<th>Part No</th>
+			<th>Brand</th>
+			<th>Type</th>
+			<th>Description</th>
+			<th>Quantity</th>
+			{% if worksheet.cost_price_visible or request.user|has_group:'EuropartsAdmin' %}
+				<th>
+					Cost Price &nbsp;
+				{% if request.user|has_group:'EuropartsAdmin' %}
+					<span>
+						{% if worksheet.cost_price_visible %}
+							<a class="column-toggle" href="{% url 'europarts:cost_price_toggle' worksheet.pk %}"><span class="glyphicon glyphicon-eye-open"></span></a>
+							{% else %}
+							<a class="column-toggle" href="{% url 'europarts:cost_price_toggle' worksheet.pk %}"><span class="glyphicon glyphicon-eye-close"></span></a>
+							{% endif %}
+					</span>
+					{% endif %}
+				</th>
+				{% endif %}
+			{% if worksheet.sale_price_visible or request.user|has_group:'EuropartsAdmin' %}
+				<th>
+					Sale Price &nbsp;
+				{% if request.user|has_group:'EuropartsAdmin' %}
+					<span>
+						{% if worksheet.sale_price_visible %}
+							<a class="column-toggle" href="{% url 'europarts:sale_price_toggle' worksheet.pk %}"><span class="glyphicon glyphicon-eye-open"></span></a>
+							{% else %}
+							<a class="column-toggle" href="{% url 'europarts:sale_price_toggle' worksheet.pk %}"><span class="glyphicon glyphicon-eye-close"></span></a>
+							{% endif %}
+					</span>
+					{% endif %}
+				</th>
+				{% endif %}
+			{% if worksheet.total_visible or request.user|has_group:'EuropartsAdmin' %}
+				<th>
+					Total &nbsp;
+				{% if request.user|has_group:'EuropartsAdmin' %}
+					<span>
+						{% if worksheet.total_visible %}
+							<a class="column-toggle" href="{% url 'europarts:total_toggle' worksheet.pk %}"><span class="glyphicon glyphicon-eye-open"></span></a>
+							{% else %}
+							<a class="column-toggle" href="{% url 'europarts:total_toggle' worksheet.pk %}"><span class="glyphicon glyphicon-eye-close"></span></a>
+							{% endif %}
+					</span>
+					{% endif %}
+				</th>
+				{% endif %}
+		</tr>
+
+		{% for row_form in row_formset %}
+			<tr>
+				<td>{{ row_form.part_no }}</td>
+				<td>{{ row_form.brand }}</td>
+				<td>{{ row_form.type }}</td>
+				<td>{{ row_form.description }}</td>
+				<td>{{ row_form.quantity }}</td>
+				{% if worksheet.cost_price_visible or request.user|has_group:'EuropartsAdmin' %}<td>{{ row_form.cost_price }}</td>{% endif %}
+				{% if worksheet.sale_price_visible or request.user|has_group:'EuropartsAdmin' %}<td>{{ row_form.sale_price }}</td>{% endif %}
+				{% if worksheet.total_visible or request.user|has_group:'EuropartsAdmin' %}<td>{{ row_form.total }}</td>{% endif %}
+			</tr>
+			{% endfor %}
+
+		</table>
+	</form>
+{% endblock %}
+
+{% block extra-js %}
+	<script src="{% static 'js/europarts.js' %}"></script>
+
+	<script type="text/javascript">
+
+		$("#worksheet-tab").addClass("active");
+
+		$("#worksheet-details").addClass("active");
+	</script>
+{% endblock %}
+

@@ -1,8 +1,10 @@
-{% extends "europarts/worksheet.html" %}
+{% extends "europarts/worksheet_base.html" %}
 
 {% block worksheet-content %}
 	{% for worksheet in worksheets %}
-		<p>{{ worksheet }}</p>
+		<p>
+			<a href="{% url 'europarts:worksheet_edit' worksheet.pk %}">{{ worksheet }}</a>
+		</p>
 		{% empty %}
 		<h4>No worksheets available.</h4>
 		{% endfor %}

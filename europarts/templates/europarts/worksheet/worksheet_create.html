@@ -1,7 +1,44 @@
-{% extends "europarts/worksheet.html" %}
+{% extends "europarts/worksheet_base.html" %}
 
 {% block worksheet-content %}
-	Create
+	<form id="worksheetForm" method="post" action=".">
+		{% csrf_token %}
+		Ref No : {{ worksheet_form.ref_no }}
+
+		<input class="btn btn-default btn-sm" type="submit" value="Save"/>
+
+		<hr/>
+
+		{{ row_formset.management_form }}
+
+		<table>
+
+		<tr>
+			<th>Part No</th>
+			<th>Brand</th>
+			<th>Type</th>
+			<th>Description</th>
+			<th>Quantity</th>
+			<th>Cost Price</th>
+			<th>Sale Price</th>
+			<th>Total</th>
+		</tr>
+
+		{% for row_form in row_formset %}
+			<tr>
+				<td>{{ row_form.part_no }}</td>
+				<td>{{ row_form.brand }}</td>
+				<td>{{ row_form.type }}</td>
+				<td>{{ row_form.description }}</td>
+				<td>{{ row_form.quantity }}</td>
+				<td>{{ row_form.cost_price }}</td>
+				<td>{{ row_form.sale_price }}</td>
+				<td>{{ row_form.total }}</td>
+			</tr>
+			{% endfor %}
+
+		</table>
+	</form>
 {% endblock %}
 
 {% block extra-js %}
