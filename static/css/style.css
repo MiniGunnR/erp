@@ -39,3 +39,21 @@
     padding: 10px;
     border-radius: 10px;
 }
+
+.list-link:link, .list-link:visited {
+    background-color: white;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border: solid;
+    border-width: 1px;
+    border-radius: 5px;
+    float: left;
+    margin: 5px;
+}
+
+.list-link:hover, .list-link:active {
+    background-color: #428BCA;
+    color: white;
+}

@@ -1,11 +1,12 @@
 {% extends "europarts/worksheet_base.html" %}
+{% load static from staticfiles %}
 
 {% block worksheet-content %}
 	<form id="worksheetForm" method="post" action=".">
 		{% csrf_token %}
 		Ref No : {{ worksheet_form.ref_no }}
 
-		<input class="btn btn-default btn-sm" type="submit" value="Save"/>
+		<input class="btn btn-primary btn-sm" type="submit" value="Save"/>
 
 		<hr/>
 
@@ -39,9 +40,13 @@
 
 		</table>
 	</form>
+
+	<div id="past_price" style="border: solid; border-width: 1px; display: none; background-color: white;"></div>
 {% endblock %}
 
 {% block extra-js %}
+	<script src="{% static 'js/europarts.js' %}"></script>
+
 	<script type="text/javascript">
 
 		$("#worksheet-tab").addClass("active");

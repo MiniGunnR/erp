@@ -3,13 +3,68 @@ from django.forms import formset_factory
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
-from .models import Worksheet, WorksheetRow
-from .forms import WorksheetForm, WorksheetRowForm
+from .models import Worksheet, WorksheetRow, Inventory
+from .forms import WorksheetForm, WorksheetRowForm, InventoryForm
 
 
 def home(request):
     return render(request, "europarts/home.html")
 
+
+def inventory_list(request):
+    inventory = Inventory.objects.all()
+    context = {
+        "inventory": inventory,
+    }
+    return render(request, "europarts/inventory/inventory_list.html", context)
+
+
+def inventory_create(request):
+    form = InventoryForm(request.POST or None)
+
+    if form.is_valid():
+        part_no = form.cleaned_data.get('part_no')
+        brand = form.cleaned_data.get('brand')
+        type = form.cleaned_data.get('type')
+        description = form.cleaned_data.get('description')
+        quantity = form.cleaned_data.get('quantity')
+        cost_price = form.cleaned_data.get('cost_price')
+
+        Inventory.objects.create(part_no=part_no, brand=brand, type=type, description=description, quantity=quantity, cost_price=cost_price)
+
+        return HttpResponseRedirect(reverse('europarts:inventory_create'))
+
+    context = {
+        "form": form,
+    }
+    return render(request, "europarts/inventory/inventory_create.html", context)
+
+def inventory_edit(request, pk):
+    inventory = Inventory.objects.get(pk=pk)
+
+    if request.method == "POST":
+        form = InventoryForm(request.POST)
+
+        if form.is_valid():
+            part_no = form.cleaned_data.get('part_no')
+            brand = form.cleaned_data.get('brand')
+            type = form.cleaned_data.get('type')
+            description = form.cleaned_data.get('description')
+            quantity = form.cleaned_data.get('quantity')
+            cost_price = form.cleaned_data.get('cost_price')
+
+            Inventory.objects.filter(pk=inventory.pk).update(part_no=part_no, brand=brand, type=type, description=description, quantity=quantity, cost_price=cost_price)
+
+            return HttpResponseRedirect(reverse('europarts:inventory_edit', args=(pk,)))
+        else:
+            print('invalid form')
+    else:
+        form = InventoryForm(instance=inventory)
+
+    context = {
+        "form": form,
+    }
+    return render(request, "europarts/inventory/inventory_edit.html", context)
 
 def worksheet_list(request):
     worksheets = Worksheet.objects.all()

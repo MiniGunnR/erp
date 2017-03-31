@@ -1,0 +1,20 @@
+{% extends "europarts/inventory_base.html" %}
+
+{% block worksheet-content %}
+	{% for item in inventory %}
+		<p>
+			<a class="list-link" href="{% url 'europarts:inventory_edit' item.pk %}">{{ item }}</a>
+		</p>
+		{% empty %}
+		<h4>No items available.</h4>
+		{% endfor %}
+{% endblock %}
+
+{% block extra-js %}
+	<script type="text/javascript">
+
+		$("#inventory-tab").addClass("active");
+
+		$("#inventory-list").addClass("active");
+	</script>
+{% endblock %}

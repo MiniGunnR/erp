@@ -1,0 +1,16 @@
+{% extends "europarts/home.html" %}
+
+{% block nav-content %}
+	<div class="btn-toolbar" style="margin: 10px;">
+		<div class="btn-group">
+			<a id="inventory-create" href="{% url 'europarts:inventory_create' %}" class="btn btn-danger btn-sm">Create</a>
+		</div>
+
+		<div class="btn-group">
+			<a id="inventory-list" href="{% url 'europarts:inventory_list' %}" class="btn btn-default btn-sm">List</a>
+			<a id="inventory-details" href="#" class="btn btn-default btn-sm disabled">Details</a>
+		</div>
+	</div>
+
+	{% block worksheet-content %}{% endblock %}
+{% endblock %}

@@ -2,10 +2,11 @@
 
 {% block main %}
 	<ul class="nav nav-tabs">
+		<li id="inventory-tab"><a href="{% url 'europarts:inventory_list' %}">Inventory</a></li>
 		<li id="worksheet-tab"><a href="{% url 'europarts:worksheet_list' %}">Worksheet</a></li>
 		<li id="quotaton-tab"><a href="#">Quotation</a></li>
 	</ul>
 	{% block nav-content %}
-		<h3>Please click on one of the above links to work on appropriate categories.</h3>
+		<h3>Please click on one of the above links.</h3>
 	{% endblock %}
 {% endblock %}

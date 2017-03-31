@@ -3,7 +3,7 @@
 {% block worksheet-content %}
 	{% for worksheet in worksheets %}
 		<p>
-			<a href="{% url 'europarts:worksheet_edit' worksheet.pk %}">{{ worksheet }}</a>
+			<a class="list-link" href="{% url 'europarts:worksheet_edit' worksheet.pk %}">{{ worksheet }}</a>
 		</p>
 		{% empty %}
 		<h4>No worksheets available.</h4>

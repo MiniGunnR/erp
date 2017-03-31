@@ -1,5 +1,27 @@
 $(function() {
 
+    $("input[id^='id_form-'][id$='-part_no']").on('blur', function(e) {
+        var $part_no = $(this).val();
+        var $url = '/europarts/fetch/item/details/' + $part_no + '/';
+        var $id = $(this).attr('id').replace("id_form-", "").replace("-part_no", "");
+
+        if ($part_no != "") {
+            $.ajax({
+                type: 'GET',
+                url: $url,
+
+                success: function(data){
+                    console.log($id);
+                    $("#id_form-" + $id + "-brand").val(data.brand);
+                    $("#id_form-" + $id + "-type").val(data.type);
+                    $("#id_form-" + $id + "-description").val(data.description);
+                    $("#id_form-" + $id + "-cost_price").val(data.cost_price);
+                    $("#id_form-" + $id + "-quantity").val(1).focus();
+                }
+            });
+        }
+    });
+
     $(".column-toggle").on('click', function(e) {
         e.preventDefault();
 
@@ -15,6 +37,58 @@ $(function() {
             }
         });
     });
+
+    $("input[id^='id_form-'][id$='-sale_price']").on('focus', function(e) {
+        var $this = $(this);
+
+        $("#past_price")
+            .show()
+            .css({
+                'position': 'absolute',
+                'z-index': 100,
+                'top': $this.position().top + 26,
+                'left': $this.position().left,
+                'width': ($this.width() + 6),
+                //'height': ($this.height() + 6) * 7
+
+            });
+
+        var $id = $(this).attr('id').replace("id_form-", "").replace("-sale_price", "");
+        $part_no = $("#id_form-" + $id + "-part_no").val();
+
+        $.ajax({
+            type: 'GET',
+            url: '/europarts/get/past/price/' + $part_no + '/',
+
+            success: function(data) {
+                html = '';
+                if (data != '') {
+                    $.each(data, function(index, value) {
+                        html += '<p>' + value + '</p>';
+                    });
+                } else {
+                    html = 'No data available.'
+                }
+                $("#past_price").html(html)
+            }
+        });
+    });
+
+    $("input[id^='id_form-'][id$='-sale_price']").on('blur', function(e) {
+        $("#past_price").hide();
+    });
+
+    $("input[id^='id_form-'][id$='-total']").on('focus', function(e) {
+        var $id = $(this).attr('id').replace("id_form-", "").replace("-total", "");
+        var $quantity = $("#id_form-" + $id + "-quantity").val();
+        var $sale_price = $("#id_form-" + $id + "-sale_price").val();
+
+        if ($quantity && $sale_price) {
+            $total = $quantity * $sale_price;
+            $("#id_form-" + $id + "-total").val($total);
+        }
+    });
+
 
     // using jQuery
     function getCookie(name) {
@@ -48,3 +122,4 @@ $(function() {
     // -! using jQuery
 
 });
+

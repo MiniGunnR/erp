@@ -1,6 +1,26 @@
 from django.http import JsonResponse
 
-from .models import Worksheet
+from .models import Worksheet, WorksheetRow, Inventory
+
+
+def fetch_item_details(request, part_no):
+    item = Inventory.objects.get(part_no=part_no)
+    return JsonResponse({
+        "part_no": part_no,
+        "brand": item.brand,
+        "type": item.type,
+        "description": item.description,
+        "cost_price": item.cost_price
+    })
+
+
+def get_past_price(request, part_no):
+    rows = WorksheetRow.objects.filter(part_no=part_no)
+    response = []
+    for row in rows:
+        response.append(row.sale_price)
+    response.sort(reverse=True)
+    return JsonResponse(response, safe=False)
 
 
 def cost_price_toggle(request, pk):

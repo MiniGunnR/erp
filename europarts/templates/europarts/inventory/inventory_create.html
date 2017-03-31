@@ -1,0 +1,20 @@
+{% extends "europarts/inventory_base.html" %}
+
+{% block worksheet-content %}
+	<form method="post" action=".">
+		{% csrf_token %}
+
+		{{ form.as_p }}
+
+		<input type="submit" value="Submit" />
+	</form>
+{% endblock %}
+
+{% block extra-js %}
+	<script type="text/javascript">
+
+		$("#inventory-tab").addClass("active");
+
+		$("#inventory-create").addClass("active");
+	</script>
+{% endblock %}
