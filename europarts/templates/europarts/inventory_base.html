@@ -10,6 +10,10 @@
 			<a id="inventory-list" href="{% url 'europarts:inventory_list' %}" class="btn btn-default btn-sm">List</a>
 			<a id="inventory-details" href="#" class="btn btn-default btn-sm disabled">Details</a>
 		</div>
+
+		<div class="btn-group">
+			<a  style="display: none;" id="inventory-add-quantity" href="#" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addQtyModal">Add Quantity</a>
+		</div>
 	</div>
 
 	{% block worksheet-content %}{% endblock %}

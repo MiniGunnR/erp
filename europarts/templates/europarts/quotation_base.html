@@ -1,0 +1,21 @@
+{% extends "europarts/home.html" %}
+
+{% block nav-content %}
+	<div class="btn-toolbar" style="margin: 10px;">
+{#		<div class="btn-group">#}
+{#			<a id="inventory-create" href="{% url 'europarts:inventory_create' %}" class="btn btn-danger btn-sm">Create</a>#}
+{#		</div>#}
+
+		<div class="btn-group">
+			<a id="quotation-list" href="{% url 'europarts:quotation_list' %}" class="btn btn-default btn-sm">List</a>
+			<a id="quotation-details" href="#" class="btn btn-default btn-sm disabled">Details</a>
+		</div>
+
+		<div id="conditional-buttons" style="float: right; display: none;" class="btn-group">
+			<a id="generate-invoice" href="#" class="btn btn-success btn-sm" data-toggle="modal" data-target="#invoiceModal">Generate Invoice</a>
+		</div>
+	</div>
+
+	{% block quotation-content %}{% endblock %}
+{% endblock %}
+

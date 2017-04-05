@@ -18,4 +18,5 @@ class WorksheetRowForm(forms.ModelForm):
 class InventoryForm(forms.ModelForm):
     class Meta:
         model = Inventory
-        fields = ['part_no', 'brand', 'type', 'description', 'quantity', 'cost_price']
+        fields = ['part_no', 'brand', 'type', 'description', 'cost_price']
+

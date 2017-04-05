@@ -1,0 +1,58 @@
+{% extends "europarts/challan_base.html" %}
+
+{% block challan-content %}
+{#	<input type='button' id='btn' value='Print' onclick='printDiv();'>#}
+	<div style="padding: 10px;" id="challan-body">
+		<span id="ref_no"><b>Ref No. :</b> {{ challan.ref_no }}</span>
+		<span style="float: right;" id="date"><b>Dated:</b> {{ now.date }}</span>
+		<hr/>
+
+		<div class="text-center">
+			<h3>Delivery Challan</h3>
+		</div>
+
+		<b>To</b> <br/>
+		{{ challan.recipient }} <br/>
+		{{ challan.recipient_address }} <br/>
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Part No.</th>
+					<th>Particulars</th>
+					<th>Quantity</th>
+					<th>Brand</th>
+				</tr>
+			</thead>
+
+			<tbody>
+			{% for item in challan_rows %}
+				<tr>
+					<td>{{ item.part_no }}</td>
+					<td>{{ item.description }}</td>
+					<td>{{ item.brand }} {{ item.type }}</td>
+					<td>{{ item.quantity }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<hr/>
+	</div>
+
+	<footer class="text-right">
+	<p>_______________________</p>
+	<p>For EURO PARTS BD LTD.</p>
+	</footer>
+{% endblock %}
+
+{% block extra-js %}
+	<script type="text/javascript">
+
+		$("#challan-tab").addClass("active");
+
+		$("#challan-details").addClass("active");
+
+	</script>
+{% endblock %}
+

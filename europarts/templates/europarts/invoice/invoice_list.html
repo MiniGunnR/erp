@@ -1,0 +1,20 @@
+{% extends "europarts/invoice_base.html" %}
+
+{% block invoice-content %}
+	{% for invoice in invoices %}
+		<p>
+			<a class="list-link" href="{% url 'europarts:invoice_details' invoice.pk %}">{{ invoice }}</a>
+		</p>
+		{% empty %}
+		<h4>No invoices available.</h4>
+		{% endfor %}
+{% endblock %}
+
+{% block extra-js %}
+	<script type="text/javascript">
+
+		$("#invoice-tab").addClass("active");
+
+		$("#invoice-list").addClass("active");
+	</script>
+{% endblock %}

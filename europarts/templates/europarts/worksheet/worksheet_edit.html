@@ -82,6 +82,32 @@
 	</form>
 
 	<div id="past_price" style="border: solid; border-width: 1px; display: none; background-color: white;"></div>
+	<!-- Generate Quotation Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<form method="post" action="{% url 'europarts:quotation_create' pk %}">{% csrf_token %}
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel">Are you sure?</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+						    <label for="recipient">Recipient:</label>
+						    <input type="text" class="form-control" id="recipient" name="recipient" value="{{ recipient }}" required>
+						</div>
+						<div class="form-group">
+						    <label for="recipient_address">Address:</label>
+						    <input type="text" class="form-control" id="recipient_address" name="recipient_address" value="{{ recipient_address }}" required>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+						<input type="submit" class="btn btn-primary" value="Generate Quotation" />
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 {% endblock %}
 
 {% block extra-js %}

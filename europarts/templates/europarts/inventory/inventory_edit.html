@@ -6,8 +6,35 @@
 
 		{{ form.as_p }}
 
-		<input type="submit" value="Submit" />
+		<p>
+			<b>Quantity:</b> {{ quantity }}
+		</p>
+
+		<input type="submit" class="btn btn-success" value="Submit" />
 	</form>
+
+	<!-- Add Quantity Modal -->
+	<div class="modal fade" id="addQtyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<form method="post" action="{% url 'europarts:inventory_quantity_add' pk %}">{% csrf_token %}
+					<div class="modal-header">
+						<h4 class="modal-title" id="myModalLabel">Add to Quantity</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+						    <label for="recipient">Add Quantity:</label>
+						    <input type="number" class="form-control" id="added_quantity" name="added_quantity" value=0 required>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+						<input type="submit" class="btn btn-primary" value="Add" />
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 {% endblock %}
 
 {% block extra-js %}
@@ -16,5 +43,7 @@
 		$("#inventory-tab").addClass("active");
 
 		$("#inventory-details").addClass("active");
+
+		$("#inventory-add-quantity").css('display', 'block');
 	</script>
 {% endblock %}

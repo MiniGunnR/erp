@@ -1,0 +1,20 @@
+{% extends "europarts/quotation_base.html" %}
+
+{% block quotation-content %}
+	{% for quotation in quotations %}
+		<p>
+			<a class="list-link" href="{% url 'europarts:quotation_details' quotation.pk %}">{{ quotation }}</a>
+		</p>
+		{% empty %}
+		<h4>No quotations available.</h4>
+		{% endfor %}
+{% endblock %}
+
+{% block extra-js %}
+	<script type="text/javascript">
+
+		$("#quotation-tab").addClass("active");
+
+		$("#quotation-list").addClass("active");
+	</script>
+{% endblock %}

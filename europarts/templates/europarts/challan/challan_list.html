@@ -1,0 +1,20 @@
+{% extends "europarts/challan_base.html" %}
+
+{% block challan-content %}
+	{% for challan in challans %}
+		<p>
+			<a class="list-link" href="{% url 'europarts:challan_details' challan.pk %}">{{ challan }}</a>
+		</p>
+		{% empty %}
+		<h4>No challans available.</h4>
+		{% endfor %}
+{% endblock %}
+
+{% block extra-js %}
+	<script type="text/javascript">
+
+		$("#challan-tab").addClass("active");
+
+		$("#challan-list").addClass("active");
+	</script>
+{% endblock %}
