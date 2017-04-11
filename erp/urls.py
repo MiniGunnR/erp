@@ -19,6 +19,8 @@ urlpatterns = [
     url(r'^europarts/', include('europarts.urls', namespace='europarts')),
 
     url(r'^msgs/', include('msgs.urls', namespace='msgs')),
+
+    url(r'^payroll/', include('payroll.urls', namespace='payroll')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

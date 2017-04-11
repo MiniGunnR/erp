@@ -22,3 +22,12 @@ def check_employee_balance(request):
         "balance": d['balance'],
     }
     return render(request, "billing/check_employee_balance.html", context)
+
+
+def billing_list(request):
+    r = request.get('http://172.16.16.172/php/billing_list.php')
+    d = json.loads(r.text)
+    context = {
+        "d": d,
+    }
+    return render(request, "billing/billing_list.html", context)

@@ -6,16 +6,18 @@
 {% block main %}
 	<div id="dashboard-wrap">
 		<div class="list-group">
-			<a href="{% url 'attendance:attendance' %}" class="list-group-item">Attendance</a>
+{#			<a href="{% url 'attendance:attendance' %}" class="list-group-item">Attendance</a>#}
 			<a href="{% url 'billing:home' %}" class="list-group-item">Billing</a>
 			{% if request.user|has_group:'Europarts' %}
 				<a href="{% url 'europarts:home' %}" class="list-group-item">Europarts</a>
 				{% endif %}
 		</div>
 
+		{% if request.user == 'admin' %}
 		<div class="list-group">
 			<a href="/admin/" class="list-group-item active">Admin</a>
 		</div>
+		{% endif %}
 	</div>
 {#	<ul>#}
 {#		<li><a href="#">Users</a></li>#}

@@ -6,16 +6,19 @@ from django.forms import formset_factory
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.db.models import Sum
+from django.contrib.auth.decorators import login_required
 
 from .models import Worksheet, WorksheetRow, Inventory, Quotation, QuotationRow, Invoice, InvoiceRow, Challan, ChallanRow
 from .forms import WorksheetForm, WorksheetRowForm, InventoryForm
 from utils.n2w import final
 
 
+@login_required
 def home(request):
     return render(request, "europarts/home.html")
 
 
+@login_required
 def inventory_list(request):
     inventory = Inventory.objects.all()
     context = {
@@ -24,6 +27,7 @@ def inventory_list(request):
     return render(request, "europarts/inventory/inventory_list.html", context)
 
 
+@login_required
 def inventory_create(request):
     form = InventoryForm(request.POST or None)
 
@@ -44,6 +48,8 @@ def inventory_create(request):
     }
     return render(request, "europarts/inventory/inventory_create.html", context)
 
+
+@login_required
 def inventory_edit(request, pk):
     inventory = Inventory.objects.get(pk=pk)
 
@@ -74,6 +80,7 @@ def inventory_edit(request, pk):
     return render(request, "europarts/inventory/inventory_edit.html", context)
 
 
+@login_required
 def inventory_quantity_add(request, pk):
     inventory = Inventory.objects.get(id=pk)
 
@@ -83,6 +90,7 @@ def inventory_quantity_add(request, pk):
     return HttpResponseRedirect(reverse('europarts:inventory_edit', args=(pk,)))
 
 
+@login_required
 def worksheet_list(request):
     worksheets = Worksheet.objects.all()
     context = {
@@ -91,6 +99,7 @@ def worksheet_list(request):
     return render(request, "europarts/worksheet/worksheet_list.html", context)
 
 
+@login_required
 def worksheet_create(request):
     WorksheetRowFormset = formset_factory(WorksheetRowForm, extra=100)
 
@@ -110,9 +119,10 @@ def worksheet_create(request):
                 quantity = row_form.cleaned_data.get('quantity')
                 cost_price = row_form.cleaned_data.get('cost_price')
                 sale_price = row_form.cleaned_data.get('sale_price')
+                profit_margin = row_form.cleaned_data.get('profit_margin')
                 total = row_form.cleaned_data.get('total')
                 if part_no is not None:
-                    WorksheetRow.objects.create(worksheet=worksheet, part_no=part_no, brand=brand, type=type, description=description, quantity=quantity, cost_price=cost_price, sale_price=sale_price, total=total)
+                    WorksheetRow.objects.create(worksheet=worksheet, part_no=part_no, brand=brand, type=type, description=description, quantity=quantity, cost_price=cost_price, sale_price=sale_price, profit_margin=profit_margin, total=total)
 
             return HttpResponseRedirect(reverse('europarts:worksheet_edit', args=(worksheet.pk,)))
     else:
@@ -125,6 +135,7 @@ def worksheet_create(request):
     return render(request, "europarts/worksheet/worksheet_create.html", context)
 
 
+@login_required
 def worksheet_edit(request, pk):
     row_qs = WorksheetRow.objects.filter(worksheet_id=pk)
     count = row_qs.count()
@@ -135,7 +146,7 @@ def worksheet_edit(request, pk):
     worksheet = Worksheet.objects.get(id=pk)
 
     old_rows = WorksheetRow.objects.filter(worksheet=worksheet)
-    row_data = [{'part_no': row.part_no, 'brand': row.brand, 'type': row.type, 'description': row.description, 'quantity': row.quantity, 'cost_price': row.cost_price, 'sale_price': row.sale_price, 'total': row.total } for row in old_rows]
+    row_data = [{'part_no': row.part_no, 'brand': row.brand, 'type': row.type, 'description': row.description, 'quantity': row.quantity, 'cost_price': row.cost_price, 'sale_price': row.sale_price, 'profit_margin': row.profit_margin, 'total': row.total } for row in old_rows]
 
     if request.method == "POST":
         row_formset = WorksheetRowFormset(request.POST)
@@ -151,9 +162,10 @@ def worksheet_edit(request, pk):
                 quantity = row_form.cleaned_data.get('quantity')
                 cost_price = row_form.cleaned_data.get('cost_price')
                 sale_price = row_form.cleaned_data.get('sale_price')
+                profit_margin = row_form.cleaned_data.get('profit_margin')
                 total = row_form.cleaned_data.get('total')
                 if part_no is not None:
-                    WorksheetRow.objects.create(worksheet=worksheet, part_no=part_no, brand=brand, type=type, description=description, quantity=quantity, cost_price=cost_price, sale_price=sale_price, total=total)
+                    WorksheetRow.objects.create(worksheet=worksheet, part_no=part_no, brand=brand, type=type, description=description, quantity=quantity, cost_price=cost_price, sale_price=sale_price, profit_margin=profit_margin, total=total)
 
             return HttpResponseRedirect(reverse('europarts:worksheet_edit', args=(pk,)))
     else:
@@ -178,6 +190,7 @@ def worksheet_edit(request, pk):
     return render(request, "europarts/worksheet/worksheet_edit.html", context)
 
 
+@login_required
 def quotation_list(request):
     quotations = Quotation.objects.all()
     context = {
@@ -186,6 +199,7 @@ def quotation_list(request):
     return render(request, "europarts/quotation/quotation_list.html", context)
 
 
+@login_required
 def quotation_create(request, ws_id):
     worksheet = Worksheet.objects.get(id=ws_id)
     qt_objs = Quotation.objects.filter(worksheet=worksheet)
@@ -211,6 +225,7 @@ def quotation_create(request, ws_id):
     return HttpResponseRedirect(reverse('europarts:quotation_details', args=(quotation.id,)))
 
 
+@login_required
 def quotation_details(request, pk):
     quotation = Quotation.objects.get(id=pk)
     quotation_rows = QuotationRow.objects.filter(quotation=quotation)
@@ -218,13 +233,14 @@ def quotation_details(request, pk):
     context = {
         "quotation": quotation,
         "quotation_rows": quotation_rows,
-        "now": datetime.now(),
+        "now": quotation.created,
         "total_in_words": total_in_words,
         "pk": pk,
     }
     return render(request, "europarts/quotation/quotation_details.html", context)
 
 
+@login_required
 def invoice_list(request):
     invoices = Invoice.objects.all()
     context = {
@@ -233,6 +249,7 @@ def invoice_list(request):
     return render(request, "europarts/invoice/invoice_list.html", context)
 
 
+@login_required
 def invoice_create(request, qt_id):
     quotation = Quotation.objects.get(id=qt_id)
     invoice_objs = Invoice.objects.filter(quotation=quotation)
@@ -259,6 +276,7 @@ def invoice_create(request, qt_id):
     return HttpResponseRedirect(reverse('europarts:invoice_details', args=(invoice.id,)))
 
 
+@login_required
 def invoice_details(request, pk):
     invoice = Invoice.objects.get(id=pk)
     invoice_rows = InvoiceRow.objects.filter(invoice=invoice)
@@ -266,7 +284,7 @@ def invoice_details(request, pk):
     context = {
         "invoice": invoice,
         "invoice_rows": invoice_rows,
-        "now": datetime.now(),
+        "now": invoice.created,
         "total_in_words": total_in_words,
         "pk": pk,
         "vat": invoice.total_after_tax - invoice.total,
@@ -274,6 +292,7 @@ def invoice_details(request, pk):
     return render(request, "europarts/invoice/invoice_details.html", context)
 
 
+@login_required
 def challan_list(request):
     challans = Challan.objects.all()
     context = {
@@ -282,6 +301,7 @@ def challan_list(request):
     return render(request, "europarts/challan/challan_list.html", context)
 
 
+@login_required
 def challan_details(request, pk):
     challan = Challan.objects.get(id=pk)
     challan_rows = ChallanRow.objects.filter(challan=challan)
@@ -289,7 +309,7 @@ def challan_details(request, pk):
     context = {
         "challan": challan,
         "challan_rows": challan_rows,
-        "now": datetime.now(),
+        "now": challan.created,
         "pk": pk,
     }
     return render(request, "europarts/challan/challan_details.html", context)

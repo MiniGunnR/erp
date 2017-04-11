@@ -3,14 +3,44 @@
 {% block worksheet-content %}
 	<form method="post" action=".">
 		{% csrf_token %}
+		<table class="table" style="width: 200px;">
+			<tr>
+				<td><b>{{ form.part_no.label }}:</b></td>
+				<td>{{ form.part_no }}</td>
+			</tr>
 
-		{{ form.as_p }}
+			<tr>
+				<td><b>{{ form.brand.label }}:</b></td>
+				<td>{{ form.brand }}</td>
+			</tr>
 
-		<p>
-			<b>Quantity:</b> {{ quantity }}
-		</p>
+			<tr>
+				<td><b>{{ form.type.label }}:</b></td>
+				<td>{{ form.type }}</td>
+			</tr>
 
-		<input type="submit" class="btn btn-success" value="Submit" />
+			<tr>
+				<td><b>{{ form.description.label }}:</b></td>
+				<td>{{ form.description }}</td>
+			</tr>
+
+			<tr>
+				<td><b>{{ form.cost_price.label }}:</b></td>
+				<td>{{ form.cost_price }}</td>
+			</tr>
+
+			<tr>
+				<td><b>{{ form.quantity.label }}:</b></td>
+				<td>{{ quantity }}</td>
+			</tr>
+
+			<tr>
+				<td></td>
+				<td>
+					<input class="btn btn-primary" type="submit" value="Submit" />
+				</td>
+			</tr>
+		</table>
 	</form>
 
 	<!-- Add Quantity Modal -->

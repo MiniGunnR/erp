@@ -49,6 +49,7 @@
 					{% endif %}
 				</th>
 				{% endif %}
+			<th>Profit Margin (%)</th>
 			{% if worksheet.total_visible or request.user|has_group:'EuropartsAdmin' %}
 				<th>
 					Total &nbsp;
@@ -74,6 +75,7 @@
 				<td>{{ row_form.quantity }}</td>
 				{% if worksheet.cost_price_visible or request.user|has_group:'EuropartsAdmin' %}<td>{{ row_form.cost_price }}</td>{% endif %}
 				{% if worksheet.sale_price_visible or request.user|has_group:'EuropartsAdmin' %}<td>{{ row_form.sale_price }}</td>{% endif %}
+				<td>{{ row_form.profit_margin }}</td>
 				{% if worksheet.total_visible or request.user|has_group:'EuropartsAdmin' %}<td>{{ row_form.total }}</td>{% endif %}
 			</tr>
 			{% endfor %}

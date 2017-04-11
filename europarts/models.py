@@ -67,6 +67,7 @@ class WorksheetRow(Timestamped):
     quantity = models.IntegerField()
     cost_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     sale_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    profit_margin = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     total = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
 
     def __str__(self):

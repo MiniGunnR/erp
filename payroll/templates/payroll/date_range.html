@@ -1,0 +1,43 @@
+<form method="get" action=".">
+<b>From: </b>
+<select name="from_year">
+	<option value="2017">2017</option>
+	<option value="2018">2018</option>
+</select>
+
+<select name="from_month">
+	<option value="1">Jan</option>
+	<option value="2">Feb</option>
+</select>
+
+<select name="from_day">
+	<option value="1">01</option>
+	<option value="2">02</option>
+</select>
+
+<b>To:</b>
+<select name="to_year">
+	<option value="2017">2017</option>
+	<option value="2018">2018</option>
+</select>
+
+<select name="to_month">
+	<option value="1">Jan</option>
+	<option value="2">Feb</option>
+</select>
+
+<select name="to_day">
+	<option value="1">01</option>
+	<option value="2">02</option>
+</select>
+
+	<input type="submit" value="Submit" />
+</form>
+
+<hr/>
+
+{% for date in dates %}
+	{% for item in date %}
+		{{ item }}
+		{% endfor %} <br/>
+	{% endfor %}

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'requisition',
     'europarts',
     'msgs',
+    'payroll',
 ]
 
 MIDDLEWARE = [
