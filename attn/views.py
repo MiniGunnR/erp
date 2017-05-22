@@ -13,6 +13,26 @@ from .models import Attendance
 from core.models import Profile
 
 
+def _mkdir(newdir):
+    """works the way a good mkdir should :)
+        - already exists, silently complete
+        - regular file in the way, raise an exception
+        - parent directory(ies) does not exist, make them as well
+    """
+    if os.path.isdir(newdir):
+        pass
+    elif os.path.isfile(newdir):
+        raise OSError("a file with the same name as the desired " \
+                      "dir, '%s', already exists." % newdir)
+    else:
+        head, tail = os.path.split(newdir)
+        if head and not os.path.isdir(head):
+            _mkdir(head)
+        #print "_mkdir %s" % repr(newdir)
+        if tail:
+            os.mkdir(newdir)
+
+
 def home(request):
     now = datetime.now()
     print(now.month, now.year)
@@ -224,13 +244,11 @@ def populate(request):
             attn_count = attns.count()
             # The following block removes all attendance except last and first one
             if attn_count > 2:
-                print(attn_count)
                 for attn in attns:
                     if attn == attns.first() or attn == attns.last():
                         pass
                     else:
                         attn.delete()
-                        print('deleted')
 
     return HttpResponseRedirect(reverse('attn:action'))
 
@@ -247,6 +265,7 @@ def select_by_date(request, date):
 
     txt = r.text.replace('null', '')
     file = os.path.join(settings.BASE_DIR, "media", "attendance", "populate.csv")
+    _mkdir('media/attendance')
     f = open(file, "w+")
     f.write(txt)
     f.close()
