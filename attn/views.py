@@ -233,7 +233,6 @@ def populate(request):
     :param request:
     :return: Redirects to attendance home after populating database
     """
-    _mkdir('media/attendance')
     with open(os.path.join(settings.BASE_DIR, 'media', 'attendance', 'populate.csv')) as f:
         reader = csv.reader(f)
         for row in reader:
@@ -266,7 +265,7 @@ def select_by_date(request, date):
 
     txt = r.text.replace('null', '')
     file = os.path.join(settings.BASE_DIR, "media", "attendance", "populate.csv")
-    _mkdir('media/attendance')
+
     f = open(file, "w+")
     f.write(txt)
     f.close()
