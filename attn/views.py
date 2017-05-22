@@ -233,6 +233,7 @@ def populate(request):
     :param request:
     :return: Redirects to attendance home after populating database
     """
+    _mkdir('media/attendance')
     with open(os.path.join(settings.BASE_DIR, 'media', 'attendance', 'populate.csv')) as f:
         reader = csv.reader(f)
         for row in reader:
