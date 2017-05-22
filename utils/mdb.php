@@ -19,7 +19,7 @@ while ($row = $stmt->fetch()) {
 
 //    echo "0".chr(11);
     echo str_pad($row['C_Unique'], 10, "0", STR_PAD_LEFT).",";
-    echo $row['C_Date']." ".$row['C_Time']."\r";
+    echo $row['C_Date']." ".$row['C_Time']."\n";
 
 //    echo str_pad($row['C_Unique'], 10, "0", STR_PAD_LEFT).",";
 //    echo $row['C_Date']." ".$row['C_Time'];
