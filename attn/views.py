@@ -192,7 +192,6 @@ def year_summary(request, year):
 def action(request):
     if request.method == "POST":
         date = "{year}{month}{day}".format(year=request.POST.get('year'), month=request.POST.get('month'), day=request.POST.get('day'))
-        print(date)
         return HttpResponseRedirect(reverse('attn:select_by_date', args=(date,)))
 
     months = []
@@ -248,7 +247,15 @@ def select_by_date(request, date):
 
     txt = r.text.replace('null', '')
     file = os.path.join(settings.BASE_DIR, "media", "attendance", "populate.csv")
-    f= open(file, "w+")
+    try:
+        os.mkdir('media')
+    except OSError:
+        pass
+    try:
+        os.mkdir('media/attendance')
+    except OSError:
+        pass
+    f = open(file, "w+")
     f.write(txt)
     f.close()
 
