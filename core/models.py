@@ -99,7 +99,7 @@ class BaseProfile(Timestamped):
         (THIRD_GENDER, 'Third Gender'),
     )
 
-    gender = models.SmallIntegerField(validators=MaxValueValidator(3), choices=GENDER_CHOICES, default=MALE)
+    gender = models.SmallIntegerField(validators=[MaxValueValidator(3)], choices=GENDER_CHOICES, default=MALE)
 
     B_P = 1
     B_N = 2
@@ -121,7 +121,7 @@ class BaseProfile(Timestamped):
         (O_N, 'O -ve'),
     )
 
-    blood_group = models.CharField(max_length=2, choices=BLOOD_GROUP_CHOICES, default=B_P)
+    blood_group = models.SmallIntegerField(choices=BLOOD_GROUP_CHOICES, default=B_P)
 
     ISLAM = 1
     HINDUISM = 2
@@ -207,5 +207,9 @@ class ITProfile(models.Model):
 class Profile(BaseProfile, AccountsProfile, ITProfile):
 
     def __str__(self):
-        return "{user}'s Profile".format(user=self.user.get_full_name())
+        return "{user}'s Profile".format(user=self.user.username)
+
+    def save(self, *args, **kwargs):
+        self.proximity_id = ('0' * (10 - len(self.proximity_id))) + self.proximity_id
+        super(Profile, self).save(*args, **kwargs)
 

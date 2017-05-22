@@ -47,6 +47,7 @@
 {#		        <li class="{% if '/attendance/' in request.path %}active{% endif %}"><a href="{% url 'attendance:attendance' %}">Attendance</a></li>#}
 		        <li class="{% if '/billing/' in request.path %}active{% endif %}"><a href="{% url 'billing:home' %}">Billing</a></li>
 		        <li class="{% if '/europarts/' in request.path %}active{% endif %}"><a href="{% url 'europarts:home' %}">Europarts</a></li>
+		        <li class="{% if '/attn/' in request.path %}active{% endif %}"><a href="{% url 'attn:home' %}">Attendance</a></li>
 {#		        <li>#}
 {#			        <a href="{% url 'msgs:thread-listview' %}">Messages <span class="badge">1</span></a>#}
 {#		        </li>#}

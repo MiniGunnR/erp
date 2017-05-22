@@ -16,27 +16,33 @@
 
 		<tr>
 			<th>Part No</th>
-			<th>Brand</th>
-			<th>Type</th>
 			<th>Description</th>
-			<th>Quantity</th>
-			<th>Cost Price</th>
-			<th>Sale Price</th>
-			<th>Profit Margin (%)</th>
+			<th>Qnty</th>
+			<th>Gram p/s</th>
 			<th>Total</th>
+			<th>Per Pcs Duty/Tax</th>
+			<th>Air Freight Cost P/Pcs</th>
+			<th>Net Purchase Price Taka</th>
+			<th>Price after Tax</th>
+			<th>Unit Price in Taka</th>
+			<th>Brand</th>
+			<th>Total Price in Taka</th>
 		</tr>
 
 		{% for row_form in row_formset %}
 			<tr>
 				<td>{{ row_form.part_no }}</td>
-				<td>{{ row_form.brand }}</td>
-				<td>{{ row_form.type }}</td>
 				<td>{{ row_form.description }}</td>
 				<td>{{ row_form.quantity }}</td>
-				<td>{{ row_form.cost_price }}</td>
-				<td>{{ row_form.sale_price }}</td>
-				<td>{{ row_form.profit_margin }}</td>
+				<td>{{ row_form.gram_p_s }}</td>
 				<td>{{ row_form.total }}</td>
+				<td>{{ row_form.per_pcs_duty_tax }}</td>
+				<td>{{ row_form.air_freight_cost_p_pcs }}</td>
+				<td>{{ row_form.net_purchase_price_taka }}</td>
+				<td>{{ row_form.price_after_tax }}</td>
+				<td>{{ row_form.unit_price_in_taka }}</td>
+				<td>{{ row_form.brand }}</td>
+				<td>{{ row_form.total_price_in_taka }}</td>
 			</tr>
 			{% endfor %}
 

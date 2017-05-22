@@ -1,0 +1,46 @@
+{% extends "attn/home.html" %}
+{% load attn_extras %}
+
+{% block nav-content %}
+    <h3>Employee : {{ employee_id }} <small><a class="label label-default" href="{% url 'attn:employee_summary' employee_id year|add:'-1' %}"><<</a> {{ year }} <a class="label label-default" href="{% url 'attn:employee_summary' employee_id year|add:'1' %}">>></a> </small></h3>
+
+    <table class="table">
+        <tr>
+            <th>Month</th>
+            <th>Summary</th>
+            {% for day in dates %}
+                <th>{{ day }}</th>
+                {% endfor %}
+        </tr>
+
+        {% for attn_month, days in attn_year.items %}
+        <tr>
+            <td>{{ attn_month|month_name }}</td>
+            <td>
+                <label class="label label-success">{{ summary_dict|present:attn_month }}</label>
+                <label class="label label-warning">{{ summary_dict|late:attn_month }}</label>
+                <label class="label label-danger">{{ summary_dict|absent:attn_month }}</label>
+            </td>
+            {% for day in days %}
+                <td><label class="label label-{{ day.0|check_if_late }}">{{ day.0 }}</label> <br/> <label class="label label-default">{{ day.1 }}</label></td>
+
+                {% if forloop.last %}
+                    {% if forloop.counter == 28 %}
+                        <td></td><td></td><td></td>
+                        {% elif forloop.counter == 29 %}
+                        <td></td><td></td>
+                        {% elif forloop.counter == 30 %}
+                        <td></td>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+
+{% block extra-js %}
+	<script type="text/javascript">
+	$("#employee-tab").addClass("active");
+	</script>
+{% endblock %}

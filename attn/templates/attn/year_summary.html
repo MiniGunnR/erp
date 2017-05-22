@@ -1,0 +1,34 @@
+{% extends "attn/home.html" %}
+{% load attn_extras %}
+
+{% block nav-content %}
+	<h3>{{ current_year }}</h3>
+
+	<table class="table">
+		<tr>
+			<th></th>
+			{% for month in months %}
+				<th>{{ month }}</th>
+				{% endfor %}
+		</tr>
+
+	{% for employee, summaries in employees.items %}
+		<tr>
+			<td>{{ employee }}</td>
+			{% for month, summary in summaries.items %}
+				<td>
+					<label class="label label-success">{{ summary.0 }}</label>
+	                <label class="label label-warning">{{ summary.1 }}</label>
+	                <label class="label label-danger">{{ summary.2 }}</label>
+				</td>
+				{% endfor %}
+		</tr>
+		{% endfor %}
+	</table>
+{% endblock %}
+
+{% block extra-js %}
+	<script type="text/javascript">
+	$("#year-tab").addClass("active");
+	</script>
+{% endblock %}

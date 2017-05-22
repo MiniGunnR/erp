@@ -1,0 +1,32 @@
+{% extends "attn/home.html" %}
+{% load attn_extras %}
+
+{% block nav-content %}
+	<form method="post" action="."> {% csrf_token %}
+		Year:
+		<select name="year">
+			<option value="2017">2017</option>
+			<option value="2018">2018</option>
+			<option value="2019">2019</option>
+			<option value="2019">2020</option>
+			<option value="2019">2021</option>
+			<option value="2019">2022</option>
+		</select>
+
+		Month:
+		<select name="month">
+		{% for month in months %}
+			<option value="{{ month.0 }}">{{ month.1 }}</option>
+			{% endfor %}
+		</select>
+
+		Date:
+		<select name="day">
+		{% for day in days %}
+			<option value="{{ day }}">{{ day }}</option>
+			{% endfor %}
+		</select>
+
+		<input class="btn btn-sm btn-primary" type="submit" value="Pull" />
+	</form>
+{% endblock %}

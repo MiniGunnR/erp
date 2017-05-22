@@ -8,15 +8,13 @@ urlpatterns = [
 
     url(r'^', include('core.urls', namespace='core')),
 
-    url(r'^attendance/', include('attendance.urls', namespace='attendance')),
+    url(r'^attn/', include('attn.urls', namespace='attn')),
 
     url(r'^billing/', include('billing.urls', namespace='billing')),
 
     url(r'^admin/', admin.site.urls),
 
     url(r'^requisition/', include('requisition.urls', namespace='requisition')),
-
-    url(r'^europarts/', include('europarts.urls', namespace='europarts')),
 
     url(r'^msgs/', include('msgs.urls', namespace='msgs')),
 

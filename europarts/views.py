@@ -113,16 +113,34 @@ def worksheet_create(request):
 
             for row_form in row_formset:
                 part_no = row_form.cleaned_data.get('part_no')
-                brand = row_form.cleaned_data.get('brand')
-                type = row_form.cleaned_data.get('type')
                 description = row_form.cleaned_data.get('description')
                 quantity = row_form.cleaned_data.get('quantity')
-                cost_price = row_form.cleaned_data.get('cost_price')
-                sale_price = row_form.cleaned_data.get('sale_price')
-                profit_margin = row_form.cleaned_data.get('profit_margin')
+                gram_p_s = row_form.cleaned_data.get('gram_p_s')
                 total = row_form.cleaned_data.get('total')
+                per_pcs_duty_tax = row_form.cleaned_data.get('per_pcs_duty_tax')
+                air_freight_cost_p_pcs = row_form.cleaned_data.get('air_freight_cost_p_pcs')
+                net_purchase_price_taka = row_form.cleaned_data.get('net_purchase_price_taka')
+                price_after_tax = row_form.cleaned_data.get('price_after_tax')
+                unit_price_in_taka = row_form.cleaned_data.get('unit_price_in_taka')
+                brand = row_form.cleaned_data.get('brand')
+                total_price_in_taka = row_form.cleaned_data.get('total_price_in_taka')
+
                 if part_no is not None:
-                    WorksheetRow.objects.create(worksheet=worksheet, part_no=part_no, brand=brand, type=type, description=description, quantity=quantity, cost_price=cost_price, sale_price=sale_price, profit_margin=profit_margin, total=total)
+                    WorksheetRow.objects.create(
+                        worksheet=worksheet,
+                        part_no=part_no,
+                        description=description,
+                        quantity=quantity,
+                        gram_p_s=gram_p_s,
+                        total=total,
+                        per_pcs_duty_tax=per_pcs_duty_tax,
+                        air_freight_cost_p_pcs=air_freight_cost_p_pcs,
+                        net_purchase_price_taka=net_purchase_price_taka,
+                        price_after_tax=price_after_tax,
+                        unit_price_in_taka=unit_price_in_taka,
+                        brand=brand,
+                        total_price_in_taka=total_price_in_taka,
+                        )
 
             return HttpResponseRedirect(reverse('europarts:worksheet_edit', args=(worksheet.pk,)))
     else:
@@ -146,26 +164,60 @@ def worksheet_edit(request, pk):
     worksheet = Worksheet.objects.get(id=pk)
 
     old_rows = WorksheetRow.objects.filter(worksheet=worksheet)
-    row_data = [{'part_no': row.part_no, 'brand': row.brand, 'type': row.type, 'description': row.description, 'quantity': row.quantity, 'cost_price': row.cost_price, 'sale_price': row.sale_price, 'profit_margin': row.profit_margin, 'total': row.total } for row in old_rows]
+    row_data = [{
+        'part_no': row.part_no,
+        'description': row.description,
+        'quantity': row.quantity,
+        'gram_p_s': row.gram_p_s,
+        'total': row.total,
+        'per_pcs_duty_tax': row.per_pcs_duty_tax,
+        'air_freight_cost_p_pcs': row.air_freight_cost_p_pcs,
+        'net_purchase_price_taka': row.net_purchase_price_taka,
+        'price_after_tax': row.price_after_tax,
+        'unit_price_in_taka': row.unit_price_in_taka,
+        'brand': row.brand,
+        'total_price_in_taka': row.total_price_in_taka,
+                } for row in old_rows]
 
     if request.method == "POST":
         row_formset = WorksheetRowFormset(request.POST)
 
         if row_formset.is_valid():
+            print('formset valid')
             WorksheetRow.objects.filter(worksheet=worksheet).delete()
 
             for row_form in row_formset:
+                print('row_form')
                 part_no = row_form.cleaned_data.get('part_no')
-                brand = row_form.cleaned_data.get('brand')
-                type = row_form.cleaned_data.get('type')
                 description = row_form.cleaned_data.get('description')
                 quantity = row_form.cleaned_data.get('quantity')
-                cost_price = row_form.cleaned_data.get('cost_price')
-                sale_price = row_form.cleaned_data.get('sale_price')
-                profit_margin = row_form.cleaned_data.get('profit_margin')
+                gram_p_s = row_form.cleaned_data.get('gram_p_s')
                 total = row_form.cleaned_data.get('total')
+                per_pcs_duty_tax = row_form.cleaned_data.get('per_pcs_duty_tax')
+                air_freight_cost_p_pcs = row_form.cleaned_data.get('air_freight_cost_p_pcs')
+                net_purchase_price_taka = row_form.cleaned_data.get('net_purchase_price_taka')
+                price_after_tax = row_form.cleaned_data.get('price_after_tax')
+                unit_price_in_taka = row_form.cleaned_data.get('unit_price_in_taka')
+                brand = row_form.cleaned_data.get('brand')
+                total_price_in_taka = row_form.cleaned_data.get('total_price_in_taka')
                 if part_no is not None:
-                    WorksheetRow.objects.create(worksheet=worksheet, part_no=part_no, brand=brand, type=type, description=description, quantity=quantity, cost_price=cost_price, sale_price=sale_price, profit_margin=profit_margin, total=total)
+                    print('worksheet being created')
+                    WorksheetRow.objects.create(
+                        worksheet=worksheet,
+                        part_no=part_no,
+                        description=description,
+                        quantity=quantity,
+                        gram_p_s=gram_p_s,
+                        total=total,
+                        per_pcs_duty_tax=per_pcs_duty_tax,
+                        air_freight_cost_p_pcs=air_freight_cost_p_pcs,
+                        net_purchase_price_taka=net_purchase_price_taka,
+                        price_after_tax=price_after_tax,
+                        unit_price_in_taka=unit_price_in_taka,
+                        brand=brand,
+                        total_price_in_taka=total_price_in_taka,
+                        )
+                    print('worksheet created')
 
             return HttpResponseRedirect(reverse('europarts:worksheet_edit', args=(pk,)))
     else:

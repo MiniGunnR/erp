@@ -35,11 +35,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'attendance',
+    'attn',
     'core',
     'billing',
     'requisition',
-    'europarts',
     'msgs',
     'payroll',
 ]
@@ -67,6 +66,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'utils.context_processors.now',
             ],
             'libraries': {
                 'project_tags': 'utils.templatetags.project_extras',
@@ -119,7 +119,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -150,3 +150,6 @@ CACHES = {
         'LOCATION': 'my_cache_table',
     }
 }
+
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
+

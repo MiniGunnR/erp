@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block main %}
+	<ul class="nav nav-tabs">
+		<li id="employee-tab"><a href="{% url 'attn:employee_list' %}">Employees</a></li>
+		<li id="month-tab"><a href="{% url 'attn:month_summary' current_month current_year %}">Month</a></li>
+		<li id="year-tab"><a href="{% url 'attn:year_summary' current_year %}">Year</a></li>
+		<li id="action-tab"><a href="{% url 'attn:action' %}">Action</a></li>
+	</ul>
+	{% block nav-content %}
+		<h3>Please click on one of the above links.</h3>
+	{% endblock %}
+{% endblock %}

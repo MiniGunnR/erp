@@ -1,13 +1,40 @@
 {% extends "europarts/inventory_base.html" %}
 
 {% block worksheet-content %}
+	<table class="table table-bordered">
+		<tr>
+			<th>Part No</th>
+			<th>Brand</th>
+			<th>Type</th>
+			<th>Description</th>
+			<th>Engine No</th>
+			<th>Ship Name</th>
+			<th>Serial No</th>
+			<th>Chassis No</th>
+			<th>Quantity</th>
+			<th>Cost Price</th>
+		</tr>
 	{% for item in inventory %}
-		<p>
-			<a class="list-link" href="{% url 'europarts:inventory_edit' item.pk %}">{{ item }}</a>
-		</p>
+		<tr>
+			<td>
+				<a href="{% url 'europarts:inventory_edit' item.pk %}">{{ item }}</a>
+			</td>
+			<td>{{ item.brand }}</td>
+			<td>{{ item.type }}</td>
+			<td>{{ item.description }}</td>
+			<td>{{ item.engine_no }}</td>
+			<td>{{ item.ship_name }}</td>
+			<td>{{ item.serial_no }}</td>
+			<td>{{ item.chassis_no }}</td>
+			<td>{{ item.quantity }}</td>
+			<td>{{ item.cost_price }}</td>
+		</tr>
 		{% empty %}
-		<h4>No items available.</h4>
+		<tr>
+			<td>No items available.</td>
+		</tr>
 		{% endfor %}
+	</table>
 {% endblock %}
 
 {% block extra-js %}

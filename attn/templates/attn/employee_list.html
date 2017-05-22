@@ -1,0 +1,23 @@
+{% extends "attn/home.html" %}
+
+{% block nav-content %}
+	<table class="table">
+	{% for profile in profiles %}
+		<tr>
+			<td>
+				<a href="{% url 'attn:employee_summary' profile.proximity_id now.year %}">{{ profile.user|capfirst }}</a>
+			</td>
+			<td>
+				<a href="{% url 'attn:employee_summary' profile.proximity_id now.year %}">{{ profile.proximity_id }}</a>
+			</td>
+		</tr>
+		{% endfor %}
+	</table>
+{% endblock %}
+
+{% block extra-js %}
+	<script type="text/javascript">
+	$("#employee-tab").addClass("active");
+	</script>
+{% endblock %}
+

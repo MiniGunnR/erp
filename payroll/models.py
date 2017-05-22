@@ -1,11 +1,19 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 from utils.models import Timestamped
-from django.conf import settings
+
+
+class Employee(Timestamped):
+    user = models.OneToOneField(User)
+    employee_id = models.CharField(max_length=7, unique=True)
+
+    def __str__(self):
+        return self.employee.username
 
 
 class LeaveDays(Timestamped):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    employee = models.ForeignKey(Employee)
     date = models.DateField()
 
     def __str__(self):
@@ -13,7 +21,7 @@ class LeaveDays(Timestamped):
 
 
 class Attendance(Timestamped):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    employee = models.ForeignKey(Employee)
     datetime = models.DateTimeField()
     late = models.BooleanField(default=False)
 

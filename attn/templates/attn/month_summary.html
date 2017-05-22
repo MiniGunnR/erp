@@ -1,0 +1,55 @@
+{% extends "attn/home.html" %}
+{% load attn_extras %}
+
+{% block nav-content %}
+	<form method="post" action="."> {% csrf_token %}
+		<select name="month_selector">
+			{% for month in months %}
+			<option value="{{ month }}">{{ month }}</option>
+			{% endfor %}
+		</select>
+
+		<select name="year_selector">
+			<option value="2017">2017</option>
+			<option value="2018">2018</option>
+			<option value="2019">2019</option>
+			<option value="2019">2020</option>
+			<option value="2019">2021</option>
+			<option value="2019">2022</option>
+		</select>
+
+		<input type="submit" value="Submit" />
+	</form>
+
+    <h3>{{ month_name }} <small>{{ year }}</small></h3>
+    {% regroup object_list by employee_id as object_row %}
+    <table class="table">
+        <tr>
+            <th>Employee ID</th>
+            {% for day in dates %}
+                <th>{{ day }}</th>
+                {% endfor %}
+            <th>Summary</th>
+        </tr>
+
+        {% for row in rows %}
+        <tr>
+            <td>{{ row.0 }}</td>
+            {% for item in row.1 %}
+                <td><label class="label label-{{ item.0|check_if_late }}">{{ item.0 }}</label> <br/> <label class="label label-primary">{{ item.1 }}</label></td>
+                {% endfor %}
+            <td>
+                <label class="label label-success">{{ row.2.0 }}</label>
+                <label class="label label-warning">{{ row.2.1 }}</label>
+                <label class="label label-danger">{{ row.2.2 }}</label>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+
+{% block extra-js %}
+	<script type="text/javascript">
+	$("#month-tab").addClass("active");
+	</script>
+{% endblock %}
