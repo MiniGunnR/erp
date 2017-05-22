@@ -233,7 +233,7 @@ def populate(request):
     :param request:
     :return: Redirects to attendance home after populating database
     """
-    with open(os.path.join(settings.BASE_DIR, 'media', 'attendance', 'populate.csv')) as f:
+    with open(os.path.join(settings.BASE_DIR, 'media', 'attendance', 'populate.csv'), 'rU') as f:
         reader = csv.reader(f, dialect=csv.excel_tab)
         for row in reader:
             obj, created = Attendance.objects.get_or_create(
