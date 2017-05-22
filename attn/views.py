@@ -247,14 +247,6 @@ def select_by_date(request, date):
 
     txt = r.text.replace('null', '')
     file = os.path.join(settings.BASE_DIR, "media", "attendance", "populate.csv")
-    try:
-        os.mkdir('media')
-    except OSError:
-        pass
-    try:
-        os.mkdir('media/attendance')
-    except OSError:
-        pass
     f = open(file, "w+")
     f.write(txt)
     f.close()
