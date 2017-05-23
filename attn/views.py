@@ -266,7 +266,7 @@ def select_by_date(request, date):
 
     file = os.path.join(settings.BASE_DIR, "media", "attendance", "populate.csv")
 
-    with open(file,'wb') as resultFile:
+    with open(file,'w') as resultFile:
         wr = csv.writer(resultFile, dialect='excel')
         wr.writerow(r)
 
