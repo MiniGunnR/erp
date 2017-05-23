@@ -236,7 +236,6 @@ def populate(request):
     with open(os.path.join(settings.BASE_DIR, 'media', 'attendance', 'populate.csv')) as f:
         reader = csv.reader(f)
         for row in reader:
-            print(row)
             row = row.split(",")
             obj, created = Attendance.objects.get_or_create(
                 employee_id=row[0],
@@ -266,14 +265,14 @@ def select_by_date(request, date):
     r = requests.get('http://172.16.16.172/php/mdb.php', params=payload)
 
     rs = [
-        ['apple', 'mango'],
-        ['banana', 'blueberry']
+        ['apple'],
+        ['banana']
     ]
     file = os.path.join(settings.BASE_DIR, "media", "attendance", "populate.csv")
 
     with open(file,'w') as resultFile:
         wr = csv.writer(resultFile, dialect='excel')
-        wr.writerows(r)
+        wr.writerows(r.json())
 
     # txt = r.text.replace('null', '')
     # file = os.path.join(settings.BASE_DIR, "media", "attendance", "populate.csv")
