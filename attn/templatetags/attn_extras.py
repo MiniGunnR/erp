@@ -28,7 +28,7 @@ def check_if_late(time_str):
         hour = int(time_str[:2])
         minute = int(time_str[-2:])
         print(hour, minute)
-        if (hour < 9) or (hour > 9 and minute < 30):
+        if (hour < 9) or (hour == 9 and minute < 30):
             response = 'success'
         elif (hour > 9) or (hour == 9 and minute > 30):
             response = 'warning'
