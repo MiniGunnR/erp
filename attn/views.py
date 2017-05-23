@@ -237,7 +237,7 @@ def populate(request):
         reader = csv.reader(f)
         for row in reader:
             print(row)
-            row = row[0].split(",")
+            row = row[0].split(", ")
             obj, created = Attendance.objects.get_or_create(
                 employee_id=row[0],
                 punch=datetime.strptime(row[1].strip(), "%Y%m%d %H%M%S"),
