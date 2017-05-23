@@ -20,7 +20,7 @@ while ($row = $stmt->fetch()) {
 //    echo str_pad($row['C_Unique'], 10, "0", STR_PAD_LEFT).",";
 //    echo $row['C_Date']." ".$row['C_Time']."\r";
 
-    $data += array(str_pad($row['C_Unique'], 10, "0", STR_PAD_LEFT).",".$row['C_Date']." ".$row['C_Time']);
+    $data = $data + array(str_pad($row['C_Unique'], 10, "0", STR_PAD_LEFT).",".$row['C_Date']." ".$row['C_Time']);
 }
 
 header('Content-Type:application/json;charset=utf-8');
