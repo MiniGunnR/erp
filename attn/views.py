@@ -265,6 +265,10 @@ def select_by_date(request, date):
     payload = {'date': date}
     r = requests.get('http://172.16.16.172/php/mdb.php', params=payload)
 
+    rs = [
+        ['apple', 'mango'],
+        ['banana', 'blueberry']
+    ]
     file = os.path.join(settings.BASE_DIR, "media", "attendance", "populate.csv")
 
     with open(file,'w') as resultFile:
