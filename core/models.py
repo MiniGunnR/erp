@@ -210,6 +210,8 @@ class Profile(BaseProfile, AccountsProfile, ITProfile):
         return "{user}'s Profile".format(user=self.user.username)
 
     def save(self, *args, **kwargs):
+        if not self.proximity_id:
+            self.proximity_id = '0'
         self.proximity_id = ('0' * (10 - len(self.proximity_id))) + self.proximity_id
         super(Profile, self).save(*args, **kwargs)
 
