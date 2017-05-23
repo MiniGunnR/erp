@@ -236,7 +236,7 @@ def populate(request):
     with open(os.path.join(settings.BASE_DIR, 'media', 'attendance', 'populate.csv')) as f:
         reader = csv.reader(f)
         for row in reader:
-            row = row.split(',')
+            row = row.split(",")
             obj, created = Attendance.objects.get_or_create(
                 employee_id=row[0],
                 punch=datetime.strptime(row[1].strip(), "%Y%m%d %H%M%S"),
