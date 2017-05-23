@@ -263,12 +263,18 @@ def select_by_date(request, date):
     payload = {'date': date}
     r = requests.get('http://172.16.16.172/php/mdb.php', params=payload)
 
-    txt = r.text.replace('null', '')
     file = os.path.join(settings.BASE_DIR, "media", "attendance", "populate.csv")
 
-    f = open(file, "w+")
-    f.write(txt)
-    f.close()
+    with open(file,'wb') as resultFile:
+        wr = csv.writer(resultFile, dialect='excel')
+        wr.writerow(r)
+
+    # txt = r.text.replace('null', '')
+    # file = os.path.join(settings.BASE_DIR, "media", "attendance", "populate.csv")
+    #
+    # f = open(file, "w+")
+    # f.write(txt)
+    # f.close()
 
     return HttpResponseRedirect(reverse('attn:populate'))
 
