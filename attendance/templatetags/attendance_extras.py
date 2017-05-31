@@ -44,6 +44,21 @@ def fetch_attendance(date, emp_id):
         ent = obj.get_type_display()
         ext = ''
 
+    if ent == 'ABS':
+        ent = '<label class="label label-danger">' + ent + '</label>'
+    elif ent == 'OFF':
+        ent = '<label class="label label-default">' + ent + '</label>'
+    else:
+        if obj.late:
+            ent = '<label class="label label-warning">' + ent + '</label>'
+        else:
+            ent = '<label class="label label-success">' + ent + '</label>'
+
+    if ext == 'X':
+        ext = ''
+    else:
+        ext = '<label class="label label-primary">' + ext + '</label>'
+
     return "{ent} {ext}".format(ent=ent, ext=ext)
 
 

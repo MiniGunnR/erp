@@ -80,33 +80,32 @@
 				{% if not forloop.counter == 1 or forloop.parentloop.counter == 1 %}
 	<tr>
 		<td>
-{#			{% if week.0|date:"d" == "01" %}#}
-				{{ week.0|date:"M d" }}<br/>
-{#				{% endif %}#}
-			{{ week.0|date:"Y-m-d"|fetch_attendance:emp_id }}
-		</td>
-		<td>{{ week.1|date:"M d" }}<br/>
-			{{ week.1|date:"Y-m-d"|fetch_attendance:emp_id }}
+			<label>{{ week.0|date:"M d" }}</label><br/>
+			{{ week.0|date:"Y-m-d"|fetch_attendance:emp_id|safe }}
 		</td>
 		<td>
-			{{ week.2|date:"M d" }}<br/>
-			{{ week.2|date:"Y-m-d"|fetch_attendance:emp_id }}
+			<label>{{ week.1|date:"M d" }}</label><br/>
+			{{ week.1|date:"Y-m-d"|fetch_attendance:emp_id|safe }}
 		</td>
 		<td>
-			{{ week.3|date:"M d" }}<br/>
-			{{ week.3|date:"Y-m-d"|fetch_attendance:emp_id }}
+			<label>{{ week.2|date:"M d" }}</label><br/>
+			{{ week.2|date:"Y-m-d"|fetch_attendance:emp_id|safe }}
 		</td>
 		<td>
-			{{ week.4|date:"M d" }}<br/>
-			{{ week.4|date:"Y-m-d"|fetch_attendance:emp_id }}
+			<label>{{ week.3|date:"M d" }}</label><br/>
+			{{ week.3|date:"Y-m-d"|fetch_attendance:emp_id|safe }}
 		</td>
 		<td>
-			{{ week.5|date:"M d" }}<br/>
-			{{ week.5|date:"Y-m-d"|fetch_attendance:emp_id }}
+			<label>{{ week.4|date:"M d" }}</label><br/>
+			{{ week.4|date:"Y-m-d"|fetch_attendance:emp_id|safe }}
 		</td>
 		<td>
-			{{ week.6|date:"M d" }}<br/>
-			{{ week.6|date:"Y-m-d"|fetch_attendance:emp_id }}
+			<label>{{ week.5|date:"M d" }}</label><br/>
+			{{ week.5|date:"Y-m-d"|fetch_attendance:emp_id|safe }}
+		</td>
+		<td>
+			<label>{{ week.6|date:"M d" }}</label><br/>
+			{{ week.6|date:"Y-m-d"|fetch_attendance:emp_id|safe }}
 		</td>
 	</tr>
 				{% endif %}
