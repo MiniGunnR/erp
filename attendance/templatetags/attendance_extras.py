@@ -4,6 +4,7 @@ register = template.Library()
 
 from datetime import datetime
 
+from core.models import Profile
 from ..models import Attn, Leave, OffDay
 from ..views import WEEKLY_OFF
 
@@ -45,3 +46,14 @@ def fetch_attendance(date, emp_id):
 
     return "{ent} {ext}".format(ent=ent, ext=ext)
 
+
+@register.filter(name='fetch_employee_name')
+def fetch_employee_name(emp_id):
+    try:
+        obj = Profile.objects.get(proximity_id=emp_id)
+    except Profile.DoesNotExist:
+        name = 'Cannot retrieve name.'
+    else:
+        name = obj.user.get_full_name()
+
+    return name

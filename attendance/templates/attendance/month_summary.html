@@ -1,4 +1,5 @@
 {% extends "attendance.html" %}
+{% load attendance_extras %}
 
 {% block nav-content %}
 <table class="table" cellpadding="10" cellspacing="0" border="1">
@@ -21,7 +22,7 @@
 	{% for employee in employee_attendances %}
 		{% for emp_id, data in employee.items %}
 		<tr>
-			<td>{{ emp_id }}</td>
+			<td>{{ emp_id|fetch_employee_name }}</td>
 			{% for item in data %}
 				{% if item.1 == 'O' %}
 					<td>OFF</td>
