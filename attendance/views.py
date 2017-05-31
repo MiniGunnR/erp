@@ -277,7 +277,7 @@ def populate(request):
             obj, created = Attn.objects.get_or_create(
                 emp_id=row[0],
                 dt=datetime.strptime(row[1].strip(), "%Y%m%d"),
-                tm=datetime.strptime(row[1].strip(), "%H%M%S"),
+                tm=datetime.strptime(row[2].strip(), "%H%M%S"),
                 )
 
     return HttpResponseRedirect(reverse('attendance:pull'))
