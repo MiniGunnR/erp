@@ -90,14 +90,14 @@ def month_summary(request, month, year):
                     else:
                         entry = lv.get_type_display()
                 else:
-                    entry = attn.time.strftime('%H:%M')
+                    entry = attn.tm.strftime('%H:%M')
 
                 try:
                     attn = Attn.objects.get(emp_id=employee, dt=dt, type='X')
                 except Attn.DoesNotExist:
                     exit = 'X'
                 else:
-                    exit = attn.time.strftime('%H:%M')
+                    exit = attn.tm.strftime('%H:%M')
 
                 item[1] = entry
                 item[2] = exit
@@ -131,12 +131,11 @@ def employee_summary(request, employee_id, year):
     leave = []
     weekly_off = []
     absent = []
-    futures = []
 
     for month in range(1, 13):
         months.append(calendar.month_abbr[month])
 
-        attns = Attn.objects.filter(dt__year=year, dt__month=month, type='N')
+        attns = Attn.objects.filter(emp_id=employee_id, dt__year=year, dt__month=month, type='N')
         pres.append(attns.count())
         late.append(len([1 for i in attns if i.late]))
 
@@ -254,16 +253,9 @@ def select_by_date(request, date):
         wr = csv.writer(resultFile, dialect='excel')
         wr.writerows(r.json())
 
-    # txt = r.text.replace('null', '')
-    # file = os.path.join(settings.BASE_DIR, "media", "attendance", "populate.csv")
-    #
-    # f = open(file, "w+")
-    # f.write(txt)
-    # f.close()
-
     return HttpResponseRedirect(reverse('attendance:populate'))
 
-import time
+
 def populate(request):
     """ Populates the database with attendances from populate.csv
     :param request:
@@ -273,11 +265,11 @@ def populate(request):
         reader = csv.reader(f)
         for row in reader:
             print(row)
-            row = row[0].split(", ")
+            st = row[0].split(", ")
             obj, created = Attn.objects.get_or_create(
-                emp_id=row[0],
-                dt=datetime.strptime(row[1], "%Y%m%d"),
-                tm=datetime.strptime(row[2], "%H%M%S")
+                emp_id=st[0],
+                dt=datetime.strptime(st[1], "%Y%m%d"),
+                tm=datetime.strptime(st[2], "%H%M%S")
                 )
 
     return HttpResponseRedirect(reverse('attendance:pull'))
