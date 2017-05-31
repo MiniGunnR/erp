@@ -32,7 +32,7 @@
 				{% else %}
 					<td>
 						<label class="label label-{% if item.3 %}warning{% elif not item.3 %}{% if item.1 == 'ABS' %}danger{% elif item.1 == 'OFF' %}default{% else %}success{% endif %}{% endif %}">{{ item.1 }}</label> <br/>
-						{% if not item.2 == 'X' %}{{ item.2 }}{% endif %}
+						{% if not item.2 == 'X' %}<label class="label label-primary">{{ item.2 }}</label>{% endif %}
 					</td>
 				{% endif %}
 				{% endfor %}
