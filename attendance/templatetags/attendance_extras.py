@@ -12,13 +12,13 @@ from ..views import WEEKLY_OFF
 @register.filter(name='fetch_attendance')
 def fetch_attendance(date, emp_id):
     try:
-        obj = Attn.objects.get(emp_id=emp_id, dt=date, type='N')
+        attn = Attn.objects.get(emp_id=emp_id, dt=date, type='N')
     except Attn.DoesNotExist:
         ent = 'ABS'
         if datetime.strptime(date, "%Y-%m-%d").weekday() == WEEKLY_OFF:
             ent = 'OFF'
     else:
-        ent = obj.tm.strftime("%H:%M")
+        ent = attn.tm.strftime("%H:%M")
     try:
         obj = Attn.objects.get(emp_id=emp_id, dt=date, type='X')
     except Attn.DoesNotExist:
@@ -49,7 +49,7 @@ def fetch_attendance(date, emp_id):
     elif ent == 'OFF':
         ent = '<label class="label label-default">' + ent + '</label>'
     else:
-        if obj.late:
+        if attn.late():
             ent = '<label class="label label-warning">' + ent + '</label>'
         else:
             ent = '<label class="label label-success">' + ent + '</label>'
