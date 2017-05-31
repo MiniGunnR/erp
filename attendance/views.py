@@ -270,11 +270,14 @@ def populate(request):
                 raise Http404('Cannot create variable st')
             else:
                 if len(st) == 3:
-                    obj, created = Attn.objects.get_or_create(
-                        emp_id=st[0],
-                        dt=datetime.strptime(st[1], "%Y%m%d"),
-                        tm=datetime.strptime(st[2], "%H%M%S")
-                        )
+                    try:
+                        obj, created = Attn.objects.get_or_create(
+                            emp_id=st[0],
+                            dt=datetime.strptime(st[1], "%Y%m%d"),
+                            tm=datetime.strptime(st[2], "%H%M%S")
+                            )
+                    except ValueError:
+                        raise Http404('Value Error !!!')
                 else:
                     raise Http404('Length of st is not 3')
 
