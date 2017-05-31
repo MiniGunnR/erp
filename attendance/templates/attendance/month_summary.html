@@ -31,8 +31,8 @@
 					<td>OFF</td>
 				{% else %}
 					<td>
-						{{ item.1 }} <br/>
-						{{ item.2 }}
+						<label class="label label-{% if item.3 %}warning{% elif not item.3 %}{% if item.1 == 'ABS' %}danger{% elif item.1 == 'OFF' %}default{% else %}success{% endif %}{% endif %}">{{ item.1 }}</label> <br/>
+						{% if not item.2 == 'X' %}{{ item.2 }}{% endif %}
 					</td>
 				{% endif %}
 				{% endfor %}

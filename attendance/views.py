@@ -88,8 +88,10 @@ def month_summary(request, month, year):
                         pass
                     else:
                         entry = lv.get_type_display()
+                    lt = False
                 else:
                     entry = attn.tm.strftime('%H:%M')
+                    lt = attn.late
 
                 try:
                     attn = Attn.objects.get(emp_id=employee, dt=dt, type='X')
@@ -100,6 +102,8 @@ def month_summary(request, month, year):
 
                 item[1] = entry
                 item[2] = exit
+                item.append(lt)
+
 
             # don't show any data for future dates
             elif dt > datetime.now().date() and item[1] == 'W':
