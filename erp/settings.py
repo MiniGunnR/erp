@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'attn',
+    'attendance',
     'core',
     'billing',
     'requisition',
