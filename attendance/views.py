@@ -264,8 +264,10 @@ def populate(request):
     with open(os.path.join(settings.BASE_DIR, 'media', 'attendance', 'populate.csv')) as f:
         reader = csv.reader(f)
         for row in reader:
-            print(row)
-            st = row[0].split(", ")
+            try:
+                st = row[0].split(", ")
+            except IndexError:
+                print('Cannot create variable \'st\'')
             obj, created = Attn.objects.get_or_create(
                 emp_id=st[0],
                 dt=datetime.strptime(st[1], "%Y%m%d"),
