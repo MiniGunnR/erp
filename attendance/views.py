@@ -268,11 +268,15 @@ def populate(request):
                 st = row[0].split(", ")
             except IndexError:
                 raise Http404('Cannot create variable st')
-            obj, created = Attn.objects.get_or_create(
-                emp_id=st[0],
-                dt=datetime.strptime(st[1], "%Y%m%d"),
-                tm=datetime.strptime(st[2], "%H%M%S")
-                )
+            else:
+                if len(st) == 3:
+                    obj, created = Attn.objects.get_or_create(
+                        emp_id=st[0],
+                        dt=datetime.strptime(st[1], "%Y%m%d"),
+                        tm=datetime.strptime(st[2], "%H%M%S")
+                        )
+                else:
+                    raise Http404('Length of st is not 3')
 
     return HttpResponseRedirect(reverse('attendance:pull'))
 
