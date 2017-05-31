@@ -13,11 +13,6 @@ from core.models import Profile
 from .models import Attn, Leave, OffDay
 from .forms import OffDayFrom, OffDayTo, OffDayName
 
-EMPLOYEES = [
-    '0001010702',
-    '0001010701',
-]
-
 WEEKLY_OFF = calendar.SATURDAY
 
 
@@ -70,7 +65,10 @@ def month_summary(request, month, year):
 
     employee_attendances = []
 
-    for employee in EMPLOYEES:
+    emp_ids = Profile.objects.all().values_list('proximity_id')
+    emp_ids = [id[0] for id in emp_ids if not id[0] == '0000000000']
+
+    for employee in emp_ids:
         employee_data = copy.deepcopy(month_dates)
         for item in employee_data:
             dt = date(year, month, item[0])
