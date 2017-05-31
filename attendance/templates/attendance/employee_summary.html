@@ -6,47 +6,6 @@
 <table class="table">
 	<thead>
 	<tr>
-		<th>Sun</th>
-		<th>Mon</th>
-		<th>Tue</th>
-		<th>Wed</th>
-		<th>Thu</th>
-		<th>Fri</th>
-		<th>Sat</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	{% for all in cal %}
-		{% for month in all %}
-			{% for week in month %}
-				{% if not forloop.counter == 1 or forloop.parentloop.counter == 1 %}
-	<tr>
-		<td>
-			{% if week.0|date:"d" == "01" %}
-				{{ week.0|date:"M d" }}<br/>
-				{% endif %}
-			{{ week.0|date:"Y-m-d"|fetch_attendance:emp_id }}
-		</td>
-		<td>{{ week.1|date:"Y-m-d"|fetch_attendance:emp_id }}</td>
-		<td>{{ week.2|date:"Y-m-d"|fetch_attendance:emp_id }}</td>
-		<td>{{ week.3|date:"Y-m-d"|fetch_attendance:emp_id }}</td>
-		<td>{{ week.4|date:"Y-m-d"|fetch_attendance:emp_id }}</td>
-		<td>{{ week.5|date:"Y-m-d"|fetch_attendance:emp_id }}</td>
-		<td>{{ week.6|date:"Y-m-d"|fetch_attendance:emp_id }}</td>
-	</tr>
-				{% endif %}
-			{% endfor %}
-		{% endfor %}
-	{% endfor %}
-	</tbody>
-</table>
-
-<hr/>
-
-<table class="table">
-	<thead>
-	<tr>
 		<th></th>
 		{% for month in months %}
 		<th>{{ month }}</th>
@@ -96,6 +55,64 @@
 		<td>{{ num }}</td>
 		{% endfor %}
 	</tr>
+	</tbody>
+</table>
+
+<hr/>
+
+<table class="table">
+	<thead>
+	<tr>
+		<th>Sun</th>
+		<th>Mon</th>
+		<th>Tue</th>
+		<th>Wed</th>
+		<th>Thu</th>
+		<th>Fri</th>
+		<th>Sat</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	{% for all in cal %}
+		{% for month in all %}
+			{% for week in month %}
+				{% if not forloop.counter == 1 or forloop.parentloop.counter == 1 %}
+	<tr>
+		<td>
+{#			{% if week.0|date:"d" == "01" %}#}
+				{{ week.0|date:"M d" }}<br/>
+{#				{% endif %}#}
+			{{ week.0|date:"Y-m-d"|fetch_attendance:emp_id }}
+		</td>
+		<td>{{ week.1|date:"M d" }}<br/>
+			{{ week.1|date:"Y-m-d"|fetch_attendance:emp_id }}
+		</td>
+		<td>
+			{{ week.2|date:"M d" }}<br/>
+			{{ week.2|date:"Y-m-d"|fetch_attendance:emp_id }}
+		</td>
+		<td>
+			{{ week.3|date:"M d" }}<br/>
+			{{ week.3|date:"Y-m-d"|fetch_attendance:emp_id }}
+		</td>
+		<td>
+			{{ week.4|date:"M d" }}<br/>
+			{{ week.4|date:"Y-m-d"|fetch_attendance:emp_id }}
+		</td>
+		<td>
+			{{ week.5|date:"M d" }}<br/>
+			{{ week.5|date:"Y-m-d"|fetch_attendance:emp_id }}
+		</td>
+		<td>
+			{{ week.6|date:"M d" }}<br/>
+			{{ week.6|date:"Y-m-d"|fetch_attendance:emp_id }}
+		</td>
+	</tr>
+				{% endif %}
+			{% endfor %}
+		{% endfor %}
+	{% endfor %}
 	</tbody>
 </table>
 {% endblock %}
