@@ -1,0 +1,40 @@
+{% extends "attendance.html" %}
+
+{% block nav_content %}
+<table class="table" cellpadding="10" cellspacing="0" border="1">
+	<thead>
+	<tr>
+		<th></th>
+		{% for date in month_dates %}
+			<th>
+			{% if date.1 == 'O' %}
+				<i>{{ date.0 }}</i>
+			{% else %}
+				{{ date.0 }}
+			{% endif %}
+			</th>
+			{% endfor %}
+	</tr>
+	</thead>
+
+	<tbody>
+	{% for employee in employee_attendances %}
+		{% for emp_id, data in employee.items %}
+		<tr>
+			<td>{{ emp_id }}</td>
+			{% for item in data %}
+				{% if item.1 == 'O' %}
+					<td>OFF</td>
+				{% else %}
+					<td>
+						{{ item.1 }} <br/>
+						{{ item.2 }}
+					</td>
+				{% endif %}
+				{% endfor %}
+		</tr>
+			{% endfor %}
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

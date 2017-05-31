@@ -1,0 +1,7 @@
+{% extends "attendance.html" %}
+
+{% block nav-content %}
+	<a href="{% url 'attendance:pull' %}">Pull Data</a> <br/>
+	<a href="{% url 'attendance:off_day_entry' %}">Off Day Entry</a>
+{% endblock %}
+

@@ -1,0 +1,13 @@
+{% extends "base_template.html" %}
+
+{% block main %}
+	<ul class="nav nav-tabs">
+        <li><a href="{% url 'attendance:employees' %}">Employees</a></li>
+        <li><a href="{% url 'attendance:month_summary' 5 2017 %}">Month</a></li>
+        <li><a href="{% url 'attendance:action' %}">Action</a></li>
+	</ul>
+
+	{% block nav-content %}
+		<h3>Please click on one of the above links.</h3>
+	{% endblock %}
+{% endblock %}

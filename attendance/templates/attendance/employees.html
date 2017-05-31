@@ -1,0 +1,7 @@
+{% extends "attendance.html" %}
+
+{% block nav_content %}
+	{% for id in emp_ids %}
+		<a href="{% url 'attendance:employee_summary' id year %}">{{ id }}</a> <br/>
+		{% endfor %}
+{% endblock %}

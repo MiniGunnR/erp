@@ -1,0 +1,14 @@
+{% extends "attendance.html" %}
+
+{% block nav_content %}
+	<h3>Off Day Entry</h3>
+<form method="post">
+	{% csrf_token %}
+
+	<p>{{ day_name }}</p>
+	<p>{{ from_form }}</p>
+	<p>{{ to_form }}</p>
+
+	<input class="btn btn-default" type="submit" value="Submit" />
+</form>
+{% endblock %}

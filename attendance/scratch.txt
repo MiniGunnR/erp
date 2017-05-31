@@ -1,0 +1,42 @@
+MONTH_DATES = [
+    [Date, Type of day, Tooltip details]
+    ...
+    [1, 'O', 'May Day'],
+    [2, 'W', 'Office Day'],
+    [3, 'W', 'Office Day'],
+    [4, 'W', 'Future Day'],
+    [5, 'W', 'Future Day'],
+    [6, 'O', 'Weekly Off Day'],
+]
+
+{
+    '0001010702':
+
+    [
+        [1, 'OFF', ''],
+        [2, '12:43', ''],
+        [3, '10:22', '17:35'],
+        [4, 'ABS', ''],
+        [5, 'SICK', ''],
+    ]
+}
+
+# # # # # # # # # # # #
+
+Template Filter for Attendance
+``````````````````````````````
+* Check for Leave
+* Check for Off Day
+* Check for Attendance
+* Check for Weekly Off Day
+
+# # # # # # # # # # # #
+
+* Employee
+* Month
+* Action
+
+# # # # # # # # # # # #
+
+Month Days - Current Date - Leave -
+Off - Sat
