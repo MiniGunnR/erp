@@ -23,6 +23,7 @@ WEEKLY_OFF = calendar.SATURDAY
 
 def employees(request):
     emp_ids = Profile.objects.all().values_list('proximity_id')
+    emp_ids = [id[0] for id in emp_ids]
 
     c = {
         "emp_ids": emp_ids,
