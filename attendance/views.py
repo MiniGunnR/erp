@@ -9,7 +9,7 @@ from django.shortcuts import render
 from django.core.urlresolvers import reverse
 from django.conf import settings
 
-
+from core.models import Profile
 from .models import Attn, Leave, OffDay
 from .forms import OffDayFrom, OffDayTo, OffDayName
 
@@ -22,7 +22,7 @@ WEEKLY_OFF = calendar.SATURDAY
 
 
 def employees(request):
-    emp_ids = EMPLOYEES
+    emp_ids = Profile.objects.all().values('proximity_id')
 
     c = {
         "emp_ids": emp_ids,
