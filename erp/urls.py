@@ -8,7 +8,7 @@ urlpatterns = [
 
     url(r'^', include('core.urls', namespace='core')),
 
-    url(r'^attn/', include('attn.urls', namespace='attn')),
+    url(r'^attendance/', include('attendance.urls', namespace='attendance')),
 
     url(r'^billing/', include('billing.urls', namespace='billing')),
 
