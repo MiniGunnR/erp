@@ -3,6 +3,6 @@
 
 {% block nav-content %}
 	{% for id in emp_ids %}
-		<a href="{% url 'attendance:employee_summary' id year %}">{{ id|fetch_employee_name }}</a> <br/>
+		<a href="{% url 'attendance:employee_summary' id year %}">{{ id }} | {{ id|fetch_employee_name }}</a> <br/>
 		{% endfor %}
 {% endblock %}

@@ -22,7 +22,10 @@
 	{% for employee in employee_attendances %}
 		{% for emp_id, data in employee.items %}
 		<tr>
-			<td>{{ emp_id|fetch_employee_name }}</td>
+			<td>
+				{{ emp_id }} <br/>
+				{{ emp_id|fetch_employee_name }}
+			</td>
 			{% for item in data %}
 				{% if item.1 == 'O' %}
 					<td>OFF</td>
