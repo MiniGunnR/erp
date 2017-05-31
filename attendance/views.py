@@ -3,7 +3,7 @@ import calendar, copy, os, csv, requests
 from datetime import date, datetime, timedelta
 
 from django import forms
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.utils.dates import MONTHS
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
@@ -267,7 +267,7 @@ def populate(request):
             try:
                 st = row[0].split(", ")
             except IndexError:
-                print('Cannot create variable \'st\'')
+                raise Http404('Cannot create variable st')
             obj, created = Attn.objects.get_or_create(
                 emp_id=st[0],
                 dt=datetime.strptime(st[1], "%Y%m%d"),
