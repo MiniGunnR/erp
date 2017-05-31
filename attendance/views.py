@@ -263,7 +263,7 @@ def select_by_date(request, date):
 
     return HttpResponseRedirect(reverse('attendance:populate'))
 
-
+import time
 def populate(request):
     """ Populates the database with attendances from populate.csv
     :param request:
@@ -276,8 +276,8 @@ def populate(request):
             row = row[0].split(", ")
             obj, created = Attn.objects.get_or_create(
                 emp_id=row[0],
-                dt=datetime.strptime(row[1], "%Y%m%d"),
-                tm=datetime.strptime(row[2], "%H%M%S"),
+                dt=time.strptime(row[1], "%Y%m%d"),
+                tm=time.strptime(row[2], "%H%M%S"),
                 )
 
     return HttpResponseRedirect(reverse('attendance:pull'))
