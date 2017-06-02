@@ -2,7 +2,11 @@
 {% load attendance_extras %}
 
 {% block nav-content %}
-	<h3>{{ month_name }} <small>{{ year }}</small></h3>
+	<h3>
+		<a href="{% url 'attendance:month_summary' prev_month prev_year %}" class="btn btn-xs invis">prev</a>
+		{{ month_name }} <small>{{ year }}</small>
+		<a href="{% url 'attendance:month_summary' next_month next_year %}" class="btn btn-xs invis">next</a>
+	</h3>
 
 	<table class="table invis">
 		<thead>

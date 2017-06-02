@@ -76,23 +76,30 @@ def fetch_employee_name(emp_id):
 
 @register.filter(name='summary')
 def summary(data):
-    present = len([1 for i in data if not i[3] and not i[1] == 'OFF' and not i[1] == 'ABS'])
-    late = len([1 for i in data if i[3] and not i[1] == 'OFF'])
-    absent = len([1 for i in data if i[1] == 'ABS'])
+    try:
+        present = len([1 for i in data if not i[3] and not i[1] == 'OFF' and not i[1] == 'ABS'])
+        late = len([1 for i in data if i[3] and not i[1] == 'OFF'])
+        absent = len([1 for i in data if i[1] == 'ABS'])
+    except IndexError:
+        return "<label class='label label-success'>PRS: 0</label><br/>" \
+               "<label class='label label-warning'>LT: 0</label><br/>" \
+               "<label class='label label-danger'>ABS: 0</label>"
     return "<label class='label label-success'>PRS: {present}</label><br/>" \
            "<label class='label label-warning'>LT: {late}</label><br/>" \
-           "<label class='label label-danger'>ABS: {absent}</label>".format(
-        present=present,
-        late=late,
-        absent=absent
-    )
+           "<label class='label label-danger'>ABS: {absent}</label>".format(present=present, late=late, absent=absent)
 
 
 @register.filter(name='summary2')
 def summary2(data):
-    present = len([1 for i in data if not i[3] and not i[1] == 'OFF' and not i[1] == 'ABS'])
-    late = len([1 for i in data if i[3] and not i[1] == 'OFF'])
-    absent = len([1 for i in data if i[1] == 'ABS'])
+    try:
+        present = len([1 for i in data if not i[3] and not i[1] == 'OFF' and not i[1] == 'ABS'])
+        late = len([1 for i in data if i[3] and not i[1] == 'OFF'])
+        absent = len([1 for i in data if i[1] == 'ABS'])
+    except IndexError:
+        return '<td></td>' \
+               '<td></td>' \
+               '<td></td>'
+
     response = '<td>' + str(present) + '</td>' \
                '<td>' + str(late) + '</td>' \
                '<td>' + str(absent) + '</td>'

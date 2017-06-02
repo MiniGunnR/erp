@@ -182,12 +182,33 @@ def month_summary(request, month, year):
 
     # print(employee_attendances)
 
+    if month == 1:
+        prev_month = str(12)
+        prev_year = str(year - 1)
+    else:
+        prev_month = str(month - 1)
+        prev_year = year
+
+    if month == 12:
+        next_month = str(1)
+        next_year = str(year + 1)
+    else:
+        next_month = str(month + 1)
+        next_year = year
+
     c = {
         "month_dates": month_dates,
         "employee_attendances": employee_attendances,
         "month_active": 'active',
         "month_name": month_name,
         "year": year,
+
+        "prev_month": prev_month,
+        "prev_year": prev_year,
+
+        "next_month": next_month,
+        "next_year": next_year,
+
     }
     return render(request, "attendance/month_summary.html", c)
 
