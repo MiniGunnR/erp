@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'billing',
     'requisition',
     'msgs',
-    'payroll',
 ]
 
 MIDDLEWARE = [
