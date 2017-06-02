@@ -1,5 +1,13 @@
+.vis {
+    display: none;
+}
+
 @media print {
     .invis {
         display: none;
+    }
+
+    .vis {
+        display: table;
     }
 }
