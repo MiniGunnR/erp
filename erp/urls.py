@@ -17,8 +17,6 @@ urlpatterns = [
     url(r'^requisition/', include('requisition.urls', namespace='requisition')),
 
     url(r'^msgs/', include('msgs.urls', namespace='msgs')),
-
-    url(r'^payroll/', include('payroll.urls', namespace='payroll')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
