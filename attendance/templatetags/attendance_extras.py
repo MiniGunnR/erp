@@ -87,3 +87,13 @@ def summary(data):
         absent=absent
     )
 
+
+@register.filter(name='summary2')
+def summary2(data):
+    present = len([1 for i in data if not i[3] and not i[1] == 'OFF' and not i[1] == 'ABS'])
+    late = len([1 for i in data if i[3] and not i[1] == 'OFF'])
+    absent = len([1 for i in data if i[1] == 'ABS'])
+    response = '<td>' + str(present) + '</td>' \
+               '<td>' + str(late) + '</td>' \
+               '<td>' + str(absent) + '</td>'
+    return response

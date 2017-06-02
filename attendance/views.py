@@ -95,6 +95,7 @@ def employee_summary(request, employee_id, year):
 
 
 def month_summary(request, month, year):
+    month_name = calendar.month_name[int(month)]
     # convert variables to int
     month = int(month)
     year = int(year)
@@ -185,6 +186,8 @@ def month_summary(request, month, year):
         "month_dates": month_dates,
         "employee_attendances": employee_attendances,
         "month_active": 'active',
+        "month_name": month_name,
+        "year": year,
     }
     return render(request, "attendance/month_summary.html", c)
 
