@@ -6,6 +6,7 @@
 	<thead>
 	<tr>
 		<th></th>
+		<th>Summary</th>
 		{% for date in month_dates %}
 			<th>
 			{% if date.1 == 'O' %}
@@ -23,9 +24,10 @@
 		{% for emp_id, data in employee.items %}
 		<tr>
 			<td>
-				{{ emp_id }} <br/>
-				{{ emp_id|fetch_employee_name }}
+				<a href="#">{{ emp_id }} <br/> {# href = profile view #}
+				{{ emp_id|fetch_employee_name }}</a>
 			</td>
+			<td>{{ data|summary|safe }}</td>
 			{% for item in data %}
 				{% if item.1 == 'O' %}
 					<td>OFF</td>

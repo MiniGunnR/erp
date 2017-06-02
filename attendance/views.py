@@ -23,8 +23,75 @@ def employees(request):
     c = {
         "emp_ids": emp_ids,
         "year": datetime.now().year,
+        "employees_active": 'active',
     }
     return render(request, "attendance/employees.html", c)
+
+
+def employee_summary(request, employee_id, year):
+    year = int(year)
+
+    cal = calendar.Calendar(firstweekday=6).yeardatescalendar(year, width=12)
+
+    months = []
+
+    pres = []
+    late = []
+    off = []
+    leave = []
+    weekly_off = []
+    absent = []
+
+    for month in range(1, 13):
+        months.append(calendar.month_abbr[month])
+
+        attns = Attn.objects.filter(emp_id=employee_id, dt__year=year, dt__month=month, type='N')
+        pres.append(attns.count())
+        late.append(len([1 for i in attns if i.late]))
+
+        matrix = calendar.monthcalendar(year,month)
+        saturdays = sum(1 for x in matrix if x[calendar.SATURDAY] != 0)
+        working_sats = len([i for i in attns if i.saturday()])
+        saturdays -= working_sats
+        weekly_off.append(saturdays)
+
+        offs = OffDay.objects.filter(date__month=month)
+        off.append(offs.count())
+
+        leaves = Leave.objects.filter(date__month=month)
+        leave.append(leaves.count())
+
+        days_in_month = calendar.monthrange(year, month)[1]
+        current_month = date.today().month
+        if month == current_month:
+            remaining_leaves = leaves.filter(date__day__gt=date.today().day).count()
+            remaining_offs = offs.filter(date__gt=date.today()).count()
+            remaining_sats = len([1 for i in range(date.today().day + 1, days_in_month + 1) if date.today() == 5])
+            future_days = days_in_month - date.today().day - remaining_leaves - remaining_offs - remaining_sats
+
+        if month > current_month:
+            absent.append(0)
+        elif month == current_month:
+            absent.append(days_in_month - attns.count() - saturdays - leaves.count() - offs.count() - future_days)
+        else:
+            absent.append(days_in_month - attns.count() - saturdays - leaves.count() - offs.count())
+
+    c = {
+        "cal": cal,
+        "emp_id": employee_id,
+        "employees_active": 'active',
+
+        "months": months,
+
+        "pres": pres,
+        "late": late,
+        "off": off,
+        "leave": leave,
+        "weekly_off": weekly_off,
+        "absent": absent,
+    }
+
+    return render(request, "attendance/employee_summary.html", c)
 
 
 def month_summary(request, month, year):
@@ -117,73 +184,9 @@ def month_summary(request, month, year):
     c = {
         "month_dates": month_dates,
         "employee_attendances": employee_attendances,
+        "month_active": 'active',
     }
     return render(request, "attendance/month_summary.html", c)
-
-
-def employee_summary(request, employee_id, year):
-    year = int(year)
-
-    cal = calendar.Calendar(firstweekday=6).yeardatescalendar(year, width=12)
-
-    months = []
-
-    pres = []
-    late = []
-    off = []
-    leave = []
-    weekly_off = []
-    absent = []
-
-    for month in range(1, 13):
-        months.append(calendar.month_abbr[month])
-
-        attns = Attn.objects.filter(emp_id=employee_id, dt__year=year, dt__month=month, type='N')
-        pres.append(attns.count())
-        late.append(len([1 for i in attns if i.late]))
-
-        matrix = calendar.monthcalendar(year,month)
-        saturdays = sum(1 for x in matrix if x[calendar.SATURDAY] != 0)
-        working_sats = len([i for i in attns if i.saturday()])
-        saturdays -= working_sats
-        weekly_off.append(saturdays)
-
-        offs = OffDay.objects.filter(date__month=month)
-        off.append(offs.count())
-
-        leaves = Leave.objects.filter(date__month=month)
-        leave.append(leaves.count())
-
-        days_in_month = calendar.monthrange(year, month)[1]
-        current_month = date.today().month
-        if month == current_month:
-            remaining_leaves = leaves.filter(date__day__gt=date.today().day).count()
-            remaining_offs = offs.filter(date__gt=date.today()).count()
-            remaining_sats = len([1 for i in range(date.today().day + 1, days_in_month + 1) if date.today() == 5])
-            future_days = days_in_month - date.today().day - remaining_leaves - remaining_offs - remaining_sats
-
-        if month > current_month:
-            absent.append(0)
-        elif month == current_month:
-            absent.append(days_in_month - attns.count() - saturdays - leaves.count() - offs.count() - future_days)
-        else:
-            absent.append(days_in_month - attns.count() - saturdays - leaves.count() - offs.count())
-
-    c = {
-        "cal": cal,
-        "emp_id": employee_id,
-
-        "months": months,
-
-        "pres": pres,
-        "late": late,
-        "off": off,
-        "leave": leave,
-        "weekly_off": weekly_off,
-        "absent": absent,
-    }
-
-    return render(request, "attendance/employee_summary.html", c)
 
 
 def off_day_entry(request):
@@ -213,12 +216,16 @@ def off_day_entry(request):
         "from_form": from_form,
         "to_form": to_form,
         "day_name": day_name,
+        "action_active": 'active',
     }
     return render(request, "attendance/off_day_entry.html", c)
 
 
 def action(request):
-    return render(request, "attendance/action.html")
+    c = {
+        "action_active": 'active',
+    }
+    return render(request, "attendance/action.html", c)
 
 
 def pull(request):
@@ -236,6 +243,7 @@ def pull(request):
     c = {
         "months": months,
         "days": days,
+        "action_active": 'active',
     }
     return render(request, "attendance/pull.html", c)
 

@@ -40,3 +40,25 @@ Template Filter for Attendance
 
 Month Days - Current Date - Leave -
 Off - Sat
+
+# # # # # # # # # # # #
+
+Month View Summary
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

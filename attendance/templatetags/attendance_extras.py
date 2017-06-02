@@ -72,3 +72,18 @@ def fetch_employee_name(emp_id):
         name = obj.user.get_full_name()
 
     return name
+
+
+@register.filter(name='summary')
+def summary(data):
+    present = len([1 for i in data if not i[3] and not i[1] == 'OFF' and not i[1] == 'ABS'])
+    late = len([1 for i in data if i[3] and not i[1] == 'OFF'])
+    absent = len([1 for i in data if i[1] == 'ABS'])
+    return "<label class='label label-success'>PRS: {present}</label><br/>" \
+           "<label class='label label-warning'>LT: {late}</label><br/>" \
+           "<label class='label label-danger'>ABS: {absent}</label>".format(
+        present=present,
+        late=late,
+        absent=absent
+    )
+

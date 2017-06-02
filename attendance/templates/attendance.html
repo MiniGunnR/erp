@@ -2,9 +2,9 @@
 
 {% block main %}
 	<ul class="nav nav-tabs">
-        <li><a href="{% url 'attendance:employees' %}">Employees</a></li>
-        <li><a href="{% url 'attendance:month_summary' 5 2017 %}">Month</a></li>
-        <li><a href="{% url 'attendance:action' %}">Action</a></li>
+        <li class="{{ employees_active }}"><a href="{% url 'attendance:employees' %}">Employees</a></li>
+        <li class="{{ month_active }}"><a href="{% url 'attendance:month_summary' 5 2017 %}">Month</a></li>
+        <li class="{{ action_active }}"><a href="{% url 'attendance:action' %}">Action</a></li>
 	</ul>
 
 	{% block nav-content %}
