@@ -7,17 +7,6 @@ from django.contrib.auth.models import User
 from core.models import Company
 
 
-# class Company(models.Model):
-#     name = models.CharField(max_length=100)
-#     address = models.CharField(max_length=255)
-#
-#     def __str__(self):
-#         return self.name
-#
-#     class Meta:
-#         verbose_name_plural = 'Companies'
-
-
 class Vendor(Timestamped):
     name = models.CharField(max_length=255)
     address_line_1 = models.CharField(max_length=100)
@@ -42,6 +31,8 @@ class Requisition(Timestamped):
 
     total = models.FloatField(blank=True, null=True, default=0)
 
+    read_only = models.BooleanField(default=False)
+
     def __str__(self):
         return "Requisition {0}".format(str(self.id))
 
@@ -49,6 +40,8 @@ class Requisition(Timestamped):
         return reverse("requisition:requisition-detail-view", args=[str(self.id)])
 
     def view_work_order(self):
+        self.read_only = True
+        self.save()
         return reverse("requisition:purchase-order", args=[str(self.id)])
 
 

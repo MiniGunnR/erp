@@ -16,3 +16,4 @@ def decrease_total(instance, **kwargs):
     total = Item.objects.filter(requisition=instance.requisition).aggregate(Sum('amount'))
     instance.requisition.total = total['amount__sum']
     instance.requisition.save()
+

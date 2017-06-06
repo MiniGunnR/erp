@@ -49,10 +49,13 @@ def fetch_attendance(date, emp_id):
     elif ent == 'OFF':
         ent = '<label class="label label-default">' + ent + '</label>'
     else:
-        if attn.late:
-            ent = '<label class="label label-warning">' + ent + '</label>'
+        if 'attn' in locals():
+            if attn.late:
+                ent = '<label class="label label-warning">' + ent + '</label>'
+            else:
+                ent = '<label class="label label-success">' + ent + '</label>'
         else:
-            ent = '<label class="label label-success">' + ent + '</label>'
+            ent = '<label class="label label-default">' + ent + '</label>'
 
     if ext == 'X':
         ext = ''

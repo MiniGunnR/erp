@@ -1,3 +1,17 @@
-<a href="{% url 'requisition:create-requisition' %}">Create</a>
-<hr/>
+{% extends "requisition.html" %}
 
+{% block main %}
+	{% if messages %}
+	    {% for message in messages %}
+	        <p>{{ message }}</p>
+	    {% endfor %}
+		<hr/>
+	{% endif %}
+
+	<a href="{% url 'requisition:create-requisition' %}">Create</a>
+	<hr/>
+
+	{% for obj in objs %}
+		<a href="{% if obj.read_only == True %}{{ obj.view_requisition }}{% else %}{% url 'requisition:edit-requisition' obj.pk %}{% endif %}">{{ obj }}</a> <a href="{{ obj.view_work_order }}">View WO</a> <br/>
+		{% endfor %}
+{% endblock %}

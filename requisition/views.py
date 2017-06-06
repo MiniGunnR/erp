@@ -1,16 +1,129 @@
 from django.shortcuts import render
 from django.views.generic import DetailView
 from datetime import datetime
+from django.contrib.auth.decorators import login_required
+from django.forms.formsets import formset_factory
+from django.db import IntegrityError, transaction
+from django.contrib import messages
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
 
 from .models import Requisition, Item, PurchaseOrder
+from .forms import RequisitionForm, ItemForm
 
 
 def home(request):
-    return render(request, "requisition/home.html")
+    objs = Requisition.objects.all()
+    c = {
+        "objs": objs,
+    }
+    return render(request, "requisition/home.html", c)
 
 
+@login_required
 def create_requisition(request):
-    return render(request, "requisition/create-requisition.html")
+    ItemFormSet = formset_factory(ItemForm)
+
+    if request.method == "POST":
+        requisition_form = RequisitionForm(request.POST)
+        item_formset = ItemFormSet(request.POST)
+
+        if requisition_form.is_valid() and item_formset.is_valid():
+            company = requisition_form.cleaned_data.get('company')
+            issue_date = requisition_form.cleaned_data.get('issue_date')
+            department = requisition_form.cleaned_data.get('department')
+            vendor = requisition_form.cleaned_data.get('vendor')
+            requisition = Requisition.objects.create(company=company, issue_date=issue_date, department=department, vendor=vendor, created_by=request.user, modified_by=request.user)
+
+            new_items = []
+
+            for item_form in item_formset:
+                name = item_form.cleaned_data.get('name')
+                quantity = item_form.cleaned_data.get('quantity')
+                price = item_form.cleaned_data.get('price')
+                amount = item_form.cleaned_data.get('amount')
+
+                if name and quantity and price:
+                    new_items.append(Item(requisition=requisition, name=name, quantity=quantity, price=price))
+
+            try:
+                with transaction.atomic():
+                    for item in new_items:
+                        item.save()
+
+                    messages.success(request, 'You have created a new requisition.')
+                    return HttpResponseRedirect(reverse('requisition:home'))
+            except IntegrityError:
+                messages.error(request, 'There was an error saving your requisition.')
+                return HttpResponseRedirect(reverse('requisition:home'))
+    else:
+        requisition_form = RequisitionForm()
+        item_formset = ItemFormSet()
+
+    c = {
+        "requisition_form": requisition_form,
+        "item_formset": item_formset,
+    }
+    return render(request, "requisition/create-requisition.html", c)
+
+
+@login_required
+def edit_requisition(request, pk):
+    requisition = Requisition.objects.get(id=pk)
+
+    ItemFormSet = formset_factory(ItemForm, extra=0)
+
+    requisition_items = Item.objects.filter(requisition=requisition)
+    requisition_data = {'company': requisition.company, 'issue_date': requisition.issue_date, 'department': requisition.department, 'vendor': requisition.vendor}
+    item_data = [{'name': i.name, 'quantity': i.quantity, 'price': i.price} for i in requisition_items]
+
+    if request.method == "POST":
+        requisition_form = RequisitionForm(request.POST)
+        item_formset = ItemFormSet(request.POST)
+
+        if requisition_form.is_valid() and item_formset.is_valid():
+            company = requisition_form.cleaned_data.get('company')
+            issue_date = requisition_form.cleaned_data.get('issue_date')
+            department = requisition_form.cleaned_data.get('department')
+            vendor = requisition_form.cleaned_data.get('vendor')
+
+            requisition.company = company
+            requisition.issue_date = issue_date
+            requisition.department = department
+            requisition.vendor = vendor
+            requisition.modified_by = request.user
+            requisition.save()
+
+            new_items = []
+
+            for item_form in item_formset:
+                name = item_form.cleaned_data.get('name')
+                quantity = item_form.cleaned_data.get('quantity')
+                price = item_form.cleaned_data.get('price')
+
+                if name and quantity and price:
+                    new_items.append(Item(requisition=requisition, name=name, quantity=quantity, price=price))
+
+            try:
+                with transaction.atomic():
+                    Item.objects.filter(requisition=requisition).delete()
+                    for item in new_items:
+                        item.save()
+
+                    messages.success(request, 'You have created a new requisition.')
+                    return HttpResponseRedirect(reverse('requisition:home'))
+            except IntegrityError:
+                messages.error(request, 'There was an error saving your requisition.')
+                return HttpResponseRedirect(reverse('requisition:home'))
+    else:
+        requisition_form = RequisitionForm(initial=requisition_data)
+        item_formset = ItemFormSet(initial=item_data)
+
+    c = {
+        "requisition_form": requisition_form,
+        "item_formset": item_formset,
+    }
+    return render(request, "requisition/edit-requisition.html", c)
 
 
 class RequisitionDetailView(DetailView):
