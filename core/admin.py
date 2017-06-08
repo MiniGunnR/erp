@@ -4,11 +4,11 @@ from .models import Department, Profile, Company, Designation
 from django.contrib.auth.models import User
 
 
-class UserAdmin(admin.ModelAdmin):
-    save_on_top = True
-
-admin.site.unregister(User)
-admin.site.register(User, UserAdmin)
+# class UserAdmin(admin.ModelAdmin):
+#     save_on_top = True
+#
+# admin.site.unregister(User)
+# admin.site.register(User, UserAdmin)
 
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'proximity_id',)
