@@ -4,7 +4,10 @@ from django.conf import settings
 
 from .models import Profile
 
+
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_profile(instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
+        instance.email = instance.username + '@groupdesignace.com'
+        instance.save()
