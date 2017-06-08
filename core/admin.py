@@ -1,6 +1,16 @@
 from django.contrib import admin
 
 from .models import Department, Profile, Company, Designation
+from django.contrib.auth.models import User
+from django.contrib.auth.admin import UserAdmin
+
+
+class UzerAdmin(UserAdmin):
+    model = User
+    save_on_top = True
+
+admin.site.unregister(User)
+admin.site.register(User, UzerAdmin)
 
 
 class ProfileAdmin(admin.ModelAdmin):
