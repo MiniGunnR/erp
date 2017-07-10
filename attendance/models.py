@@ -63,6 +63,26 @@ class Attn(Timestamp):
         return "{emp_id} : {dt} => {tm}".format(emp_id=self.emp_id, dt=self.dt, tm=self.tm)
 
 
+class Default(Timestamp):
+    attribute = models.CharField(max_length=50, unique=True)
+    value = models.CharField(max_length=255)
+
+    def __str__(self):
+        return "{attribute} --> {value}".format(attribute=self.attribute, value=self.value)
+
+
+class EmployeeLeave(Timestamp):
+    emp_id = models.CharField(
+        max_length=10,
+        unique=True
+    )
+    sick_leave = models.SmallIntegerField()
+    casual_leave = models.SmallIntegerField()
+
+    def __str__(self):
+        return "Employee: {emp_id}, SL: {sl}, CL: {cl}".format(emp_id=self.emp_id, sl=self.sick_leave, cl=self.casual_leave)
+
+
 LEAVE_TYPE_CHOICES = (
     ('S', 'Sick'),
     ('C', 'Casual'),
