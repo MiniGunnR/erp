@@ -1,0 +1,21 @@
+{% extends "attendance.html" %}
+{% load attendance_extras %}
+
+{% block nav-content %}
+	<h3>Leave Entry for {{ employee_id|fetch_employee_name }}</h3>
+	<form method="post">
+		{% csrf_token %}
+
+		<p>{{ leave_type }}</p>
+		<p>{{ from_form }}</p>
+		<p>{{ to_form }}</p>
+
+		<input class="btn btn-default" type="submit" value="Submit" />
+	</form>
+
+	<hr/>
+
+	{% for leave in leave_objs %}
+		{{ leave }} <br/>
+		{% endfor %}
+{% endblock %}

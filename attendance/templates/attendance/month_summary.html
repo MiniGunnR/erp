@@ -1,8 +1,11 @@
 {% extends "attendance.html" %}
+{% load static from staticfiles %}
 {% load attendance_extras %}
 
 {% block nav-content %}
-	<h3>
+	{% block print_css %}<link href="{% static 'css/print_legal.css' %}" rel="stylesheet">{% endblock %}
+
+	<h3 class="invis">
 		<a href="{% url 'attendance:month_summary' prev_month prev_year %}" class="btn btn-xs invis">prev</a>
 		{{ month_name }} <small>{{ year }}</small>
 		<a href="{% url 'attendance:month_summary' next_month next_year %}" class="btn btn-xs invis">next</a>
@@ -31,7 +34,8 @@
 			<tr>
 				<td>
 					<a href="{% url 'attendance:employee_summary' emp_id current_year %}">{{ emp_id }} <br/> {# href = profile view #}
-					{{ emp_id|fetch_employee_name }}</a>
+					{{ emp_id|fetch_employee_name }}</a> <br/>
+					<a href="{% url 'attendance:job_card' emp_id month year %}">Job Card</a>
 				</td>
 				<td>{{ data|summary|safe }}</td>
 				{% for item in data %}
@@ -39,7 +43,7 @@
 						<td>OFF</td>
 					{% else %}
 						<td>
-							<label class="label label-{% if item.3 %}warning{% elif not item.3 %}{% if item.1 == 'ABS' %}danger{% elif item.1 == 'OFF' %}default{% else %}success{% endif %}{% endif %}">{{ item.1 }}</label> <br/>
+							<label class="label label-{% if item.3 %}warning{% elif not item.3 %}{% if item.1 == 'ABS' %}danger{% elif item.1 == 'OFF' or item.1 == 'Casual' or ':' not in item.1 %}default{% else %}success{% endif %}{% endif %}">{{ item.1 }}</label> <br/>
 							{% if not item.2 == 'X' %}<label class="label label-primary">{{ item.2 }}</label>{% endif %}
 						</td>
 					{% endif %}
@@ -50,28 +54,51 @@
 		</tbody>
 	</table>
 
-	<table class="table vis">
-		<thead>
-		<tr>
-			<th></th>
-			<th>Present</th>
-			<th>Late</th>
-			<th>Absent</th>
-		</tr>
-		</thead>
+	<div class="vis">
+		<h3 class="text-center">{{ dal_obj.name }}</h3>
+		<p class="text-center">{{ dal_obj.address_line_1 }} {{ dal_obj.address_line_2 }}</p>
+		<h4 class="text-center">Attendance Register</h4>
+		<h4 class="text-center">Month: {{ month_name }} {{ year }}</h4>
 
-		<tbody>
+		<table class="table">
+			<tr>
+				<td>S.L.</td>
+				<td>Emp ID</td>
+				<td>Name</td>
+				<td>Designation</td>
+				{% for date in month_dates %}
+				<td>
+					{{ date.0 }}
+				</td>
+				{% endfor %}
+				<td>Pre</td>
+				<td>Abs</td>
+				<td>Late</td>
+				<td>Leave</td>
+				<td>W.H</td>
+				<td>F.H</td>
+			</tr>
+
 		{% for employee in employee_attendances %}
 			{% for emp_id, data in employee.items %}
-		<tr>
-			<td>
-				{{ emp_id }}<br/>
-				{{ emp_id|fetch_employee_name }}
-			</td>
-			{{ data|summary2|safe }}
-		</tr>
-				{% endfor %}
+			<tr>
+				<td></td>
+				<td>{{ emp_id }}</td>
+				<td>{{ emp_id|fetch_employee_name }}</td>
+				<td>employee designation</td>
+				{% for item in data %}
+					{% if item.1 == 'O' %}
+						<td>W.H</td>
+					{% else %}
+						<td>
+							{% if item.3 %}L{% elif not item.3 %}{% if item.1 == 'ABS' %}A{% elif item.1 == 'OFF' %}WH{% elif item.1 == 'Casual' %}CL{% elif item.1 == 'Sick' %}SL{% else %}P{% endif %}{% endif %}
+						</td>
+						{% endif %}
+					{% endfor %}
+				{{ data|summary_print|safe }}
+			</tr>
 			{% endfor %}
-		</tbody>
-	</table>
+		{% endfor %}
+		</table>
+	</div>
 {% endblock %}

@@ -103,6 +103,9 @@ class Leave(Timestamp):
     class Meta:
         unique_together = ('emp_id', 'date')
 
+    def __str__(self):
+        return "{type} {date}".format(type=self.get_type_display(), date=self.date)
+
 
 class OffDay(Timestamp):
     date = models.DateField()

@@ -11,7 +11,8 @@ from django.conf import settings
 
 from core.models import Profile
 from .models import Attn, Leave, OffDay
-from .forms import OffDayFrom, OffDayTo, OffDayName
+from core.models import Company
+from .forms import OffDayFrom, OffDayTo, OffDayName, LeaveFrom, LeaveTo, LeaveType
 
 WEEKLY_OFF = calendar.SATURDAY
 
@@ -129,7 +130,7 @@ def month_summary(request, month, year):
                     day[2] = off_day.details
 
             month_dates.append(day)
-    print(month_dates)
+    # print(month_dates)
 
     employee_attendances = []
 
@@ -156,6 +157,13 @@ def month_summary(request, month, year):
                         pass
                     else:
                         entry = lv.get_type_display()
+                    # check if there is festival holiday
+                    try:
+                        fh = OffDay.objects.get(date=dt)
+                    except OffDay.DoesNotExist:
+                        pass
+                    else:
+                        entry = fh.details
                     lt = False
                 else:
                     entry = attn.tm.strftime('%H:%M')
@@ -180,7 +188,7 @@ def month_summary(request, month, year):
 
         employee_attendances.append({employee: employee_data})
 
-    # print(employee_attendances)
+    print(employee_attendances)
 
     if month == 1:
         prev_month = str(12)
@@ -196,11 +204,14 @@ def month_summary(request, month, year):
         next_month = str(month + 1)
         next_year = year
 
+    dal_obj = Company.objects.get(name='Group Design Ace')
+
     c = {
         "month_dates": month_dates,
         "employee_attendances": employee_attendances,
         "month_active": 'active',
         "month_name": month_name,
+        "month": month,
         "year": year,
 
         "prev_month": prev_month,
@@ -208,6 +219,8 @@ def month_summary(request, month, year):
 
         "next_month": next_month,
         "next_year": next_year,
+
+        "dal_obj": dal_obj,
 
     }
     return render(request, "attendance/month_summary.html", c)
@@ -243,6 +256,166 @@ def off_day_entry(request):
         "action_active": 'active',
     }
     return render(request, "attendance/off_day_entry.html", c)
+
+
+def add_leave(request, employee_id):
+    if request.method == "POST":
+        from_form = LeaveFrom(request.POST)
+        to_form = LeaveTo(request.POST)
+        leave_type = LeaveType(request.POST)
+
+        if from_form.is_valid() and to_form.is_valid() and leave_type.is_valid():
+            from_date = date(int(request.POST.get('from_year')), int(request.POST.get('from_month')), int(request.POST.get('from_date')))
+            to_date = date(int(request.POST.get('to_year')), int(request.POST.get('to_month')), int(request.POST.get('to_date')))
+
+            if to_date < from_date:
+                raise forms.ValidationError('Start date cannot be later than the end date.', code='invalid')
+
+            diff = (to_date - from_date).days
+
+            for i in range(diff + 1):
+                leave_day = from_date + timedelta(i)
+                Leave.objects.create(emp_id=employee_id, date=leave_day, type=request.POST.get('type'))
+            return HttpResponseRedirect(reverse('attendance:add_leave', args=(employee_id,)))
+    else:
+        from_form = LeaveFrom()
+        to_form = LeaveTo()
+        leave_type = LeaveType()
+
+        leave_objs = Leave.objects.filter(emp_id=employee_id)
+
+    c = {
+        "from_form": from_form,
+        "to_form": to_form,
+        "leave_type": leave_type,
+        "employee_id": employee_id,
+        "leave_objs": leave_objs,
+    }
+    return render(request, "attendance/add_leave.html", c)
+
+
+def job_card(request, employee_id, month, year):
+    month = int(month)
+    year = int(year)
+
+    month_dates = []
+
+    # loop over a tuple of lists containing (day, weekday)
+    for day in calendar.Calendar().itermonthdays2(year, month):
+        if day[0] != 0:  # do the following to tuples that have a valid date
+            day = list(day)
+            day.insert(1, 'W')  # insert second item to list that says if workday or off day
+            if day[2] == WEEKLY_OFF:  # if day is off day
+                day[1] = 'O'
+                day[2] = 'Weekly Off Day'
+            else:
+                day_0_date = date(year, month, day[0])
+
+                if day_0_date > datetime.now().date():
+                    day[1] = 'W'
+                    day[2] = 'Future Day'
+                else:
+                    day[1] = 'W'
+                    day[2] = 'Office Day'
+
+                try:
+                    off_day = OffDay.objects.get(date=day_0_date)
+                except OffDay.DoesNotExist:
+                    pass
+                else:
+                    day[1] = 'O'
+                    day[2] = off_day.details
+
+            month_dates.append(day)
+
+    employee_data = copy.deepcopy(month_dates)
+    for item in employee_data:
+        dt = date(year, month, item[0])
+
+        if dt <= datetime.now().date():
+            try:
+                attn = Attn.objects.get(emp_id=employee_id, dt=dt, type='N')
+            except Attn.DoesNotExist:
+                if item[1] == 'O':
+                    entry = 'OFF'
+                else:
+                    entry = 'ABS'
+                # check if employee has leave
+                try:
+                    lv = Leave.objects.get(emp_id=employee_id, date=dt)
+                except Leave.DoesNotExist:
+                    pass
+                else:
+                    entry = lv.get_type_display()
+                # check if there is festival holiday
+                try:
+                    fh = OffDay.objects.get(date=dt)
+                except OffDay.DoesNotExist:
+                    fh_status = False
+                else:
+                    entry = fh.details
+                    fh_status = True
+                lt = False
+            else:
+                entry = attn.tm.strftime('%H:%M')
+                lt = attn.late
+                fh_status = False
+
+            try:
+                attn = Attn.objects.get(emp_id=employee_id, dt=dt, type='X')
+            except Attn.DoesNotExist:
+                exit = '-'
+            else:
+                exit = attn.tm.strftime('%H:%M')
+
+            item[0] = dt.strftime("%d-%b-%y")
+
+            item[1] = dt.strftime("%A")
+
+            if lt:
+                item[2] = 'L'
+            elif entry == 'ABS':
+                item[2] = 'A'
+            elif entry == 'OFF':
+                item[2] = 'WH'
+                entry = '-'
+            else:
+                item[2] = 'P'
+
+            item.insert(3, entry)
+
+            item.insert(4, exit)
+
+            if lt:
+                item.insert(5, lt)
+            else:
+                item.insert(5, '-')
+
+            if item[2] == 'A':
+                item.insert(6, True)
+                item[3] = '-'
+            else:
+                item.insert(6, '-')
+
+            if entry == 'Casual':
+                item.insert(7, 'CL')
+                item[3] = '-'
+            elif entry == 'Sick':
+                item.insert(7, 'SL')
+                item[3] = '-'
+            elif fh_status:
+                item.insert(7, 'FH')
+
+            print(item)
+        # don't show any data for future dates
+        elif dt > datetime.now().date() and item[1] == 'W':
+            item[1] = '-'
+            item[2] = ''
+
+    c = {
+        "employee_data": employee_data,
+    }
+    return render(request, "attendance/job_card.html", c)
 
 
 def action(request):

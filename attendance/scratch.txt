@@ -45,3 +45,14 @@ Off - Sat
 
 Month View Summary
 
+# # # # # # # # # # # #
+
+* Add table in employee list
+* Add column for actions
+
+* Add individual leave management page
+
+* Show leaves in Monthly View
+Show leaves in Job Card Report View
+
+Alter Final Reports

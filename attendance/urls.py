@@ -11,7 +11,9 @@ urlpatterns = [
 
 
     url(r'^off/day/entry/$', views.off_day_entry, name='off_day_entry'),
+    url(r'^add/leave/for/(?P<employee_id>\d{10})/$', views.add_leave, name='add_leave'),
 
+    url(r'^job/card/of/(?P<employee_id>\d{10})/for/(?P<month>\d{1,2})/(?P<year>\d{4})/$', views.job_card, name='job_card'),
 
     url(r'^pull/$', views.pull, name='pull'),
     url(r'^populate/$', views.populate, name='populate'),

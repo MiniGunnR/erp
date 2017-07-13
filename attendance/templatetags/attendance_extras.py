@@ -92,6 +92,27 @@ def summary(data):
            "<label class='label label-danger'>ABS: {absent}</label>".format(present=present, late=late, absent=absent)
 
 
+@register.filter(name='summary_print')
+def summary_print(data):
+    try:
+        present = len([1 for i in data if not i[3] and not i[1] == 'OFF' and not i[1] == 'ABS' and not i[1] == 'Casual' and not i[1] == 'Sick'])
+        late = len([1 for i in data if i[3] and not i[1] == 'OFF'])
+        absent = len([1 for i in data if i[1] == 'ABS'])
+        leave = len([1 for i in data if i[1] == 'Casual' or i[1] == 'Sick'])
+        weekly_holiday = len([1 for i in data if i[1] == 'OFF'])
+        festival_holiday = len([1 for i in data if ':' not in i[1]]) - absent - weekly_holiday - leave
+    except IndexError:
+        return "<td>0</td>" \
+               "<td>0</td>" \
+               "<td>0</td>"
+    return "<td>{present}</td>" \
+           "<td>{absent}</td>" \
+           "<td>{late}</td>"\
+           "<td>{leave}</td>"\
+           "<td>{weekly_holiday}</td>" \
+           "<td>{festival_holiday}</td>".format(present=present, late=late, absent=absent, leave=leave, weekly_holiday=weekly_holiday, festival_holiday=festival_holiday)
+
+
 @register.filter(name='summary2')
 def summary2(data):
     try:

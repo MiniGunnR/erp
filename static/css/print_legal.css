@@ -1,0 +1,21 @@
+@media print {
+    @page { size: landscape;}
+    body  {
+        margin: 0.1cm;
+    }
+    .nav-tabs, .btn-toolbar {
+        display: none;
+    }
+
+    /*#quotation-body, #invoice-body, #challan-body {*/
+        /*min-height: calc(100vh - 1.6cm - 100px);*/
+    /*}*/
+
+    /*footer {*/
+        /*position: fixed;*/
+        /*margin-bottom: 1.6cm;*/
+        /*margin-right: 1.6cm;*/
+        /*right: 0;*/
+        /*height: 100px;*/
+    /*}*/
+}
