@@ -53,6 +53,6 @@ Month View Summary
 * Add individual leave management page
 
 * Show leaves in Monthly View
-Show leaves in Job Card Report View
+* Show leaves in Job Card Report View
 
-Alter Final Reports
+* Alter Final Reports

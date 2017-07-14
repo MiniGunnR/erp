@@ -387,7 +387,7 @@ def job_card(request, employee_id, month, year):
             item.insert(4, exit)
 
             if lt:
-                item.insert(5, lt)
+                item.insert(5, attn.late_time())
             else:
                 item.insert(5, '-')
 
@@ -399,21 +399,49 @@ def job_card(request, employee_id, month, year):
 
             if entry == 'Casual':
                 item.insert(7, 'CL')
+                item[2] = '-'
                 item[3] = '-'
             elif entry == 'Sick':
                 item.insert(7, 'SL')
+                item[2] = '-'
                 item[3] = '-'
             elif fh_status:
+                item[2] = '-'
                 item.insert(7, 'FH')
+            else:
+                item.insert(7, '-')
 
-            print(item)
         # don't show any data for future dates
         elif dt > datetime.now().date() and item[1] == 'W':
             item[1] = '-'
             item[2] = ''
 
+    present = len([x for x in employee_data if x[2] == 'P'])
+    absent = len([x for x in employee_data if x[2] == 'A'])
+    late = len([x for x in employee_data if x[2] == 'L'])
+    leave = len([x for x in employee_data if x[7] == 'CL' or x[7] == 'SL'])
+    wh = len([x for x in employee_data if x[2] == 'WH'])
+    fh = len([x for x in employee_data if x[7] == 'FH'])
+    total = len(employee_data)
+
+    company = Company.objects.get(name='Group Design Ace')
+
+    profile_obj = Profile.objects.get(proximity_id=employee_id)
+
     c = {
         "employee_data": employee_data,
+        "present": present,
+        "absent": absent,
+        "late": late,
+        "leave": leave,
+        "wh": wh,
+        "fh": fh,
+        "total": total,
+        "company": company,
+        "month": calendar.month_name[int(month)],
+        "year": year,
+        "employee_id": employee_id,
+        "profile_obj": profile_obj,
     }
     return render(request, "attendance/job_card.html", c)
 

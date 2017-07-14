@@ -41,6 +41,16 @@ class Attn(Timestamp):
         else:
             return False
 
+    def late_time(self):
+        if self.tm.hour < 9:
+            return '0 min'
+        elif self.tm.hour == 9 and self.tm.minute <= 30:
+            return '0 min'
+        elif self.tm.hour == 9 and self.tm.minute > 30:
+            return '{} min'.format(self.tm.minute - 30)
+        elif self.tm.hour > 9:
+            return '{} min'.format((self.tm.hour - 10) * 60 + (self.tm.minute + 30))
+
     def saturday(self):
         return self.dt.weekday() == 5
 
