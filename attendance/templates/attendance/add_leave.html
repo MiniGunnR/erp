@@ -3,6 +3,11 @@
 
 {% block nav-content %}
 	<h3>Leave Entry for {{ employee_id|fetch_employee_name }}</h3>
+
+	<h5>Leave left for {{ current_year }}:</h5>
+	<p>CL: {{ emp_leave_obj.casual_leave }}</p>
+	<p>SL: {{ emp_leave_obj.sick_leave }}</p>
+	<hr/>
 	<form method="post">
 		{% csrf_token %}
 

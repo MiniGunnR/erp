@@ -61,12 +61,12 @@
 				<tr>
 					<td>Date</td>
 					<td>Day</td>
-					<td>Status</td>
 					<td>In Time</td>
 					<td>Out Time</td>
 					<td>Late Time</td>
-					<td>Absent</td>
-					<td>Leave</td>
+					<td>Status</td>
+{#					<td>Absent</td>#}
+{#					<td>Leave</td>#}
 				</tr>
 				</thead>
 				<tbody>
@@ -74,12 +74,10 @@
 				<tr>
 					<td>{{ obj.0 }}</td>
 					<td>{{ obj.1 }}</td>
-					<td>{{ obj.2 }}</td>
 					<td>{{ obj.3 }}</td>
 					<td>{{ obj.4 }}</td>
 					<td>{{ obj.5 }}</td>
-					<td>{{ obj.6 }}</td>
-					<td>{{ obj.7 }}</td>
+					<td>{{ obj.2 }}</td>
 				</tr>
 				{% endfor %}
 				</tbody>

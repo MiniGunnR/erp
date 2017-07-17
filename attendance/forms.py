@@ -20,7 +20,7 @@ class OffDayTo(forms.Form):
 
 
 class LeaveType(forms.Form):
-    type = forms.ChoiceField(label="Type", choices=[('S', 'Sick'), ('C', 'Casual')])
+    type = forms.ChoiceField(label="Type", choices=[('SL', 'Sick'), ('CL', 'Casual')])
 
 
 class LeaveFrom(forms.Form):

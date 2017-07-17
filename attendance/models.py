@@ -94,8 +94,8 @@ class EmployeeLeave(Timestamp):
 
 
 LEAVE_TYPE_CHOICES = (
-    ('S', 'Sick'),
-    ('C', 'Casual'),
+    ('SL', 'Sick'),
+    ('CL', 'Casual'),
 )
 
 
@@ -105,9 +105,9 @@ class Leave(Timestamp):
     )
     date = models.DateField()
     type = models.CharField(
-        max_length=1,
+        max_length=2,
         choices=LEAVE_TYPE_CHOICES,
-        default='S'
+        default='SL'
     )
 
     class Meta:

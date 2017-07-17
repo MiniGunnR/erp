@@ -10,7 +10,7 @@ from django.core.urlresolvers import reverse
 from django.conf import settings
 
 from core.models import Profile
-from .models import Attn, Leave, OffDay
+from .models import Attn, Leave, OffDay, EmployeeLeave
 from core.models import Company
 from .forms import OffDayFrom, OffDayTo, OffDayName, LeaveFrom, LeaveTo, LeaveType
 
@@ -147,7 +147,7 @@ def month_summary(request, month, year):
                     attn = Attn.objects.get(emp_id=employee, dt=dt, type='N')
                 except Attn.DoesNotExist:
                     if item[1] == 'O':
-                        entry = 'OFF'
+                        entry = 'WH' # previously OFF
                     else:
                         entry = 'ABS'
                     # check if employee has leave
@@ -156,7 +156,7 @@ def month_summary(request, month, year):
                     except Leave.DoesNotExist:
                         pass
                     else:
-                        entry = lv.get_type_display()
+                        entry = lv.type
                     # check if there is festival holiday
                     try:
                         fh = OffDay.objects.get(date=dt)
@@ -284,12 +284,18 @@ def add_leave(request, employee_id):
 
         leave_objs = Leave.objects.filter(emp_id=employee_id)
 
+        try:
+            emp_leave_obj = EmployeeLeave.objects.get(emp_id=employee_id)
+        except EmployeeLeave.DoesNotExist:
+            emp_leave_obj = None
+
     c = {
         "from_form": from_form,
         "to_form": to_form,
         "leave_type": leave_type,
         "employee_id": employee_id,
         "leave_objs": leave_objs,
+        "emp_leave_obj": emp_leave_obj,
     }
     return render(request, "attendance/add_leave.html", c)
 
@@ -337,7 +343,7 @@ def job_card(request, employee_id, month, year):
                 attn = Attn.objects.get(emp_id=employee_id, dt=dt, type='N')
             except Attn.DoesNotExist:
                 if item[1] == 'O':
-                    entry = 'OFF'
+                    entry = 'WH' # previously OFF
                 else:
                     entry = 'ABS'
                 # check if employee has leave
@@ -353,7 +359,7 @@ def job_card(request, employee_id, month, year):
                 except OffDay.DoesNotExist:
                     fh_status = False
                 else:
-                    entry = fh.details
+                    entry = '-'
                     fh_status = True
                 lt = False
             else:
@@ -376,7 +382,7 @@ def job_card(request, employee_id, month, year):
                 item[2] = 'L'
             elif entry == 'ABS':
                 item[2] = 'A'
-            elif entry == 'OFF':
+            elif entry == 'WH': # previously OFF
                 item[2] = 'WH'
                 entry = '-'
             else:
@@ -398,18 +404,18 @@ def job_card(request, employee_id, month, year):
                 item.insert(6, '-')
 
             if entry == 'Casual':
-                item.insert(7, 'CL')
-                item[2] = '-'
+                # item.insert(7, 'CL')
+                item[2] = 'CL'
                 item[3] = '-'
             elif entry == 'Sick':
-                item.insert(7, 'SL')
-                item[2] = '-'
+                # item.insert(7, 'SL')
+                item[2] = 'SL'
                 item[3] = '-'
             elif fh_status:
-                item[2] = '-'
-                item.insert(7, 'FH')
-            else:
-                item.insert(7, '-')
+                item[2] = 'FH'
+                # item.insert(7, 'FH')
+            # else:
+            #     item.insert(7, '-')
 
         # don't show any data for future dates
         elif dt > datetime.now().date() and item[1] == 'W':
@@ -419,9 +425,9 @@ def job_card(request, employee_id, month, year):
     present = len([x for x in employee_data if x[2] == 'P'])
     absent = len([x for x in employee_data if x[2] == 'A'])
     late = len([x for x in employee_data if x[2] == 'L'])
-    leave = len([x for x in employee_data if x[7] == 'CL' or x[7] == 'SL'])
+    leave = len([x for x in employee_data if x[2] == 'CL' or x[2] == 'SL'])
     wh = len([x for x in employee_data if x[2] == 'WH'])
-    fh = len([x for x in employee_data if x[7] == 'FH'])
+    fh = len([x for x in employee_data if x[2] == 'FH'])
     total = len(employee_data)
 
     company = Company.objects.get(name='Group Design Ace')

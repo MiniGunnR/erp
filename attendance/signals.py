@@ -22,9 +22,9 @@ def subtract_leave_day(instance, created, **kwargs):
             emp_lv_obj = EmployeeLeave.objects.get(emp_id=instance.emp_id)
         except EmployeeLeave.DoesNotExist:
             emp_lv_obj = EmployeeLeave.objects.create(emp_id=instance.emp_id, sick_leave=0, casual_leave=0)
-        if instance.type == 'S':
+        if instance.type == 'SL':
             emp_lv_obj.sick_leave -= 1
-        elif instance.type == 'C':
+        elif instance.type == 'CL':
             emp_lv_obj.casual_leave -= 1
         emp_lv_obj.save()
 
@@ -36,8 +36,8 @@ def add_back_leave_day(instance, **kwargs):
     except EmployeeLeave.DoesNotExist:
         pass
     else:
-        if instance.type == 'S':
+        if instance.type == 'SL':
             emp_lv_obj.sick_leave += 1
-        elif instance.type == 'C':
+        elif instance.type == 'CL':
             emp_lv_obj.casual_leave += 1
         emp_lv_obj.save()

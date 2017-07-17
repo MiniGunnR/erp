@@ -35,7 +35,7 @@
 				<td>
 					<a href="{% url 'attendance:employee_summary' emp_id current_year %}">{{ emp_id }} <br/> {# href = profile view #}
 					{{ emp_id|fetch_employee_name }}</a> <br/>
-					<a href="{% url 'attendance:job_card' emp_id month year %}">Job Card</a>
+					<a href="{% url 'attendance:job_card' emp_id month year %}" class="label label-primary">Job Card</a>
 				</td>
 				<td>{{ data|summary|safe }}</td>
 				{% for item in data %}
