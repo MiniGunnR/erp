@@ -20,7 +20,7 @@ DEBUG = True
 HOSTNAME = socket.gethostname()
 
 if HOSTNAME == 'erp':
-    ALLOWED_HOSTS = ['172.16.16.172']
+    ALLOWED_HOSTS = ['172.16.16.172', '111.221.7.58']
 else:
     ALLOWED_HOSTS = []
 
