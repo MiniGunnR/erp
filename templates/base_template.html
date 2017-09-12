@@ -51,7 +51,7 @@
 		        <li class="{% if '/billing/' in request.path %}active{% endif %}"><a href="{% url 'billing:home' %}">Billing</a></li>
 {#		        <li class="{% if '/europarts/' in request.path %}active{% endif %}"><a href="{% url 'europarts:home' %}">Europarts</a></li>#}
 		        <li class="{% if '/attendance/' in request.path %}active{% endif %}"><a href="{% url 'attendance:employees' %}">Attendance</a></li>
-		        <li class="{% if '/inv/' in request.path %}active{% endif %}"><a href="{% url 'inv:inventory_list' %}">Inventory</a></li>
+		        <li class="{% if '/inv/' in request.path %}active{% endif %}"><a href="{% url 'inv:inventory_listview' %}">Inventory</a></li>
 {#		        <li>#}
 {#			        <a href="{% url 'msgs:thread-listview' %}">Messages <span class="badge">1</span></a>#}
 {#		        </li>#}
