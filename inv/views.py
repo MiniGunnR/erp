@@ -9,7 +9,7 @@ from .forms import QuantityForm
 class InventoryCreateView(generic.CreateView):
     model = Inventory
     template_name = "inv/inventory_createview.html"
-    fields = ['uid', 'name', 'quantity']
+    fields = ['uid', 'name', 'quantity', 'lc', 'spinning_mills', 'composition']
 
 
 class InventoryListView(generic.ListView):
@@ -25,7 +25,7 @@ class InventoryDetailView(generic.DetailView):
 class InventoryUpdateView(generic.UpdateView):
     model = Inventory
     template_name = "inv/inventory_updateview.html"
-    fields = ['uid', 'name', 'quantity']
+    fields = ['uid', 'name', 'quantity', 'lc', 'spinning_mills', 'composition']
 
 
 def search(request):
