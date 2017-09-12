@@ -1,0 +1,15 @@
+{% extends "inv_base.html" %}
+
+{% block main %}
+	<div class="container">
+		<h1>{{ object.uid }}</h1>
+		<p>Name: {{ object.name }}</p>
+		<p>LC: {{ object.lc }}</p>
+		<p>Spinning Mills: {{ object.spinning_mills }}</p>
+		<p>Composition: {{ object.composition }}</p>
+		<p>Quantity: {{ object.quantity }}</p>
+		<a class="waves-effect waves-light btn" href="{% url 'inv:increase_quantity' object.pk %}">Increase Quantity</a>
+		<a class="waves-effect waves-light btn" href="{% url 'inv:decrease_quantity' object.pk %}">Decrease Quantity</a>
+		<a class="waves-effect waves-light btn red" href="{% url 'inv:inventory_updateview' object.pk %}">Edit</a>
+	</div>
+{% endblock %}

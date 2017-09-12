@@ -1,0 +1,14 @@
+{% extends "inv_base.html" %}
+
+{% block main %}
+	<br/>
+	<div class="container">
+		<a href="{% url 'inv:inventory_detailview' pk %}" class="btn grey">Go Back</a>
+		<p>Decrease quantity for item: <b>{{ uid }}</b></p>
+		<form method="post">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<input class="waves-effect waves-light btn" type="submit" value="Submit"/>
+		</form>
+	</div>
+{% endblock %}
