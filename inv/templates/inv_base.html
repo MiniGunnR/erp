@@ -17,16 +17,40 @@
     	{% block body %}
 		    {% block nav %}
 				<div class="navbar-fixed">
-					<ul id="dropdown1" class="dropdown-content">
+					<ul id="inv_menu" class="dropdown-content">
 						<li><a href="{% url 'inv:inventory_create' %}">Create</a></li>
 						<li><a href="{% url 'inv:inventory_listview' %}">List</a></li>
 						<li><a href="{% url 'inv:search' %}">Search</a></li>
+					</ul>
+					<ul id="lc_menu" class="dropdown-content">
+						<li><a href="{% url 'inv:lc_createview' %}">Create</a></li>
+						<li><a href="{% url 'inv:lc_listview' %}">List</a></li>
+						<li><a href="{% url 'inv:lc_search' %}">Search</a></li>
+					</ul>
+					<ul id="yr_menu" class="dropdown-content">
+						<li><a href="{% url 'inv:yr_createview' %}">Create</a></li>
+						<li><a href="{% url 'inv:yr_listview' %}">List</a></li>
+						<li><a href="{% url 'inv:yr_search' %}">Search</a></li>
+					</ul>
+					<ul id="yd_menu" class="dropdown-content">
+						<li><a href="{% url 'inv:yd_createview' %}">Create</a></li>
+						<li><a href="{% url 'inv:yd_listview' %}">List</a></li>
+						<li><a href="{% url 'inv:yd_search' %}">Search</a></li>
+					</ul>
+					<ul id="fd_menu" class="dropdown-content">
+						<li><a href="{% url 'inv:fd_createview' %}">Create</a></li>
+						<li><a href="{% url 'inv:fd_listview' %}">List</a></li>
+						<li><a href="{% url 'inv:fd_search' %}">Search</a></li>
 					</ul>
 					<nav>
 						<div class="nav-wrapper">
 							<a href="{% url 'core:dashboard' %}" class="brand-logo" style="padding-left: 10px;">DAL</a>
 							<ul class="right hide-on-med-and-down">
-								<li><a class="dropdown-button" href="#!" data-activates="dropdown1">Inventory<i class="material-icons right">arrow_drop_down</i></a></li>
+								<li><a class="dropdown-button" href="#!" data-activates="inv_menu">Inventory<i class="material-icons right">arrow_drop_down</i></a></li>
+								<li><a class="dropdown-button" href="#!" data-activates="lc_menu">LC<i class="material-icons right">arrow_drop_down</i></a></li>
+								<li><a class="dropdown-button" href="#!" data-activates="yr_menu">Yarn Received<i class="material-icons right">arrow_drop_down</i></a></li>
+								<li><a class="dropdown-button" href="#!" data-activates="yd_menu">Yarn Delivered<i class="material-icons right">arrow_drop_down</i></a></li>
+								<li><a class="dropdown-button" href="#!" data-activates="fd_menu">Fabric Delivered<i class="material-icons right">arrow_drop_down</i></a></li>
 								<li><a href="{% url 'core:my_logout' %}">Logout</a></li>
 							</ul>
 						</div>

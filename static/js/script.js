@@ -7,3 +7,8 @@ $('.datepicker').pickadate({
     format: 'yyyy-mm-dd',
     closeOnSelect: false // Close upon selecting a date,
   });
+
+$(document).ready(function() {
+    $('select').material_select();
+    $(".button-collapse").sideNav();
+});

@@ -1,0 +1,20 @@
+{% extends "ticket_base.html" %}
+
+{% block main %}
+	<div class="container">
+	<h3>Ticket List</h3>
+
+	{% regroup object_list by get_status_display as regrouped_objects %}
+
+	{% for objects in regrouped_objects %}
+		<h5>{{ objects.grouper }}</h5>
+		<div class="collection">
+		{% for object in objects.list %}
+			<a class="collection-item" href="{% url "ticket:ticket_detailview" object.pk %}">{{ object }}</a>
+			{% empty %}
+			<p>No tickets submitted yet.</p>
+			{% endfor %}
+		</div>
+		{% endfor %}
+	</div>
+{% endblock %}

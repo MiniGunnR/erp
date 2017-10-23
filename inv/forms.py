@@ -1,5 +1,7 @@
 from django import forms
 
+from .models import LetterOfCredit, LCItem
+
 
 class QuantityForm(forms.Form):
     quantity = forms.IntegerField()
@@ -13,3 +15,33 @@ class QuantityForm(forms.Form):
                 raise forms.ValidationError(
                     "Value must be positive."
                 )
+
+
+class LetterOfCreditForm(forms.ModelForm):
+    class Meta:
+        model = LetterOfCredit
+        fields = ['date', 'number', 'spinning_mill']
+
+
+class LCItemForm(forms.ModelForm):
+    class Meta:
+        model = LCItem
+        fields = ['count', 'item', 'quantity']
+
+LC_Formset = forms.inlineformset_factory(LetterOfCredit, LCItem, form=LCItemForm, extra=1)
+
+
+class LcSearchForm(forms.Form):
+    q = forms.IntegerField(label="LC")
+
+
+class YrSearchForm(forms.Form):
+    q = forms.CharField(label="Barcode")
+
+
+class YdSearchForm(forms.Form):
+    q = forms.CharField(label="Barcode")
+
+
+class FdSearchForm(forms.Form):
+    q = forms.CharField(label="Barcode")

@@ -1,0 +1,41 @@
+{% extends "inv_base.html" %}
+
+{% block main %}
+	{% regroup object_list by lc_item as objs %}
+	<div class="container">
+		{% for obj in objs %}
+			<div class="row">
+			<div class="col s12">
+			  <div class="card blue-grey darken-1">
+			    <div class="card-content white-text">
+			      <span class="card-title">{{ obj.grouper }}</span>
+			      <p>Quantity: {{ obj.list.0.lc_item.quantity }}</p>
+			        <table class="bordered">
+			        <tr>
+				        <td>Challan</td>
+				        <td>Quantity Received</td>
+				        <td>Balance</td>
+				        <td>Action</td>
+			        </tr>
+				    {% for object in obj.list %}
+					    <tr>
+					        <td>{{ object.challan_no }}</td>
+					        <td>{{ object.quantity }}</td>
+						    {% if forloop.last %}
+								<td>{{ object.balance }}</td>
+							    {% else %}
+							    <td></td>
+								{% endif %}
+					        <td>
+						        <a href="{% url 'inv:yr_updateview' object.id %}" class="orange-text">Edit</a>
+					        </td>
+					    </tr>
+					    {% endfor %}
+				    </table>
+			    </div>
+			  </div>
+			</div>
+			</div>
+			{% endfor %}
+	</div>
+{% endblock %}

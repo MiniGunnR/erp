@@ -15,6 +15,7 @@
 			<a href="#" class="list-group-item">Requisition</a>
 
 			<a href="{% url 'inv:inventory_listview' %}" class="list-group-item">Inventory</a>
+			<a href="{% url 'ticket:ticket_list' %}" class="list-group-item">Support Ticket</a>
 		</div>
 
 		{% if request.user == 'admin' %}

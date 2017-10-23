@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'requisition',
     'msgs',
     'inv',
+    'ticket',
 ]
 
 MIDDLEWARE = [

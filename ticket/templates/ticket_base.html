@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{% load static %}
+{% load core_extras %}
+<html lang="en">
+    <head>
+    	<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <!--Import Google Icon Font-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!--Import materialize.css-->
+        <link type="text/css" rel="stylesheet" href="{% static 'css/materialize.min.css' %}" media="screen,projection"/>
+        <title>{% block title %}{% endblock %}</title>
+    </head>
+
+    <body>
+    	{% block body %}
+		    {% block nav %}
+{#			    MOBILE MENU #}
+			    <ul class="side-nav" id="mobile-menu">
+					{% if not request.user|has_group:"TicketSupportTeam" %}
+						<li><a href="{% url 'ticket:ticket_createview' %}">Create</a></li>
+						{% endif %}
+					<li><a href="{% url 'ticket:ticket_list' %}">List</a></li>
+					<li><a href="{% url 'core:my_logout' %}">Logout</a></li>
+				</ul>
+				<div class="navbar-fixed">
+					<nav>
+						<div class="nav-wrapper">
+							<a href="{% url 'core:dashboard' %}" class="brand-logo" style="padding-left: 10px;">DAL</a>
+							<a href="#" data-activates="mobile-menu" class="button-collapse"><i class="material-icons">menu</i></a>
+{#							MAIN MENU #}
+							<ul class="right hide-on-med-and-down">
+								{% if not request.user|has_group:"TicketSupportTeam" %}
+									<li><a href="{% url 'ticket:ticket_createview' %}">Create</a></li>
+									{% endif %}
+								<li><a href="{% url 'ticket:ticket_list' %}">List</a></li>
+								<li><a href="{% url 'core:my_logout' %}">Logout</a></li>
+							</ul>
+						</div>
+					</nav>
+				</div>
+		    {% endblock %}
+		    {% block main %}
+				<h1>Hello, world!</h1>
+		    {% endblock %}
+		{% endblock %}
+        <!--Import jQuery before materialize.js-->
+        <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
+    </body>
+</html>

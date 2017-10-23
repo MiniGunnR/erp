@@ -1,15 +1,192 @@
 from django.shortcuts import render, reverse
 from django.views import generic
 from django.http import HttpResponseRedirect
+from django.db.models import Q
+from django.db import transaction
 
-from .models import Inventory
-from .forms import QuantityForm
+
+from .models import Inventory, LetterOfCredit, LCItem, YarnReceived, YarnDelivery, FabricDelivery
+from .forms import QuantityForm, LC_Formset, LcSearchForm, YrSearchForm, YdSearchForm, FdSearchForm
+
+
+class LCCreateView(generic.CreateView):
+    model = LetterOfCredit
+    fields = ['date', 'number', 'spinning_mill']
+    template_name = "inv/lc_form.html"
+
+    def get_success_url(self):
+        return reverse('inv:lc_updateview', args=[self.object.pk])
+
+    def get_context_data(self, **kwargs):
+        context = super(LCCreateView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context['lc_items'] = LC_Formset(self.request.POST)
+        else:
+            context['lc_items'] = LC_Formset()
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        lc_items = context['lc_items']
+        with transaction.atomic():
+            self.object = form.save()
+            if lc_items.is_valid():
+                lc_items.instance = self.object
+                lc_items.save()
+        return super(LCCreateView, self).form_valid(form)
+
+
+class LCUpdateView(generic.UpdateView):
+    model = LetterOfCredit
+    fields = ['date', 'number', 'spinning_mill']
+    template_name = "inv/lc_form.html"
+
+    def get_success_url(self):
+        return reverse('inv:lc_updateview', args=[self.object.pk])
+
+    def get_context_data(self, **kwargs):
+        context = super(LCUpdateView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context['lc_items'] = LC_Formset(self.request.POST, instance=self.object)
+        else:
+            context['lc_items'] = LC_Formset(instance=self.object)
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        lc_items = context['lc_items']
+        with transaction.atomic():
+            self.object = form.save()
+            if lc_items.is_valid():
+                lc_items.instance = self.object
+                lc_items.save()
+        return super(LCUpdateView, self).form_valid(form)
+
+
+class LCListView(generic.ListView):
+    model = LetterOfCredit
+    template_name = "inv/lc_listview.html"
+
+    def get_queryset(self):
+        if self.request.GET.get('q', ''):
+            return LetterOfCredit.objects.filter(number__icontains=self.request.GET['q'])
+        return LetterOfCredit.objects.all()
+
+
+def lc_search(request):
+    form = LcSearchForm(request.POST or None)
+    c = {
+        "form": form,
+    }
+    return render(request, "inv/lc_search.html", c)
+
+
+class YRCreateView(generic.CreateView):
+    model = YarnReceived
+    template_name = "inv/yr_form.html"
+    fields = ['date', 'barcode', 'lc_item', 'challan_no', 'quantity']
+
+    def get_success_url(self):
+        if self.object.pk:
+            return reverse('inv:yr_updateview', args=[self.object.pk])
+        return
+
+
+class YRUpdateView(generic.UpdateView):
+    model = YarnReceived
+    template_name = "inv/yr_form.html"
+    fields = ['date', 'barcode', 'lc_item', 'challan_no', 'quantity']
+
+    def get_success_url(self):
+        return reverse('inv:yr_updateview', args=[self.object.pk])
+
+
+class YRListView(generic.ListView):
+    model = YarnReceived
+    template_name = "inv/yr_listview.html"
+
+    def get_queryset(self):
+        if self.request.GET.get('q', ''):
+            return YarnReceived.objects.filter(barcode__icontains=self.request.GET['q'])
+        return YarnReceived.objects.all()
+
+
+def yr_search(request):
+    form = YrSearchForm(request.POST or None)
+    c = {
+        "form": form,
+    }
+    return render(request, "inv/yr_search.html", c)
+
+
+class YDCreateView(generic.CreateView):
+    model = YarnDelivery
+    template_name = "inv/yd_form.html"
+    fields = ['yr', 'date', 'barcode', 'challan_no', 'colour', 'style_no', 'quantity']
+
+
+class YDUpdateView(generic.UpdateView):
+    model = YarnDelivery
+    template_name = "inv/yd_form.html"
+    fields = ['yr', 'date', 'barcode', 'challan_no', 'colour', 'style_no', 'quantity']
+
+
+class YDListView(generic.ListView):
+    model = YarnDelivery
+    template_name = "inv/yd_listview.html"
+
+    def get_queryset(self):
+        if self.request.GET.get('q', ''):
+            return YarnDelivery.objects.filter(barcode__icontains=self.request.GET['q'])
+        return YarnDelivery.objects.all()
+
+
+def yd_search(request):
+    form = YdSearchForm(request.POST or None)
+    c = {
+        "form": form,
+    }
+    return render(request, "inv/yd_search.html", c)
+
+
+class FDCreateView(generic.CreateView):
+    model = FabricDelivery
+    template_name = "inv/fd_form.html"
+    fields = ['yd', 'date', 'barcode', 'challan_no', 'fabric_type', 'colour', 'dy_name']
+
+
+class FDUpdateView(generic.UpdateView):
+    model = FabricDelivery
+    template_name = "inv/fd_form.html"
+    fields = ['yd', 'date', 'barcode', 'challan_no', 'fabric_type', 'colour', 'dy_name']
+
+
+class FDListView(generic.ListView):
+    model = FabricDelivery
+    template_name = "inv/fd_listview.html"
+
+    def get_queryset(self):
+        if self.request.GET.get('q', ''):
+            return FabricDelivery.objects.filter(barcode__icontains=self.request.GET['q'])
+        return FabricDelivery.objects.all()
+
+
+def fd_search(request):
+    form = FdSearchForm(request.POST or None)
+    c = {
+        "form": form,
+    }
+    return render(request, "inv/fd_search.html", c)
 
 
 class InventoryCreateView(generic.CreateView):
     model = Inventory
     template_name = "inv/inventory_createview.html"
     fields = ['uid', 'name', 'quantity', 'lc', 'spinning_mills', 'composition']
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super(InventoryCreateView, self).form_valid(form)
 
 
 class InventoryListView(generic.ListView):
@@ -27,6 +204,10 @@ class InventoryUpdateView(generic.UpdateView):
     template_name = "inv/inventory_updateview.html"
     fields = ['uid', 'name', 'quantity', 'lc', 'spinning_mills', 'composition']
 
+    def form_valid(self, form):
+        form.instance.modified_by = self.request.user
+        return super(InventoryUpdateView, self).form_valid(form)
+
 
 def search(request):
     query = request.GET.get('q', '')
@@ -34,7 +215,11 @@ def search(request):
     if query == '':
         objs = Inventory.objects.none()
     else:
-        objs = Inventory.objects.filter(uid__icontains=query)
+        objs = Inventory.objects.filter(
+            Q(uid=query) |
+            Q(lc=query) |
+            Q(name__icontains=query)
+        )
 
     context = {
         "objs": objs,

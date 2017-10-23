@@ -1,0 +1,7 @@
+<div class="collection">
+{% for object in object_list %}
+	<a class="collection-item" href="{% url "ticket:ticket_detailview" object.pk %}">{{ object }}</a>
+	{% empty %}
+	<p>No tickets submitted yet.</p>
+	{% endfor %}
+</div>

@@ -1,0 +1,28 @@
+{% extends "ticket_base.html" %}
+
+{% block main %}
+	<div class="container">
+		<h3>Ticket # {{ pk }}</h3>
+		{% if not user == object.created_by %}
+			<p>Submitted by: {{ object.created_by }}</p>
+			{% endif %}
+		<p>Status: {{ object.get_status_display }}</p>
+		<p>{{ object.details }}</p>
+		{% if support_team %}
+			{% if object.status == 'U' or object.status == 'D' %}
+				<a href="{% url "ticket:mark_as_solved" pk %}">Mark as solved</a>
+			{% elif object.status == 'P' %}
+				<h5>Pending user acceptance.</h5>
+			{% else %}
+				<h5>Issue solved.</h5>
+			{% endif %}
+		{% elif not support_team %}
+			{% if object.status == 'P' %}
+				<a class="btn" href="{% url "ticket:accept_ticket_solution" pk %}">Accept</a>
+				<a class="btn red" href="{% url "ticket:deny_ticket_solution" pk %}">Deny</a>
+			{% elif object.status == 'U' %}
+				<p><i>This has not been reviewed by an IT personnel yet.</i></p>
+			{% endif %}
+		{% endif %}
+	</div>
+{% endblock %}

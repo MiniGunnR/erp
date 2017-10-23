@@ -8,6 +8,8 @@
 		<p>Spinning Mills: {{ object.spinning_mills }}</p>
 		<p>Composition: {{ object.composition }}</p>
 		<p>Quantity: {{ object.quantity }}</p>
+		<p>Created By: {{ object.created_by }} on {{ object.created }}</p>
+		<p>Modified By: {{ object.modified_by }} on {{ object.updated }}</p>
 		<a class="waves-effect waves-light btn" href="{% url 'inv:increase_quantity' object.pk %}">Increase Quantity</a>
 		<a class="waves-effect waves-light btn" href="{% url 'inv:decrease_quantity' object.pk %}">Decrease Quantity</a>
 		<a class="waves-effect waves-light btn red" href="{% url 'inv:inventory_updateview' object.pk %}">Edit</a>

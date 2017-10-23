@@ -1,0 +1,15 @@
+{% extends "ticket_base.html" %}
+
+{% block main %}
+	<div class="container">
+		<h3>Create a new Support Ticket</h3>
+
+		<form method="post">
+			{% csrf_token %}
+
+			{{ form.as_p }}
+
+			<input type="submit" value="Save"/>
+		</form>
+	</div>
+{% endblock %}

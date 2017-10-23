@@ -1,0 +1,18 @@
+{% extends "ticket_base.html" %}
+
+{% block main %}
+	<div class="container">
+		<p>Do you want to mark ticket # {{ ticket_no }} as solved?</p>
+		<form method="post">
+			{% csrf_token %}
+			<input class="btn" type="submit" value="Yes"/>
+			<button class="btn grey" onclick="goBack()">No</button>
+		</form>
+	</div>
+
+	<script>
+	function goBack() {
+	    window.history.back();
+	}
+	</script>
+{% endblock %}
