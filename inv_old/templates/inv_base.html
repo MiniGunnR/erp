@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+    <head>
+    	<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <!--Import Google Icon Font-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!--Import materialize.css-->
+        <link type="text/css" rel="stylesheet" href="{% static 'css/materialize.min.css' %}" media="screen,projection"/>
+        <title>{% block title %}{% endblock %}</title>
+    </head>
+
+    <body>
+    	{% block body %}
+		    {% block nav %}
+				<div class="navbar-fixed">
+					<ul id="inv_menu" class="dropdown-content">
+						<li><a href="{% url 'inv:inventory_create' %}">Create</a></li>
+						<li><a href="{% url 'inv:inventory_listview' %}">List</a></li>
+						<li><a href="{% url 'inv:search' %}">Search</a></li>
+					</ul>
+					<ul id="lc_menu" class="dropdown-content">
+						<li><a href="{% url 'inv:lc_createview' %}">Create</a></li>
+						<li><a href="{% url 'inv:lc_listview' %}">List</a></li>
+						<li><a href="{% url 'inv:lc_search' %}">Search</a></li>
+					</ul>
+					<ul id="yr_menu" class="dropdown-content">
+						<li><a href="{% url 'inv:yr_createview' %}">Create</a></li>
+						<li><a href="{% url 'inv:yr_listview' %}">List</a></li>
+						<li><a href="{% url 'inv:yr_search' %}">Search</a></li>
+					</ul>
+					<ul id="yi_menu" class="dropdown-content">
+						<li><a href="{% url 'inv:yi_createview' %}">Create</a></li>
+						<li><a href="{% url 'inv:yi_listview' %}">List</a></li>
+						<li><a href="{% url 'inv:yi_search' %}">Search</a></li>
+					</ul>
+					<ul id="fd_menu" class="dropdown-content">
+						<li><a href="{% url 'inv:fd_createview' %}">Create</a></li>
+						<li><a href="{% url 'inv:fd_listview' %}">List</a></li>
+						<li><a href="{% url 'inv:fd_search' %}">Search</a></li>
+					</ul>
+					<nav>
+						<div class="nav-wrapper">
+							<a href="{% url 'core:dashboard' %}" class="brand-logo" style="padding-left: 10px;">DAL</a>
+							<ul class="right hide-on-med-and-down">
+								<li><a class="dropdown-button" href="#!" data-activates="inv_menu">Inventory<i class="material-icons right">arrow_drop_down</i></a></li>
+								<li><a class="dropdown-button" href="#!" data-activates="lc_menu">LC<i class="material-icons right">arrow_drop_down</i></a></li>
+								<li><a class="dropdown-button" href="#!" data-activates="yr_menu">Yarn Received<i class="material-icons right">arrow_drop_down</i></a></li>
+								<li><a class="dropdown-button" href="#!" data-activates="yi_menu">Yarn Issued<i class="material-icons right">arrow_drop_down</i></a></li>
+								<li><a class="dropdown-button" href="#!" data-activates="fd_menu">Fabric Delivery<i class="material-icons right">arrow_drop_down</i></a></li>
+								<li><a href="{% url 'core:my_logout' %}">Logout</a></li>
+							</ul>
+						</div>
+					</nav>
+				</div>
+		    {% endblock %}
+		    {% block main %}
+				<h1>Hello, world!</h1>
+		    {% endblock %}
+		{% endblock %}
+        <!--Import jQuery before materialize.js-->
+        <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
+        {% block script %}{% endblock %}
+    </body>
+</html>
