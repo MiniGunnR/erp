@@ -18,7 +18,7 @@ urlpatterns = [
 
     url(r'^msgs/', include('msgs.urls', namespace='msgs')),
 
-    # url(r'^inv/', include('inv.urls', namespace='inv')),
+    url(r'^inv/', include('inv.urls', namespace='inv')),
 
     url(r'^ticket/', include('ticket.urls', namespace='ticket')),
 ]

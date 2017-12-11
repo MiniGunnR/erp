@@ -1,0 +1,14 @@
+{% extends "inv_base.html" %}
+
+{% block main %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {{ lc_items.management_form }}
+
+    {% for form in lc_items.forms %}
+        {{ form }} <br/>
+        {% endfor %}
+    <input class="mui-btn mui-btn--primary" type="submit" value="Create" />
+</form>
+{% endblock %}
