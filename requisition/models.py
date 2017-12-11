@@ -18,16 +18,16 @@ class Vendor(Timestamped):
 
 
 class Requisition(Timestamped):
-    company = models.ForeignKey(Company)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
-    created_by = models.ForeignKey(User, related_name='created_requisitions')
-    modified_by = models.ForeignKey(User, related_name='modified_requisitions')
+    created_by = models.ForeignKey(User, related_name='created_requisitions', on_delete=models.CASCADE)
+    modified_by = models.ForeignKey(User, related_name='modified_requisitions', on_delete=models.CASCADE)
 
     issue_date = models.DateField(blank=True, null=True)
 
-    department = models.ForeignKey(Department)
+    department = models.ForeignKey(Department, on_delete=models.CASCADE)
 
-    vendor = models.ForeignKey(Vendor, blank=True, null=True)
+    vendor = models.ForeignKey(Vendor, blank=True, null=True, on_delete=models.CASCADE)
 
     total = models.FloatField(blank=True, null=True, default=0)
 
@@ -46,7 +46,7 @@ class Requisition(Timestamped):
 
 
 class Item(Timestamped):
-    requisition = models.ForeignKey(Requisition)
+    requisition = models.ForeignKey(Requisition, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     quantity = models.PositiveIntegerField()
     price = models.FloatField()
@@ -62,7 +62,7 @@ class Item(Timestamped):
 
 class PurchaseOrder(Timestamped):
     reference_no = models.CharField(max_length=50)
-    requisition = models.OneToOneField(Requisition)
+    requisition = models.OneToOneField(Requisition, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.reference_no

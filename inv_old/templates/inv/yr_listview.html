@@ -23,9 +23,7 @@
 					        <td>{{ object.quantity }}</td>
 						    {% if forloop.last %}
 								<td>{{ object.balance }}</td>
-							    {% else %}
-							    <td></td>
-								{% endif %}
+							    {% else %}<td></td>{% endif %}
 					        <td>
 						        <a href="{% url 'inv:yr_updateview' object.id %}" class="orange-text">Edit</a>
 					        </td>

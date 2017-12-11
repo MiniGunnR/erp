@@ -1,0 +1,29 @@
+{% extends "inv_base.html" %}
+
+{% block main %}
+	<div class="container">
+		<form method="post">
+			{% csrf_token %}
+			{% if not 'create' in request.path %}
+				<h5>Challan No : <small>{{ object.challan_no }}</small></h5>
+				{% endif %}
+			{{ form.as_p }}
+			<input class="btn" type="submit" value="Save"/>
+		</form>
+	</div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+	$(document).ready(function() {
+	  $('input:checkbox').each(function() {
+	        var item = $(this);
+	      item.insertBefore(item.prev());
+	  });
+		{% if not 'create' in request.path %}
+			$("#id_yd").prop("disabled", true);
+			$('select').material_select();
+		{% endif %}
+	});
+</script>
+{% endblock %}

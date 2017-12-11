@@ -1,50 +1,14 @@
 {% extends "inv_base.html" %}
 
 {% block main %}
-	<div class="container">
-		<form method="post">
-			{% csrf_token %}
-			{{ form.as_p }}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {{ lc_items.management_form }}
 
-			{{ lc_items.management_form }}
-
-			<table>
-			{% for form in lc_items.forms %}
-		        {% if forloop.first %}
-		            <thead>
-		            <tr>
-		                {% for field in form.visible_fields %}
-		                    <th>{{ field.label|capfirst }}</th>
-		                {% endfor %}
-		            </tr>
-		            </thead>
-		        {% endif %}
-		        <tr>
-		            {% for field in form.visible_fields %}
-		                <td>
-		                    {# Include the hidden fields in the form #}
-		                    {% if forloop.first %}
-		                        {% for hidden in form.hidden_fields %}
-		                            {{ hidden }}
-		                        {% endfor %}
-		                    {% endif %}
-		                    {{ field.errors.as_ul }}
-		                    {{ field }}
-		                    {% if field.label == "Delete" %}
-			                    <label for="{{ field.id_for_label }}"></label>
-		                        {% endif %}
-		                </td>
-		            {% endfor %}
-		        </tr>
-		    {% endfor %}
-			</table>
-			<input class="btn" type="submit" value="Save"/>
-		</form>
-	</div>
-
-	<script type="text/javascript">
-	$(document).ready(function() {
-	    $('select').material_select();
-	  });
-	</script>
+    {% for form in lc_items.forms %}
+        {{ form }} <br/>
+        {% endfor %}
+    <input class="mui-btn mui-btn--primary" type="submit" value="Create" />
+</form>
 {% endblock %}

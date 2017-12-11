@@ -1,0 +1,35 @@
+{% extends "inv_base.html" %}
+
+{% block main %}
+	<div class="container">
+		<form method="post">
+			{% csrf_token %}
+			<p><label for="{{ form.date.id_for_label }}">{{ form.date.label }}:</label> {{ form.date }}</p>
+			<p><label for="{{ form.barcode.id_for_label }}">{{ form.barcode.label }}:</label> {{ form.barcode }}</p>
+			<p><label for="{{ form.lc_item.id_for_label }}">{{ form.lc_item.label }}:</label> {{ form.lc_item }}</p>
+			<p id="balance"></p>
+			<p><label for="{{ form.challan_no.id_for_label }}">{{ form.challan_no.label }}:</label> {{ form.challan_no }}</p>
+			<p><label for="{{ form.quantity.id_for_label }}">{{ form.quantity.label }}:</label> {{ form.quantity }}</p>
+			<input class="btn" type="submit" value="Save"/>
+		</form>
+	</div>
+{% endblock %}
+
+{% block script %}
+	<script type="text/javascript">
+	$(function() {
+		$(document).on("change", "#id_lc_item", function() {
+			var url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/inv/yr/lcitem/select/' + $("#id_lc_item option:selected").val() + '/';
+
+			$.ajax({
+				type: "GET",
+				url: url,
+
+				success: function(data) {
+					$("#balance").html('Balance: ' + data);
+				}
+			});
+		});
+	});
+	</script>
+{% endblock %}

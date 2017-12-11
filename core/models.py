@@ -80,24 +80,25 @@ class Bank(models.Model):
 
 
 class BaseProfile(Timestamped):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL)
-    company = models.ForeignKey(Company, blank=True, null=True)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, blank=True, null=True, on_delete=models.CASCADE)
 
     proximity_id = models.CharField(max_length=20, blank=True, null=True)
     joining_date = models.DateField(blank=True, null=True)
-    designation = models.ForeignKey(Designation, blank=True, null=True)
+    designation = models.ForeignKey(Designation, blank=True, null=True, on_delete=models.CASCADE)
 
-    photo = models.ImageField(upload_to=os.path.join(settings.BASE_DIR, 'media', 'user', 'photo'), blank=True, null=True)
+    # photo = models.ImageField(upload_to=os.path.join(settings.BASE_DIR, 'media', 'user', 'photo'), blank=True, null=True)
+    photo = models.ImageField(upload_to='user/photo/', blank=True, null=True)
 
     MALE = 1
     FEMALE = 2
     THIRD_GENDER = 3
 
-    GENDER_CHOICES = (
+    GENDER_CHOICES = [
         (MALE, 'Male'),
         (FEMALE, 'Female'),
         (THIRD_GENDER, 'Third Gender'),
-    )
+    ]
 
     gender = models.SmallIntegerField(validators=[MaxValueValidator(3)], choices=GENDER_CHOICES, default=MALE)
 
@@ -166,19 +167,19 @@ class BaseProfile(Timestamped):
     mothers_name = models.CharField(max_length=50, blank=True, null=True)
     mothers_contact = models.CharField(max_length=50, blank=True, null=True)
 
-    department = models.ForeignKey(Department, blank=True, null=True)
-    section = models.ForeignKey(Section, blank=True, null=True)
-    building = models.ForeignKey(Building, blank=True, null=True)
-    floor = models.ForeignKey(Floor, blank=True, null=True)
-    line = models.ForeignKey(Line, blank=True, null=True)
-    shift = models.ForeignKey(Shift, blank=True, null=True)
+    department = models.ForeignKey(Department, blank=True, null=True, on_delete=models.CASCADE)
+    section = models.ForeignKey(Section, blank=True, null=True, on_delete=models.CASCADE)
+    building = models.ForeignKey(Building, blank=True, null=True, on_delete=models.CASCADE)
+    floor = models.ForeignKey(Floor, blank=True, null=True, on_delete=models.CASCADE)
+    line = models.ForeignKey(Line, blank=True, null=True, on_delete=models.CASCADE)
+    shift = models.ForeignKey(Shift, blank=True, null=True, on_delete=models.CASCADE)
 
     class Meta:
         abstract = True
 
 
 class AccountsProfile(models.Model):
-    bank = models.ForeignKey(Bank, blank=True, null=True)
+    bank = models.ForeignKey(Bank, blank=True, null=True, on_delete=models.CASCADE)
     account_number = models.CharField(max_length=50, blank=True, null=True)
 
     basic_salary = models.IntegerField(blank=True, null=True)

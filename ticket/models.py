@@ -26,13 +26,13 @@ STATUS_CHOICES = (
 
 
 class Ticket(Timestamped):
-    type = models.ForeignKey(TicketType)
+    type = models.ForeignKey(TicketType, on_delete=models.CASCADE)
     details = models.TextField()
     status = models.CharField(max_length=2, choices=STATUS_CHOICES, default=Unattended)
-    created_by = models.ForeignKey(User, related_name='tickets_created')
+    created_by = models.ForeignKey(User, related_name='tickets_created', on_delete=models.CASCADE)
 
     solved = models.BooleanField(default=False)
-    solved_by = models.ForeignKey(User, related_name='tickets_solved', blank=True, null=True)
+    solved_by = models.ForeignKey(User, related_name='tickets_solved', blank=True, null=True, on_delete=models.CASCADE)
 
     denied = models.BooleanField(default=False)
     accepted = models.BooleanField(default=False)

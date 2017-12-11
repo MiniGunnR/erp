@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.core.urlresolvers import reverse_lazy, reverse
+from django.shortcuts import render, reverse
+from django.urls import reverse_lazy
 from django.views import generic
 from django.http import HttpResponseRedirect
 from utils.func import is_member

@@ -1,0 +1,45 @@
+{% extends "inv_base.html" %}
+
+{% block main %}
+{% for lc in object_list %}
+
+    <div class="mui-panel">
+        <h3>{{ lc.number }}<small style="float: right;"><a href="{% url 'inv:lc_updateview' lc.pk %}">edit</a></small></h3>
+
+        <p>Date: <b>{{ lc.date }}</b></p>
+        <p>Spinning Mill: <b>{{ lc.spinning_mill }}</b></p>
+        <table class="mui-table mui-table--bordered">
+            <thead>
+            <tr>
+                <th>Count</th>
+                <th>Composition</th>
+                <th>Quantity</th>
+                <th>Style</th>
+                <th>Color</th>
+                <th>Yarn Received</th>
+                <th>Yarn Issued</th>
+                <th></th>
+            </tr>
+            </thead>
+
+            <tbody>
+        {% for item in lc.lcitem_set.all %}
+            <tr>
+                <td>{{ item.count }}</td>
+                <td>{{ item.composition }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.style }}</td>
+                <td>{{ item.color }}</td>
+                <td>{{ item.yarn_rcv }}</td>
+                <td>{{ item.yarn_dlv }}</td>
+                <td>
+                    <a href="{% url 'inv:yarn_rcv_createview' item.pk %}" class="mui-btn mui-btn--primary mui-btn--small">Receive</a>
+                    <a href="#" class="mui-btn mui-btn--accent mui-btn--small">Issue</a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endfor %}
+{% endblock %}

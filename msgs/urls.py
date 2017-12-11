@@ -2,6 +2,7 @@ from django.conf.urls import url
 
 from . import views
 
+app_name='msgs'
 urlpatterns = [
     url(r'^list/$', views.ThreadListView.as_view(), name='thread-listview'),
 

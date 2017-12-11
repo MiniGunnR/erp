@@ -1,0 +1,33 @@
+{% extends "inv_base.html" %}
+
+{% block main %}
+	<div class="container">
+		<form method="post">
+			{% csrf_token %}
+			<div id="balance"></div>
+			{{ form.as_p }}
+			<input class="btn" type="submit" value="Save"/>
+		</form>
+	</div>
+{% endblock %}
+
+{% block script %}
+	<script type="text/javascript">
+	$(function() {
+		$("#balance").insertAfter($("#id_yr"));
+
+		$(document).on("change", "#id_yr", function() {
+			var url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/inv/yi/yarn/rcvd/select/' + $("#id_yr option:selected").val() + '/';
+
+			$.ajax({
+				type: "GET",
+				url: url,
+
+				success: function(data) {
+					$("#balance").html('Balance: ' + data);
+				}
+			});
+		});
+	});
+	</script>
+{% endblock %}

@@ -1,11 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, reverse
 from django.views.generic import DetailView
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.forms.formsets import formset_factory
 from django.db import IntegrityError, transaction
 from django.contrib import messages
-from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 
 from .models import Requisition, Item, PurchaseOrder

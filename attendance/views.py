@@ -5,8 +5,7 @@ from datetime import date, datetime, timedelta
 from django import forms
 from django.http import HttpResponseRedirect, Http404
 from django.utils.dates import MONTHS
-from django.shortcuts import render
-from django.core.urlresolvers import reverse
+from django.shortcuts import render, reverse
 from django.conf import settings
 
 from core.models import Profile

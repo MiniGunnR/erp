@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.core.urlresolvers import reverse
+from django.shortcuts import reverse
 from django.http import HttpResponseRedirect
 
 from .models import Requisition, Item, Vendor, Company, PurchaseOrder

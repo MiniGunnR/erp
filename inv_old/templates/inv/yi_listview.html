@@ -16,6 +16,7 @@
 				      <td>Colour</td>
 				      <td>Style No</td>
 				      <td>Quantity</td>
+				      <td>Balance</td>
 				      <td>Action</td>
 			      </tr>
 			      {% for obj in object.list %}
@@ -25,8 +26,11 @@
 				          <td>{{ obj.colour }}</td>
 				          <td>{{ obj.style_no }}</td>
 				          <td>{{ obj.quantity }}</td>
+					      {% if forloop.last %}
+				          <td>{{ obj.balance }}</td>
+					        {% else %}<td></td>{% endif %}
 				          <td>
-					          <a href="{% url 'inv:yd_updateview' obj.id %}" class="orange-text">Edit</a>
+					          <a href="{% url 'inv:yi_updateview' obj.id %}" class="orange-text">Edit</a>
 				          </td>
 				      </tr>
 				      {% endfor %}

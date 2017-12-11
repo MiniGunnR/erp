@@ -2,6 +2,7 @@ from django.conf.urls import url
 
 from . import views
 
+app_name='attendance'
 urlpatterns = [
     url(r'^employees/$', views.employees, name='employees'),
     url(r'^(?P<month>\d{1,2})/(?P<year>\d{4})/$', views.month_summary, name='month_summary'),

@@ -3,7 +3,7 @@ from django.contrib.auth.views import login, logout
 
 from . import views
 
-
+app_name='core'
 urlpatterns = [
     url(r'^$', views.dashboard, name='dashboard'),
 

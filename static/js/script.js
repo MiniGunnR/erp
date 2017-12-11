@@ -8,7 +8,7 @@ $('.datepicker').pickadate({
     closeOnSelect: false // Close upon selecting a date,
   });
 
-$(document).ready(function() {
+$(function() {
     $('select').material_select();
     $(".button-collapse").sideNav();
 });

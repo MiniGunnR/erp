@@ -2,6 +2,7 @@ from django.conf.urls import url
 
 from . import views
 
+app_name='ticket'
 urlpatterns = [
     url(r'^$', views.ticket_list, name='ticket_list'),
     url(r'^applied/$', views.AppliedListView.as_view(), name='applied_listview'),
