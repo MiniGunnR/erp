@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'billing',
     'requisition',
     'msgs',
-    'inv',
+    # 'inv',
     'ticket',
 ]
 
