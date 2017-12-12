@@ -8,7 +8,7 @@ class LC(Timestamped):
     This model saves LC information.
     """
     date = models.DateField()
-    number = models.CharField(max_length=50)
+    number = models.CharField(max_length=50, unique=True)
     spinning_mill = models.CharField(max_length=50)
 
     def __str__(self):
