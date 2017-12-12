@@ -1,0 +1,33 @@
+{% extends "inv_base.html" %}
+
+{% block main %}
+	<table class="mui-table mui-table--bordered">
+	<thead>
+		<tr>
+			<th>LC</th>
+			<th>Spinning Mill</th>
+			<th>LC Order Qty</th>
+			<th>Receive Date</th>
+			<th>Challan No</th>
+			<th>Lot</th>
+			<th>Count</th>
+			<th>Received Qty</th>
+		</tr>
+	</thead>
+
+	{% for item in yarnrcv_list %}
+	<tbody>
+		<tr>
+			<td>{{ item.lc_item.lc.number }}</td>
+			<td>{{ item.lc_item.lc.spinning_mill }}</td>
+			<td>{{ item.lc_item.quantity }}</td>
+			<td>{{ item.date }}</td>
+			<td>{{ item.challan_no }}</td>
+			<td>{{ item.lot }}</td>
+			<td>{{ item.lc_item.count }}</td>
+			<td>{{ item.quantity_rcv }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+	</table>
+{% endblock %}

@@ -4,7 +4,7 @@ from django.db import transaction
 
 from .models import LC, LCItem, YarnRcv
 
-from .forms import LC_Formset, SearchForm
+from .forms import LC_Formset, LCSearchForm, YarnRcvSearchForm
 
 
 class LCCreateView(generic.CreateView):
@@ -81,6 +81,11 @@ class YarnRcvCreateView(generic.CreateView):
     return super(YarnRcvCreateView, self).form_valid(form)
 
 
+class YarnRcvListView(generic.ListView):
+  model = YarnRcv
+  template_name = "inv/yarn_rcv_list.html"
+
+
 class LCDetailView(generic.DetailView):
   model = LC
   template_name = 'inv/lc_detail.html'
@@ -88,7 +93,7 @@ class LCDetailView(generic.DetailView):
 
 class LCSearchView(generic.FormView):
   template_name = 'inv/lc_search.html'
-  form_class = SearchForm
+  form_class = LCSearchForm
 
 
 class LCSearchResultListView(generic.ListView):
@@ -99,3 +104,16 @@ class LCSearchResultListView(generic.ListView):
     query = self.request.GET.get('query', '')
     return LC.objects.filter(number__icontains=query)
 
+
+class YarnRcvSearchView(generic.FormView):
+  template_name = "inv/yarn_rcv_search.html"
+  form_class = YarnRcvSearchForm
+
+
+class YarnRcvSearchResultListView(generic.ListView):
+  model = YarnRcv
+  template_name = 'inv/yarn_rcv_list.html'
+
+  def get_queryset(self):
+    query = self.request.GET.get('query', '')
+    return YarnRcv.objects.filter(lc_item__lc__number__icontains=query)

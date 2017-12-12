@@ -12,6 +12,9 @@ class LCItemForm(forms.ModelForm):
 LC_Formset = inlineformset_factory(LC, LCItem, form=LCItemForm, extra=1)
 
 
-class SearchForm(forms.Form):
+class LCSearchForm(forms.Form):
     query = forms.CharField(label="LC Number")
 
+
+class YarnRcvSearchForm(forms.Form):
+    query = forms.CharField(label="LC Number")
