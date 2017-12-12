@@ -31,7 +31,7 @@ class LCCreateView(generic.CreateView):
       if lc_items.is_valid():
         lc_items.instance = self.object
         lc_items.save()
-    return super().form_valid(form)
+    return super(LCCreateView, self).form_valid(form)
 
 
 class LCUpdateView(generic.UpdateView):
@@ -43,7 +43,7 @@ class LCUpdateView(generic.UpdateView):
     return reverse('inv:lc_updateview', args=[self.object.pk])
 
   def get_context_data(self, **kwargs):
-    context = super().get_context_data(**kwargs)
+    context = LCUpdateView, self).get_context_data(**kwargs)
     if self.request.POST:
       context['lc_items'] = LC_Formset(self.request.POST, instance=self.object)
     else:
@@ -58,7 +58,7 @@ class LCUpdateView(generic.UpdateView):
       if lc_items.is_valid():
         lc_items.instance = self.object
         lc_items.save()
-    return super().form_valid(form)
+    return super(LCUpdateView, self).form_valid(form)
 
 
 class LCListView(generic.ListView):
@@ -78,7 +78,7 @@ class YarnRcvCreateView(generic.CreateView):
   def form_valid(self, form):
     lc_item_pk = self.kwargs['lc_item_pk']
     form.instance.lc_item = LCItem.objects.get(id=lc_item_pk)
-    return super().form_valid(form)
+    return super(YarnRcvCreateView, self).form_valid(form)
 
 
 class LCDetailView(generic.DetailView):
