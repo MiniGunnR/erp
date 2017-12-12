@@ -1,6 +1,7 @@
 {% extends "inv_base.html" %}
 
 {% block main %}
+	<h3>Yarn Received search by LC</h3>
     <form method="get" action="{% url 'inv:yarn_rcv_search_result_listview' %}">
         {{ form.as_p }}
     <input class="mui-btn mui-btn--primary" type="submit" value="Search" />

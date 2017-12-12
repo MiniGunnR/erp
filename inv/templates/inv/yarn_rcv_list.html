@@ -1,6 +1,7 @@
 {% extends "inv_base.html" %}
 
 {% block main %}
+	{% if yarnrcv_list %}
 	<table class="mui-table mui-table--bordered">
 	<thead>
 		<tr>
@@ -30,4 +31,7 @@
 		{% endfor %}
 	</tbody>
 	</table>
+		{% else %}
+		<p>No yarn received yet. <a href="{% url 'inv:lc_searchview' %}">Click here</a> to search for an LC to receive corresponding yarn.</p>
+		{% endif %}
 {% endblock %}

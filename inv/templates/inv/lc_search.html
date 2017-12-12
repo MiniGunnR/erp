@@ -1,6 +1,7 @@
 {% extends "inv_base.html" %}
 
 {% block main %}
+	<h3>Search LCs</h3>
     <form method="get" action="{% url 'inv:lc_search_result_listview' %}">
         {{ form.as_p }}
     <input class="mui-btn mui-btn--primary" type="submit" value="Search" />

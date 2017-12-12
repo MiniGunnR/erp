@@ -41,5 +41,7 @@
             </tbody>
         </table>
     </div>
+	{% empty %}
+	<p>No LCs created yet! <a href="{% url 'inv:lc_createview' %}">Click here</a> to create one now.</p>
     {% endfor %}
 {% endblock %}
