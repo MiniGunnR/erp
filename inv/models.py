@@ -135,4 +135,4 @@ class YarnRcv(Timestamped):
             # if previous qty and current qty is not the same
             if prev_quantity_rcv != self.quantity_rcv:
                 self.lc_item.edit_receive(prev_quantity_rcv, self.quantity_rcv)
-        super().save(*args, **kwargs)
+        super(YarnRcv, self).save(*args, **kwargs)

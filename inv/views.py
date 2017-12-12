@@ -16,7 +16,7 @@ class LCCreateView(generic.CreateView):
     return reverse('inv:lc_updateview', args=[self.object.pk])
 
   def get_context_data(self, **kwargs):
-    context = super().get_context_data(**kwargs)
+    context = super(LCCreateView, self).get_context_data(**kwargs)
     if self.request.POST:
       context['lc_items'] = LC_Formset(self.request.POST)
     else:
