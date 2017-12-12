@@ -43,7 +43,7 @@ class LCUpdateView(generic.UpdateView):
     return reverse('inv:lc_updateview', args=[self.object.pk])
 
   def get_context_data(self, **kwargs):
-    context = (LCUpdateView, self).get_context_data(**kwargs)
+    context = super(LCUpdateView, self).get_context_data(**kwargs)
     if self.request.POST:
       context['lc_items'] = LC_Formset(self.request.POST, instance=self.object)
     else:
