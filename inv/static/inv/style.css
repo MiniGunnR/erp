@@ -116,6 +116,7 @@ button {
   font-size: 20px;
   line-height: 20px;
   margin-right: 10px;
+  margin-left: 10px;
 }
 
 .sidedrawer-toggle:hover {
@@ -123,6 +124,10 @@ button {
   text-decoration: none;
 }
 
+.plain-link, .plain-link:hover {
+  color: black;
+  text-decoration: none;
+}
 
 /**
  * Sidedrawer CSS
