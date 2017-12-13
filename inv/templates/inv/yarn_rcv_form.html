@@ -3,8 +3,29 @@
 {% block main %}
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+	<table>
+		<tbody>
+		<tr>
+			<td>Date:</td>
+			<td>{{ form.date }}</td>
+		</tr>
+		<tr>
+			<td>Challan No:</td>
+			<td>{{ form.challan_no }}</td>
+		</tr>
+		<tr>
+			<td>Lot:</td>
+			<td>{{ form.lot }}</td>
+		</tr>
+		<tr>
+			<td valign="top">Quantity Received:</td>
+			<td>
+				{{ form.quantity_rcv }}
+				Available Quantity: <span id="available_quantity">{{ available_quantity }}</span>
+			</td>
+		</tr>
+		</tbody>
+	</table>
     <input class="mui-btn mui-btn--primary" type="submit" value="Receive" />
 </form>
 {% endblock %}
-

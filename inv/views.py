@@ -66,26 +66,6 @@ class LCListView(generic.ListView):
   template_name = 'inv/lc_list.html'
 
 
-class YarnRcvCreateView(generic.CreateView):
-  model = YarnRcv
-  fields = ['date', 'challan_no', 'lot', 'quantity_rcv']
-  template_name = 'inv/yarn_rcv_form.html'
-
-  def get_success_url(self):
-    lc_pk = LCItem.objects.get(id=self.kwargs['lc_item_pk']).lc_id
-    return reverse('inv:lc_detailview', args=[lc_pk])
-
-  def form_valid(self, form):
-    lc_item_pk = self.kwargs['lc_item_pk']
-    form.instance.lc_item = LCItem.objects.get(id=lc_item_pk)
-    return super(YarnRcvCreateView, self).form_valid(form)
-
-
-class YarnRcvListView(generic.ListView):
-  model = YarnRcv
-  template_name = "inv/yarn_rcv_list.html"
-
-
 class LCDetailView(generic.DetailView):
   model = LC
   template_name = 'inv/lc_detail.html'
@@ -103,6 +83,31 @@ class LCSearchResultListView(generic.ListView):
   def get_queryset(self):
     query = self.request.GET.get('query', '')
     return LC.objects.filter(number__icontains=query)
+
+
+class YarnRcvCreateView(generic.CreateView):
+  model = YarnRcv
+  fields = ['date', 'challan_no', 'lot', 'quantity_rcv']
+  template_name = 'inv/yarn_rcv_form.html'
+
+  def get_success_url(self):
+    lc_pk = LCItem.objects.get(id=self.kwargs['lc_item_pk']).lc_id
+    return reverse('inv:lc_detailview', args=[lc_pk])
+
+  def form_valid(self, form):
+    lc_item_pk = self.kwargs['lc_item_pk']
+    form.instance.lc_item = LCItem.objects.get(id=lc_item_pk)
+    return super(YarnRcvCreateView, self).form_valid(form)
+
+  def get_context_data(self, **kwargs):
+    context = super(YarnRcvCreateView, self).get_context_data(**kwargs)
+    context['available_quantity'] = LCItem.objects.get(id=self.kwargs['lc_item_pk']).available_to_receive()
+    return context
+
+
+class YarnRcvListView(generic.ListView):
+  model = YarnRcv
+  template_name = "inv/yarn_rcv_list.html"
 
 
 class YarnRcvSearchView(generic.FormView):
