@@ -74,7 +74,7 @@ class LCItem(models.Model):
                 self.yarn_rcv += amount
                 self.yarn_bal += amount
                 if self.yarn_bal < 0:
-                    return "Yarn Balance cannot be zero. Please check the current transaction for any errors."
+                    raise ArithmeticError("Yarn Balance cannot be zero. Please check the current transaction for any errors.")
                 self.save()
             else:
                 raise ArithmeticError("Amount to receive cannot be more than amount available.")
@@ -90,16 +90,28 @@ class LCItem(models.Model):
         # return the next line to return original error messages
         return self.receive_yarn(new_amount)
 
+    def can_deliver_yarn(self):
+        """
+        Returns true if current item have not fully been delivered.
+        """
+        return self.yarn_bal > 0
+
     def deliver_yarn(self, amount):
         """
         Adds amount to the yarn_dlv field and subtracts the same from yarn_bal field.
         If amount is greater than balance then shows an error message.
         """
-        if amount > self.yarn_bal:
-            return "Amount to deliver is greater than current yarn balance."
-        self.yarn_bal -= amount
-        self.yarn_dlv += amount
-        self.save()
+        if self.can_deliver_yarn():
+            if self.yarn_bal >= amount:
+                self.yarn_bal -= amount
+                self.yarn_dlv += amount
+                if self.yarn_bal < 0:
+                    raise ArithmeticError("Yarn Balance cannot be zero. Please check the current transaction for any errors.")
+                self.save()
+            else:
+                raise ArithmeticError("Amount to deliver cannot be more than amount available.")
+        else:
+            raise ArithmeticError("Quantity issued on LC have already been delivered.")
 
     def edit_deliver(self, old_amount, new_amount):
         """
@@ -136,3 +148,39 @@ class YarnRcv(Timestamped):
             if prev_quantity_rcv != self.quantity_rcv:
                 self.lc_item.edit_receive(prev_quantity_rcv, self.quantity_rcv)
         super(YarnRcv, self).save(*args, **kwargs)
+
+
+class YarnIssue(Timestamped):
+    lc_item = models.ForeignKey(LCItem, on_delete=models.CASCADE)
+    date = models.DateField()
+    challan_no = models.CharField(max_length=20)
+    style = models.CharField(max_length=50)
+    color = models.CharField(max_length=100)
+    quantity = models.PositiveIntegerField()
+    knitting_factory_name = models.CharField(max_length=100)
+    machine_brand = models.CharField(max_length=100)
+    machine_dia = models.CharField(max_length=100)
+    grey_finished_dia = models.CharField(max_length=100)
+    machine_gauge = models.CharField(max_length=100)
+    finished_garments_quality = models.CharField(max_length=100)
+
+    def __str__(self):
+        return "{lc_item} - challan: {challan}, style: {style}, color: {color}".format(
+            lc_item=self.lc_item, challan=self.challan_no, style=self.style, color=self.color
+        )
+
+    class Meta:
+        verbose_name_plural = "Yarn Issue"
+
+    def save(self, *args, **kwargs):
+        # if object is created
+        if self.pk is None:
+            self.lc_item.deliver_yarn(self.quantity)
+        # if object is updated
+        else:
+            prev_quantity_issue = YarnIssue.objects.get(id=self.pk).quantity
+            # if previous qty and current qty is not the same
+            if prev_quantity_issue != self.quantity:
+                self.lc_item.edit_deliver(prev_quantity_issue, self.quantity)
+        super(YarnIssue, self).save(*args, **kwargs)
+

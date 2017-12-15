@@ -1,0 +1,59 @@
+{% extends "inv_base.html" %}
+
+{% block main %}
+	<form method="post">
+		{% csrf_token %}
+		<table>
+			<tbody>
+			<tr>
+				<td>{{ form.date.label }}:</td>
+				<td>{{ form.date }}</td>
+			</tr>
+			<tr>
+				<td>{{ form.challan_no.label }}:</td>
+				<td>{{ form.challan_no }}</td>
+			</tr>
+			<tr>
+				<td>{{ form.style.label }}:</td>
+				<td>{{ form.style }}</td>
+			</tr>
+			<tr>
+				<td>{{ form.color.label }}:</td>
+				<td>{{ form.color }}</td>
+			</tr>
+			<tr>
+				<td>{{ form.quantity.label }}:</td>
+				<td>
+					{{ form.quantity }}
+					Available Quantity to Deliver: {{ available_quantity }}
+				</td>
+			</tr>
+			<tr>
+				<td>{{ form.knitting_factory_name.label }}:</td>
+				<td>{{ form.knitting_factory_name }}</td>
+			</tr>
+			<tr>
+				<td>{{ form.machine_brand.label }}:</td>
+				<td>{{ form.machine_brand }}</td>
+			</tr>
+			<tr>
+				<td>{{ form.machine_dia.label }}:</td>
+				<td>{{ form.machine_dia }}</td>
+			</tr>
+			<tr>
+				<td>{{ form.grey_finished_dia.label }}:</td>
+				<td>{{ form.grey_finished_dia }}</td>
+			</tr>
+			<tr>
+				<td>{{ form.machine_gauge.label }}:</td>
+				<td>{{ form.machine_gauge }}</td>
+			</tr>
+			<tr>
+				<td>{{ form.finished_garments_quality.label }}:</td>
+				<td>{{ form.finished_garments_quality }}</td>
+			</tr>
+			</tbody>
+		</table>
+		<input class="mui-btn mui-btn--primary" type="submit" value="Create" />
+	</form>
+{% endblock %}

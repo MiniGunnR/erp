@@ -5,12 +5,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="//cdn.muicss.com/mui-latest/css/mui.min.css" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/mui.min.css' %}" rel="stylesheet" type="text/css" />
     <link href="{% static 'inv/style.css' %}" rel="stylesheet" type="text/css" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
-    <script src="//cdn.muicss.com/mui-latest/js/mui.min.js"></script>
-    <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <link href="{% static 'css/select2.min.css' %}" rel="stylesheet" />
+    <script src="{% static 'js/mui.min.js' %}"></script>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/select2.min.js' %}"></script>
     <script src="{% static 'inv/script.js' %}"></script>
   </head>
   <body>
@@ -35,6 +35,13 @@
           <ul>
             <li><a href="{% url 'inv:yarn_rcv_listview' %}">List</a></li>
             <li><a href="{% url 'inv:yarn_rcv_searchview' %}">Search</a></li>
+          </ul>
+        </li>
+	    <li>
+          <strong>Yarn Issued</strong>
+          <ul>
+            <li><a href="{% url 'inv:yarn_issue_listview' %}">List</a></li>
+            <li><a href="{% url 'inv:yarn_issue_searchview' %}">Search</a></li>
           </ul>
         </li>
       </ul>
@@ -68,12 +75,7 @@
       <div class="mui--appbar-height"></div>
       <div class="mui-container-fluid">
         <br>
-          {% block main %}
-        <h1>Brand.io</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sollicitudin volutpat molestie. Nullam id tempor nulla. Aenean sit amet urna et elit pharetra consequat. Aliquam fringilla tortor vitae lectus tempor, tempor bibendum nunc elementum. Etiam ultrices tristique diam, vitae sodales metus bibendum id. Suspendisse blandit ligula eu fringilla pretium. Mauris dictum gravida tortor eu lacinia. Donec purus purus, ornare sit amet consectetur sed, dictum sit amet ex. Vivamus sit amet imperdiet tellus. Quisque ultrices risus a massa laoreet, vitae tempus sem congue. Maecenas nec eros ut lectus vehicula rutrum. Donec consequat tincidunt arcu non faucibus. Duis elementum, ante venenatis lacinia cursus, turpis massa congue magna, sed dapibus felis nibh sed tellus. Nam consectetur non nibh vitae sodales. Pellentesque malesuada dolor nec mi volutpat, eget vehicula eros ultrices.</p>
-        <p>Aenean vehicula tortor a tellus porttitor, id elementum est tincidunt. Etiam varius odio tortor. Praesent vel pulvinar sapien. Praesent ac sodales sem. Phasellus id ultrices massa. Sed id erat sit amet magna accumsan vulputate eu at quam. Etiam feugiat semper imperdiet. Sed a sem vitae massa condimentum vestibulum. In vehicula, quam vel aliquet aliquam, enim elit placerat libero, at pretium nisi lorem in ex. Vestibulum lorem augue, semper a efficitur in, dictum vitae libero. Donec velit est, sollicitudin a volutpat quis, iaculis sit amet metus. Nulla at ante nec dolor euismod mattis cursus eu nisl.</p>
-        <p>Quisque interdum facilisis consectetur. Nam eu purus purus. Curabitur in ligula quam. Nam euismod ligula eu tellus pellentesque laoreet. Aliquam erat volutpat. Curabitur eu bibendum velit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc efficitur lorem sit amet quam porta pharetra. Cras ultricies pellentesque eros sit amet semper.</p>
-          {% endblock %}
+          <main>{% block main %}{% endblock %}</main>
       </div>
     </div>
     <footer id="footer">

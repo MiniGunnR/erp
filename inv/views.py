@@ -2,9 +2,9 @@ from django.shortcuts import render, reverse
 from django.views import generic
 from django.db import transaction
 
-from .models import LC, LCItem, YarnRcv
+from .models import LC, LCItem, YarnRcv, YarnIssue
 
-from .forms import LC_Formset, LCSearchForm, YarnRcvSearchForm
+from .forms import LC_Formset, LCSearchForm, YarnRcvSearchForm, YarnIssueSearchForm
 
 
 class LCCreateView(generic.CreateView):
@@ -122,3 +122,41 @@ class YarnRcvSearchResultListView(generic.ListView):
   def get_queryset(self):
     query = self.request.GET.get('query', '')
     return YarnRcv.objects.filter(lc_item__lc__number__icontains=query)
+
+
+class YarnIssueCreateView(generic.CreateView):
+  model = YarnIssue
+  fields = ['date', 'challan_no', 'style', 'color', 'quantity', 'knitting_factory_name', 'machine_brand', 'machine_dia', 'grey_finished_dia', 'machine_gauge', 'finished_garments_quality']
+  template_name = 'inv/yarn_issue_form.html'
+
+  def get_success_url(self):
+    return reverse('inv:yarn_issue_listview')
+
+  def form_valid(self, form):
+    lc_item_pk = self.kwargs['lc_item_pk']
+    form.instance.lc_item = LCItem.objects.get(id=lc_item_pk)
+    return super(YarnIssueCreateView, self).form_valid(form)
+
+  def get_context_data(self, **kwargs):
+    context = super(YarnIssueCreateView, self).get_context_data(**kwargs)
+    context['available_quantity'] = LCItem.objects.get(id=self.kwargs['lc_item_pk']).yarn_bal
+    return context
+
+
+class YarnIssueListView(generic.ListView):
+  model = YarnIssue
+  template_name = 'inv/yarn_issue_list.html'
+
+
+class YarnIssueSearchView(generic.FormView):
+  template_name = 'inv/yarn_issue_search.html'
+  form_class = YarnIssueSearchForm
+
+
+class YarnIssueSearchResultView(generic.ListView):
+  model = YarnIssue
+  template_name = "inv/yarn_issue_list.html"
+
+  def get_queryset(self):
+    query = self.request.GET.get('query', '')
+    return YarnIssue.objects.filter(lc_item__lc__number__icontains=query)

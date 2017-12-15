@@ -15,4 +15,9 @@ urlpatterns = [
   url(r'^yarn/rcv/list/$', views.YarnRcvListView.as_view(), name='yarn_rcv_listview'),
   url(r'^yarn/rcv/search/$', views.YarnRcvSearchView.as_view(), name='yarn_rcv_searchview'),
   url(r'^yarn/rcv/search/result/$', views.YarnRcvSearchResultListView.as_view(), name='yarn_rcv_search_result_listview'),
+
+  url(r'^yarn/issue/create/(?P<lc_item_pk>\d+)$', views.YarnIssueCreateView.as_view(), name='yarn_issue_createview'),
+  url(r'^yarn/issue/list/$', views.YarnIssueListView.as_view(), name='yarn_issue_listview'),
+  url(r'^yarn/issue/search/$', views.YarnIssueSearchView.as_view(), name='yarn_issue_searchview'),
+  url(r'^yarn/issue/search/result/$', views.YarnIssueSearchResultView.as_view(), name='yarn_issue_search_result_listview')
 ]

@@ -13,6 +13,8 @@
 			<th>Lot</th>
 			<th>Count</th>
 			<th>Received Qty</th>
+			<th>Available to Issue</th>
+			<th>Actions</th>
 		</tr>
 	</thead>
 
@@ -27,6 +29,10 @@
 			<td>{{ item.lot }}</td>
 			<td>{{ item.lc_item.count }}</td>
 			<td>{{ item.quantity_rcv }}</td>
+			<td>{{ item.lc_item.yarn_bal }}</td>
+			<td>
+				<a href="{% url 'inv:yarn_issue_createview' item.lc_item.pk %}" class="mui-btn mui-btn--accent">Issue</a>
+			</td>
 		</tr>
 		{% endfor %}
 	</tbody>

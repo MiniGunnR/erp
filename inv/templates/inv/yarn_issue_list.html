@@ -1,0 +1,35 @@
+{% extends "inv_base.html" %}
+
+{% block main %}
+	{% if yarnissue_list %}
+	<table class="mui-table mui-table--bordered">
+	<thead>
+		<tr>
+			<th>LC</th>
+			<th>Delivery Date</th>
+			<th>Challan No</th>
+			<th>Spinning Mill</th>
+			<th>Style</th>
+			<th>Quantity</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+
+	{% for item in yarnissue_list %}
+	<tbody>
+		<tr>
+			<td>{{ item.lc_item.lc.number }}</td>
+			<td>{{ item.date }}</td>
+			<td>{{ item.challan_no }}</td>
+			<td>{{ item.lc_item.lc.spinning_mill }}</td>
+			<td>{{ item.style }}</td>
+			<td>{{ item.quantity }}</td>
+			<td></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+	</table>
+		{% else %}
+		<p>No yarn issued yet. <a href="{% url 'inv:lc_searchview' %}">Click here</a> to search for an LC to issue corresponding yarn.</p>
+		{% endif %}
+{% endblock %}

@@ -18,3 +18,7 @@ class LCSearchForm(forms.Form):
 
 class YarnRcvSearchForm(forms.Form):
     query = forms.CharField(label="LC Number")
+
+
+class YarnIssueSearchForm(forms.Form):
+    query = forms.CharField(label="LC Number")
