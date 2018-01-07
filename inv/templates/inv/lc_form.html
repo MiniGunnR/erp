@@ -3,9 +3,22 @@
 {% block main %}
 <form method="post">
     {% csrf_token %}
-    <p>{{ form.date.label }}: {{ form.date }} e.g. 2017-12-31</p>
-    <p>{{ form.number.label }}: {{ form.number }}</p>
-    <p>{{ form.spinning_mill.label }}: {{ form.spinning_mill }}</p>
+	<table>
+		<tbody>
+		<tr>
+			<td>{{ form.date.label }}:</td>
+			<td>{{ form.date }} e.g. 2017-12-31</td>
+		</tr>
+		<tr>
+			<td>{{ form.number.label }}:</td>
+			<td>{{ form.number }}</td>
+		</tr>
+		<tr>
+			<td>{{ form.spinning_mill.label }}:</td>
+			<td>{{ form.spinning_mill }}</td>
+		</tr>
+		</tbody>
+	</table>
 
     {{ lc_items.management_form }}
 
