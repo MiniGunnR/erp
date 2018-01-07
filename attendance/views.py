@@ -524,3 +524,4 @@ def populate(request):
 
     return HttpResponseRedirect(reverse('attendance:pull'))
 
+
