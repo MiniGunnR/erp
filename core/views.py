@@ -56,3 +56,27 @@ def create_user(request):
         "profile_form": profile_form,
     }
     return render(request, "core/create_user.html", context)
+
+
+import os, csv
+from django.conf import settings
+from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
+
+def create_bulk_user(request):
+    with open(os.path.join(settings.BASE_DIR, 'media', 'core', 'employees.csv')) as f:
+        reader = csv.reader(f)
+        for row in reader:
+            obj, created = User.objects.get_or_create(
+                username=str(row[0]),
+
+                defaults={
+                    'email': str(row[1]),
+                    'password': make_password('ddff123#'),
+                    'first_name': str(row[2]),
+                    'last_name': str(row[3])
+                }
+            )
+
+    context = {}
+    return render(request, "core/create_bulk_user.html", context)
