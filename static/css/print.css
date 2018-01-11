@@ -3,6 +3,7 @@
     body  {
         margin: 1.6cm;
         margin-left: 3cm;
+        font-size: 200%;
     }
     .nav-tabs, .btn-toolbar {
         display: none;
