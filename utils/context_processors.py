@@ -1,5 +1,6 @@
-from datetime import datetime
 import calendar
+from datetime import datetime
+from django.conf import settings
 
 
 def now(request):
@@ -10,4 +11,3 @@ def now(request):
         "current_month_number": now.month,
     }
     return context
-

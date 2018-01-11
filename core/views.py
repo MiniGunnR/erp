@@ -1,6 +1,8 @@
-from django.shortcuts import render
+import os, csv, shutil
+from django.shortcuts import render, reverse
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.core.files import File
 
 from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
@@ -59,7 +61,7 @@ def create_user(request):
     return render(request, "core/create_user.html", context)
 
 
-import os, csv
+
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
@@ -91,3 +93,13 @@ def create_bulk_user(request):
 
     context = {}
     return render(request, "core/create_bulk_user.html", context)
+
+
+def db_backup(request):
+    db_path = os.path.join(settings.BASE_DIR, 'db.sqlite3')
+    dbfile = File(open(db_path, "rb"))
+    response = HttpResponse(dbfile, content_type='application/x-sqlite3')
+    response['Content-Disposition'] = 'attachment; filename=%s' % db_path
+    response['Content-Length'] = dbfile.size
+
+    return response

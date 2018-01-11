@@ -14,4 +14,6 @@ urlpatterns = [
 
     url(r'^login/$', login, name="my_login", kwargs={'redirect_authenticated_user': True}),
     url(r'^logout/$', logout, name="my_logout"),
+
+    url(r'^db/backup/$', views.db_backup, name='db_backup'),
 ]
