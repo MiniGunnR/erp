@@ -21,6 +21,8 @@ urlpatterns = [
     url(r'^inv/', include('inv.urls', namespace='inv')),
 
     url(r'^ticket/', include('ticket.urls', namespace='ticket')),
+
+    url(r'^euro/', include('europarts.urls', namespace='europarts')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

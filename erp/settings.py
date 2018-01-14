@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'msgs',
     'inv',
     'ticket',
+    'europarts',
 ]
 
 MIDDLEWARE = [
