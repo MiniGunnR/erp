@@ -1,0 +1,51 @@
+{% extends "inv_base.html" %}
+
+{% block main %}
+	{% if request.GET.query %}
+		{% if request.GET.query != None %}
+			<h3>Search result for '{{ request.GET.query }}'</h3>
+			{% endif %}
+		{% endif %}
+
+	<table class="mui-table mui-table--bordered">
+	<thead>
+		<tr>
+			<th>Date</th>
+			<th>Style</th>
+			<th>Challan No</th>
+			<th>Fabric Type</th>
+			<th>Colour</th>
+			<th>Dia Name</th>
+			<th>Fabric Construction</th>
+			<th>Rcvd Grey Dia</th>
+			<th>Finished Fabric Dia</th>
+			<th>Finished Fabric GSM</th>
+			<th>Stitch Length</th>
+			<th>Stitch Color</th>
+			<th>Open Dia</th>
+			<th>Tube Dia</th>
+		</tr>
+	</thead>
+
+	{% for object in object_list %}
+		<tbody>
+			<tr>
+				<td>{{ object.date }}</td>
+				<td>{{ object.style }}</td>
+				<td>{{ object.challan_no }}</td>
+				<td>{{ object.fabric_type }}</td>
+				<td>{{ object.colour }}</td>
+				<td>{{ object.dia_name }}</td>
+				<td>{{ object.fabric_construction }}</td>
+				<td>{{ object.received_grey_dia }}</td>
+				<td>{{ object.finished_fabric_dia }}</td>
+				<td>{{ object.finished_fabric_gsm }}</td>
+				<td>{{ object.stitch_length }}</td>
+				<td>{{ object.stitch_color }}</td>
+				<td>{{ object.open_dia|yesno:"Yes,No,Not Given" }}</td>
+				<td>{{ object.tube_dia|yesno:"Yes,No,Not Given" }}</td>
+			</tr>
+		</tbody>
+		{% endfor %}
+	</table>
+{% endblock %}

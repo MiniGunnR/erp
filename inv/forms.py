@@ -22,3 +22,7 @@ class YarnRcvSearchForm(forms.Form):
 
 class YarnIssueSearchForm(forms.Form):
     query = forms.CharField(label="LC Number")
+
+
+class FabricDeliverySearchForm(forms.Form):
+    query = forms.CharField(label="Style Number")

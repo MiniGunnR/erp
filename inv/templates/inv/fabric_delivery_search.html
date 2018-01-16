@@ -1,0 +1,9 @@
+{% extends "inv_base.html" %}
+
+{% block main %}
+	<h3>Fabric Delivery search by Style</h3>
+    <form method="get" action="{% url 'inv:fabric_delivery_search_result_listview' %}">
+        {{ form.as_p }}
+    <input class="mui-btn mui-btn--primary" type="submit" value="Search" />
+    </form>
+{% endblock %}

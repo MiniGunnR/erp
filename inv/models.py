@@ -184,3 +184,22 @@ class YarnIssue(Timestamped):
                 self.lc_item.edit_deliver(prev_quantity_issue, self.quantity)
         super(YarnIssue, self).save(*args, **kwargs)
 
+
+class FabricDelivery(Timestamped):
+    style = models.CharField(max_length=50, db_index=True)
+    date = models.DateField()
+    challan_no = models.CharField(max_length=20) # auto generate
+    fabric_type = models.CharField(max_length=20)
+    colour = models.CharField(max_length=20)
+    dia_name = models.CharField(max_length=40)
+    fabric_construction = models.CharField(max_length=100)
+    received_grey_dia = models.CharField(max_length=100)
+    finished_fabric_dia = models.CharField(max_length=100)
+    finished_fabric_gsm = models.CharField('Finished Fabric GSM (color-wise)', max_length=100)
+    stitch_length = models.CharField(max_length=100)
+    stitch_color = models.CharField(max_length=100)
+    open_dia = models.BooleanField(default=False)
+    tube_dia = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.style

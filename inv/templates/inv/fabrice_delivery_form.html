@@ -1,0 +1,22 @@
+{% extends "inv_base.html" %}
+
+{% block main %}
+	<form method="post">
+		{% csrf_token %}
+
+		<table>
+
+		{% for item in form %}
+			<tr>
+				<td>{{ item.label }}</td>
+				<td>{{ item }}</td>
+			</tr>
+			{% endfor %}
+
+			<tr>
+				<td><input class="mui-btn mui-btn--primary" type="submit" value="Create"/></td>
+			</tr>
+
+		</table>
+	</form>
+{% endblock %}
