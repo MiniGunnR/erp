@@ -1,6 +1,7 @@
 {% extends "inv_base.html" %}
 
 {% block main %}
+	{% if fabricdelivery_list %}
 	{% if request.GET.query %}
 		{% if request.GET.query != None %}
 			<h3>Search result for '{{ request.GET.query }}'</h3>
@@ -48,4 +49,7 @@
 		</tbody>
 		{% endfor %}
 	</table>
+	{% else %}
+		<p>No fabric delivered yet. <a href="{% url 'inv:fabric_delivery_createview' %}">Click here</a> to create an entry for fabric delivery.</p>
+		{% endif %}
 {% endblock %}
