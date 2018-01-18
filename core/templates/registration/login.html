@@ -23,7 +23,7 @@
 
 		<div id="login-div">
 			<h4>Welcome!</h4>
-			<form method="post" action="." class="form-group">
+			<form method="post" action="/login/?next={{next}}" class="form-group">
 				{% csrf_token %}
 
 				<input class="form-control" type="text" id="username" name="username" placeholder="Username" autofocus/> <br/>
