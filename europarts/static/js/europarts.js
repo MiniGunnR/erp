@@ -2,7 +2,7 @@ $(function() {
 
     $("input[id^='id_form-'][id$='-part_no']").on('blur', function(e) {
         var $part_no = $(this).val();
-        var $url = '/europarts/fetch/item/details/' + $part_no + '/';
+        var $url = '/euro/fetch/item/details/' + $part_no + '/';
         var $id = $(this).attr('id').replace("id_form-", "").replace("-part_no", "");
 
         if ($part_no != "") {

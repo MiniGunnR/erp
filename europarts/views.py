@@ -36,10 +36,23 @@ def inventory_create(request):
         brand = form.cleaned_data.get('brand')
         type = form.cleaned_data.get('type')
         description = form.cleaned_data.get('description')
+        engine_no = form.cleaned_data.get('engine_no')
+        ship_name = form.cleaned_data.get('ship_name')
+        serial_no = form.cleaned_data.get('serial_no')
+        chassis_no = form.cleaned_data.get('chassis_no')
         quantity = form.cleaned_data.get('quantity')
         cost_price = form.cleaned_data.get('cost_price')
 
-        Inventory.objects.create(part_no=part_no, brand=brand, type=type, description=description, quantity=quantity, cost_price=cost_price)
+        Inventory.objects.create(part_no=part_no,
+                                 brand=brand,
+                                 type=type,
+                                 description=description,
+                                 engine_no=engine_no,
+                                 ship_name=ship_name,
+                                 serial_no=serial_no,
+                                 chassis_no=chassis_no,
+                                 quantity=quantity,
+                                 cost_price=cost_price)
 
         return HttpResponseRedirect(reverse('europarts:inventory_create'))
 
@@ -61,10 +74,23 @@ def inventory_edit(request, pk):
             brand = form.cleaned_data.get('brand')
             type = form.cleaned_data.get('type')
             description = form.cleaned_data.get('description')
+            engine_no = form.cleaned_data.get('engine_no')
+            ship_name = form.cleaned_data.get('ship_name')
+            serial_no = form.cleaned_data.get('serial_no')
+            chassis_no = form.cleaned_data.get('chassis_no')
             quantity = inventory.quantity
             cost_price = form.cleaned_data.get('cost_price')
 
-            Inventory.objects.filter(pk=inventory.pk).update(part_no=part_no, brand=brand, type=type, description=description, quantity=quantity, cost_price=cost_price)
+            Inventory.objects.filter(pk=inventory.pk).update(part_no=part_no,
+                                                             brand=brand,
+                                                             type=type,
+                                                             description=description,
+                                                             engine_no=engine_no,
+                                                             ship_name=ship_name,
+                                                             serial_no=serial_no,
+                                                             chassis_no=chassis_no,
+                                                             quantity=quantity,
+                                                             cost_price=cost_price)
 
             return HttpResponseRedirect(reverse('europarts:inventory_edit', args=(pk,)))
         else:
@@ -268,7 +294,8 @@ def quotation_create(request, ws_id):
 
         worksheet_rows = WorksheetRow.objects.filter(worksheet=worksheet)
         for item in worksheet_rows:
-            QuotationRow.objects.create(quotation=quotation, part_no=item.part_no, brand=item.brand, type=item.type, description=item.description, quantity=item.quantity, sale_price=item.sale_price, total=item.total)
+            # QuotationRow.objects.create(quotation=quotation, part_no=item.part_no, brand=item.brand, type=item.type, description=item.description, quantity=item.quantity, sale_price=item.sale_price, total=item.total)
+            QuotationRow.objects.create(quotation=quotation, part_no=item.part_no, brand=item.brand, description=item.description, quantity=item.quantity, sale_price=item.gram_p_s, total=item.total)
 
         qr_objs_total = QuotationRow.objects.filter(quotation=quotation).aggregate(Sum('total'))
         quotation.total = qr_objs_total['total__sum']
