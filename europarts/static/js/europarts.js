@@ -59,7 +59,7 @@ $(function() {
 
             $.ajax({
                 type: 'GET',
-                url: '/europarts/get/past/price/' + $part_no + '/',
+                url: '/euro/get/past/price/' + $part_no + '/',
 
                 success: function(data) {
                     html = '';
