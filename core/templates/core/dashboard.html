@@ -1,11 +1,16 @@
 {% extends "base_template.html" %}
 {% load project_tags %}
+{% load core_extras %}
 
 {% block navbar %}{% endblock %}
 
 {% block main %}
 	<div id="dashboard-wrap">
 		<div class="list-group">
+			{% if request.user|has_group:"Europarts" %}
+				<a href="{% url 'europarts:home' %}" class="list-group-item">Europarts</a>
+				{% else %}
+
 			<a href="{% url 'billing:home' %}" class="list-group-item">Billing</a>
 {#			{% if request.user|has_group:'Europarts' %}#}
 {#				<a href="{% url 'europarts:home' %}" class="list-group-item">Europarts</a>#}
@@ -16,6 +21,7 @@
 
 			<a href="{% url 'inv:lc_searchview' %}" class="list-group-item">Inventory</a>
 			<a href="{% url 'ticket:ticket_list' %}" class="list-group-item">Support Ticket</a>
+			{% endif %}
 		</div>
 
 		{% if request.user == 'admin' %}
