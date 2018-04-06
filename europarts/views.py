@@ -1,5 +1,6 @@
 from datetime import datetime
 from decimal import Decimal
+from django.db import transaction
 
 from django.shortcuts import render
 from django.forms import formset_factory
@@ -9,7 +10,7 @@ from django.db.models import Sum
 from django.contrib.auth.decorators import login_required
 
 from .models import Worksheet, WorksheetRow, Inventory, Quotation, QuotationRow, Invoice, InvoiceRow, Challan, ChallanRow
-from .forms import WorksheetForm, WorksheetRowForm, InventoryForm
+from .forms import WorksheetForm, WorksheetRowForm, InventoryForm, BillRowForm, BillForm
 from utils.n2w import final
 
 
@@ -269,6 +270,100 @@ def worksheet_edit(request, pk):
 
 
 @login_required
+def bill_list(request):
+    worksheets = Worksheet.objects.all()
+    context = {
+        "worksheets": worksheets,
+    }
+    return render(request, "europarts/bill/bill_list.html", context)
+
+
+@login_required
+@transaction.atomic
+def bill_create(request):
+    BillRowFormset = formset_factory(BillRowForm, extra=1)
+
+    if request.method == "POST":
+        bill_form = BillForm(request.POST)
+        row_formset = BillRowFormset(request.POST)
+
+        if bill_form.is_valid() and row_formset.is_valid():
+            ref_no = bill_form.cleaned_data.get('ref_no')
+            worksheet = Worksheet.objects.create(ref_no=ref_no)
+
+            for row_form in row_formset:
+                part_no = row_form.cleaned_data.get('part_no')
+                quantity = row_form.cleaned_data.get('quantity')
+                unit_price_in_taka = row_form.cleaned_data.get('unit_price_in_taka')
+                total_price_in_taka = row_form.cleaned_data.get('total_price_in_taka')
+
+                if part_no is not None:
+                    WorksheetRow.objects.create(
+                        worksheet=worksheet,
+                        part_no=part_no,
+                        quantity=quantity,
+                        unit_price_in_taka=unit_price_in_taka,
+                        total_price_in_taka=total_price_in_taka,
+                    )
+            return HttpResponseRedirect(reverse('europarts:bill_edit', args=(worksheet.pk,)))
+    else:
+        bill_form = BillForm()
+        row_formset = BillRowFormset()
+    context = {
+        "bill_form": bill_form,
+        "row_formset": row_formset,
+    }
+    return render(request, "europarts/bill/bill_create.html", context)
+
+
+@login_required
+@transaction.atomic
+def bill_edit(request, pk):
+    all_rows = WorksheetRow.objects.filter(worksheet_id=pk)
+
+    BillRowFormset = formset_factory(BillRowForm, extra=0)
+
+    worksheet = Worksheet.objects.get(id=pk)
+
+    old_rows = WorksheetRow.objects.filter(worksheet=worksheet)
+    row_data = [{'part_no': row.part_no,
+                 'quantity': row.quantity,
+                 'unit_price_in_taka': row.unit_price_in_taka,
+                 'total_price_in_taka': row.total_price_in_taka}
+                for row in old_rows]
+
+    if request.method == "POST":
+        row_formset = BillRowFormset(request.POST)
+
+        if row_formset.is_valid():
+            all_rows.delete()
+
+            for row_form in row_formset:
+                part_no = row_form.cleaned_data.get('part_no')
+                quantity = row_form.cleaned_data.get('quantity')
+                unit_price_in_taka = row_form.cleaned_data.get('unit_price_in_taka')
+                total_price_in_taka = row_form.cleaned_data.get('total_price_in_taka')
+
+                if part_no is not None:
+                    WorksheetRow.objects.create(
+                        worksheet=worksheet,
+                        part_no=part_no,
+                        quantity=quantity,
+                        unit_price_in_taka=unit_price_in_taka,
+                        total_price_in_taka=total_price_in_taka,
+                    )
+            return HttpResponseRedirect(reverse('europarts:bill_edit', args=(pk,)))
+    else:
+        row_formset = BillRowFormset(initial=row_data)
+
+    context = {
+        "worksheet": worksheet,
+        "row_formset": row_formset,
+    }
+    return render(request, "europarts/bill/bill_edit.html", context)
+
+
+@login_required
 def quotation_list(request):
     quotations = Quotation.objects.all()
     context = {
@@ -278,6 +373,7 @@ def quotation_list(request):
 
 
 @login_required
+@transaction.atomic
 def quotation_create(request, ws_id):
     worksheet = Worksheet.objects.get(id=ws_id)
     qt_objs = Quotation.objects.filter(worksheet=worksheet)
@@ -288,14 +384,15 @@ def quotation_create(request, ws_id):
             ref_no = 'EPBD/{id}/{year}'.format(id=worksheet.id, year=datetime.now().year)
         else:
             count = qt_objs.count()
-            ref_no = '{ref}-{count}'.format(ref=first_obj.ref_no, count=count)
+            # ref_no = '{ref}-{count}'.format(ref=first_obj.ref_no, count=count)
+            ref_no = 'EPBD/{id}-{count}/{year}'.format(id=worksheet.id, count=count, year=datetime.now().year)
 
         quotation = Quotation.objects.create(ref_no=ref_no, worksheet=worksheet, total=0, recipient=request.POST.get('recipient'), recipient_address=request.POST.get('recipient_address'))
 
         worksheet_rows = WorksheetRow.objects.filter(worksheet=worksheet)
         for item in worksheet_rows:
             # QuotationRow.objects.create(quotation=quotation, part_no=item.part_no, brand=item.brand, type=item.type, description=item.description, quantity=item.quantity, sale_price=item.sale_price, total=item.total)
-            QuotationRow.objects.create(quotation=quotation, part_no=item.part_no, brand=item.brand, description=item.description, quantity=item.quantity, sale_price=item.unit_price_in_taka, total=item.total_price_in_taka)
+            QuotationRow.objects.create(quotation=quotation, part_no=item.part_no, quantity=item.quantity, sale_price=item.unit_price_in_taka, total=item.total_price_in_taka)
 
         qr_objs_total = QuotationRow.objects.filter(quotation=quotation).aggregate(Sum('total'))
         quotation.total = qr_objs_total['total__sum']

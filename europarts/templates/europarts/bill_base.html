@@ -1,0 +1,22 @@
+{% extends "europarts/home.html" %}
+
+{% block nav-content %}
+	<div class="btn-toolbar" style="margin: 10px;">
+		<div class="btn-group">
+			<a id="bill-create" href="{% url 'europarts:bill_create' %}" class="btn btn-danger btn-sm">Create</a>
+		</div>
+
+		<div class="btn-group">
+			<a id="bill-list" href="{% url 'europarts:bill_list' %}" class="btn btn-default btn-sm">List</a>
+			<a id="bill-details" href="#" class="btn btn-default btn-sm disabled">Details</a>
+		</div>
+
+		<div id="conditional-buttons" style="float: right; display: none;" class="btn-group">
+			<a href="#" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal">Generate Quotation</a>
+		</div>
+	</div>
+
+	<div id="bill-wrapper">
+		{% block bill-content %}{% endblock %}
+	</div>
+{% endblock %}

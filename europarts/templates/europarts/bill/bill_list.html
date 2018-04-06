@@ -1,0 +1,20 @@
+{% extends "europarts/bill_base.html" %}
+
+{% block bill-content %}
+	{% for worksheet in worksheets %}
+		<p>
+			<a class="list-link" href="{% url 'europarts:bill_edit' worksheet.pk %}">{{ worksheet }}</a>
+		</p>
+		{% empty %}
+		<h4>No bills available.</h4>
+		{% endfor %}
+{% endblock %}
+
+{% block extra-js %}
+	<script type="text/javascript">
+
+		$("#bill-tab").addClass("active");
+
+		$("#bill-list").addClass("active");
+	</script>
+{% endblock %}

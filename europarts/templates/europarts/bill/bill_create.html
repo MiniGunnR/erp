@@ -1,0 +1,55 @@
+{% extends "europarts/bill_base.html" %}
+{% load static from staticfiles %}
+
+{% block bill-content %}
+	<form id="billForm" method="post" action=".">
+		{% csrf_token %}
+		Ref No : {{ bill_form.ref_no }}
+
+		<input class="btn btn-primary btn-sm" type="submit" value="Save"/>
+
+		<hr/>
+
+		{{ row_formset.management_form }}
+
+		<table>
+
+		<tr>
+			<th>Part No</th>
+			<th>Qnty</th>
+			<th>Unit Price in Taka</th>
+			<th>Total Price in Taka</th>
+		</tr>
+
+
+		{% for row_form in row_formset %}
+			<tr class="row-formset">
+				<td>{{ row_form.part_no }}</td>
+				<td>{{ row_form.quantity }}</td>
+				<td>{{ row_form.unit_price_in_taka }}</td>
+				<td>{{ row_form.total_price_in_taka }}</td>
+			</tr>
+			{% endfor %}
+
+		</table>
+	</form>
+
+	<div id="part_price" style="border: solid; border-width: 1px; display: none; background-color: white;"
+{% endblock %}
+
+{% block extra-js %}
+	<script src="{% static 'js/europarts.js' %}"></script>
+	<script src="{% static 'js/jquery.formset.js' %}"></script>
+
+	<script type="text/javascript">
+
+		$("#bill-tab").addClass("active");
+
+		$("#bill-create").addClass("active");
+
+		$(".row-formset").formset({
+			addText: 'add row',
+			deleteText: 'remove'
+		});
+	</script>
+{% endblock %}

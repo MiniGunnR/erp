@@ -14,6 +14,10 @@ urlpatterns = [
     url(r'^worksheet/create/$', views.worksheet_create, name='worksheet_create'),
     url(r'^worksheet/edit/(?P<pk>\d+)/$', views.worksheet_edit, name='worksheet_edit'),
 
+    url(r'^bill/$', views.bill_list, name='bill_list'),
+    url(r'^bill/create/$', views.bill_create, name='bill_create'),
+    url(r'^bill/edit/(?P<pk>\d+)/$', views.bill_edit, name='bill_edit'),
+
     url(r'^quotation/$', views.quotation_list, name='quotation_list'),
     url(r'^quotation/create/from/worksheet/(?P<ws_id>\d+)/$', views.quotation_create, name='quotation_create'),
     url(r'^quotation/details/(?P<pk>\d+)/$', views.quotation_details, name='quotation_details'),
