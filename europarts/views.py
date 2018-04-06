@@ -295,7 +295,7 @@ def quotation_create(request, ws_id):
         worksheet_rows = WorksheetRow.objects.filter(worksheet=worksheet)
         for item in worksheet_rows:
             # QuotationRow.objects.create(quotation=quotation, part_no=item.part_no, brand=item.brand, type=item.type, description=item.description, quantity=item.quantity, sale_price=item.sale_price, total=item.total)
-            QuotationRow.objects.create(quotation=quotation, part_no=item.part_no, brand=item.brand, description=item.description, quantity=item.quantity, sale_price=item.gram_p_s, total=item.total)
+            QuotationRow.objects.create(quotation=quotation, part_no=item.part_no, brand=item.brand, description=item.description, quantity=item.quantity, sale_price=item.unit_price_in_taka, total=item.total)
 
         qr_objs_total = QuotationRow.objects.filter(quotation=quotation).aggregate(Sum('total'))
         quotation.total = qr_objs_total['total__sum']
