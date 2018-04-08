@@ -298,6 +298,14 @@ def bill_create(request):
                 total_price_in_taka = row_form.cleaned_data.get('total_price_in_taka')
 
                 if part_no is not None:
+                    inventory, created = Inventory.objects.get_or_create(
+                        part_no=part_no,
+                        defaults={
+                            'quantity': quantity,
+                            'cost_price': unit_price_in_taka,
+                        }
+                    )
+
                     WorksheetRow.objects.create(
                         worksheet=worksheet,
                         part_no=part_no,
@@ -450,10 +458,10 @@ def invoice_create(request, qt_id):
     if request.method == "POST":
         first_obj = invoice_objs.last()
         if first_obj is None:
-            ref_no = 'EPBD/{id}/{year}'.format(id=quotation.id, year=datetime.now().year)
+            ref_no = 'EPBD/{id}/{year}'.format(id=quotation.worksheet.display_id, year=datetime.now().year)
         else:
             count = invoice_objs.count()
-            ref_no = '{ref}-{count}'.format(ref=first_obj.ref_no, count=count)
+            ref_no = 'EPBD/{id}-{count}/{year}'.format(id=quotation.worksheet.display_id, count=count, year=datetime.now().year)
 
         invoice = Invoice.objects.create(ref_no=ref_no, quotation=quotation, total=quotation.total, total_after_tax=int(round(quotation.total * Decimal(1.085))), recipient=quotation.recipient, recipient_address=quotation.recipient_address)
         challan = Challan.objects.create(ref_no=ref_no, invoice=invoice, recipient=quotation.recipient, recipient_address=quotation.recipient_address)
