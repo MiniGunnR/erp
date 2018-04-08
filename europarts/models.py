@@ -83,7 +83,7 @@ class Worksheet(Timestamped):
             self.display_id = 5
         else:
             self.display_id += 5
-        super().save(*a, **kw)
+        super(Worksheet, self).save(*a, **kw)
 
     class Meta:
         ordering = ['-created']
