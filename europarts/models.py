@@ -67,6 +67,7 @@ class Worksheet(Timestamped):
     ref_no = models.CharField(max_length=100)
 
     quotation_ref = models.CharField(max_length=100, blank=True, null=True)
+    display_id = models.IntegerField(default=5)
 
     cost_price_visible = models.BooleanField(default=True)
     sale_price_visible = models.BooleanField(default=True)
@@ -74,6 +75,15 @@ class Worksheet(Timestamped):
 
     def __str__(self):
         return self.ref_no
+
+    def save(self, *a, **kw):
+        try:
+            self.display_id = Worksheet.objects.order_by('created').last().display_id
+        except:
+            self.display_id = 5
+        else:
+            self.display_id += 5
+        super().save(*a, **kw)
 
     class Meta:
         ordering = ['-created']

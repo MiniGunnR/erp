@@ -359,6 +359,7 @@ def bill_edit(request, pk):
     context = {
         "worksheet": worksheet,
         "row_formset": row_formset,
+        "pk": pk,
     }
     return render(request, "europarts/bill/bill_edit.html", context)
 
@@ -380,12 +381,27 @@ def quotation_create(request, ws_id):
 
     if request.method == "POST":
         first_obj = qt_objs.last()
+
+        # generate display_id that increases by 5
+        # try:
+        #     quotation = Quotation.objects.order_by('created').last()
+        #     display_id = quotation.display_id
+        # except:
+        #     display_id = 5
+        # else:
+        #     if worksheet.id == quotation.worksheet_id:
+        #         display_id = quotation.display_id
+        #     else:
+        #         display_id = int(display_id) + 5
+
         if first_obj is None:
-            ref_no = 'EPBD/{id}/{year}'.format(id=worksheet.id, year=datetime.now().year)
+            # ref_no = 'EPBD/{id}/{year}'.format(id=worksheet.id, year=datetime.now().year)
+            ref_no = 'EPBD/{id}/{year}'.format(id=worksheet.display_id, year=datetime.now().year)
         else:
             count = qt_objs.count()
             # ref_no = '{ref}-{count}'.format(ref=first_obj.ref_no, count=count)
-            ref_no = 'EPBD/{id}-{count}/{year}'.format(id=worksheet.id, count=count, year=datetime.now().year)
+            # ref_no = 'EPBD/{id}-{count}/{year}'.format(id=worksheet.id, count=count, year=datetime.now().year)
+            ref_no = 'EPBD/{id}-{count}/{year}'.format(id=worksheet.display_id, count=count, year=datetime.now().year)
 
         quotation = Quotation.objects.create(ref_no=ref_no, worksheet=worksheet, total=0, recipient=request.POST.get('recipient'), recipient_address=request.POST.get('recipient_address'))
 
@@ -426,6 +442,7 @@ def invoice_list(request):
 
 
 @login_required
+@transaction.atomic
 def invoice_create(request, qt_id):
     quotation = Quotation.objects.get(id=qt_id)
     invoice_objs = Invoice.objects.filter(quotation=quotation)
