@@ -468,7 +468,7 @@ class QuotationEmail(View, LoginRequiredMixin):
                          'no-stop-slow-scripts': True},
         )
 
-        with open('media/quotation_email.pdf', 'wb') as f:
+        with open(os.path.join(settings.BASE_DIR, settings.MEDIA_ROOT, 'quotation_email.pdf'), 'wb') as f:
             f.write(response.rendered_content)
 
         email = EmailMessage()
