@@ -1,1 +1,81 @@
-Email template {{ pk }}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <title>DAL ERP</title>
+
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+
+    <body>
+
+	<div style="padding: 10px;" id="quotation-body">
+		<span id="ref_no"><b>Ref No. :</b> {{ ref_no }}</span>
+		<span style="float: right;" id="date"><b>Dated:</b> {{ date }}</span>
+		<hr/>
+
+		<div class="text-center">
+			<h3>Quotation</h3>
+		</div>
+
+		{{ recipient }} <br/>
+		{{ address }} <br/>
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Part No.</th>
+					<th>Particulars</th>
+					<th>Quantity</th>
+					<th>Unit Price</th>
+					<th>Total Price</th>
+				</tr>
+			</thead>
+
+			<tbody>
+			{% for item in quotation_rows %}
+				<tr>
+					<td>{{ item.part_no }}</td>
+					<td>{{ item.description }}</td>
+					<td>{{ item.quantity }}</td>
+					<td>Tk. {{ item.sale_price }}</td>
+					<td>Tk. {{ item.total }}</td>
+				</tr>
+				{% endfor %}
+				<tr>
+					<td></td>
+					<td class="text-right" colspan="2">
+						<b>Total Price (excluding VAT & AIT)</b>
+					</td>
+					<td></td>
+					<td>Tk. {{ total }}</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div style="border: solid;" class="text-center" id="total_in_words">
+			<h4>Total Taka: {{ total_in_words|capfirst }}</h4>
+		</div>
+
+		<br/>
+		<br/>
+
+		<p><b><u>Other Terms & Conditions</u></b></p>
+
+		<p><b>PAYMENT:</b> 30% advance and balance 70% at the time of delivery from our office in cash.</p>
+
+		<p><b>DELIVERY:</b> Within 10-15 days from the date of Confirm order and advance</p>
+
+		<p><b>OFFER VALIDITY:</b> 30 Days.</p>
+	</div>
+
+	<footer class="text-right">
+	<p>_______________________</p>
+	<p>For EURO PARTS BD LTD.</p>
+	</footer>
+
+	</body>
+</html>

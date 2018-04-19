@@ -450,8 +450,23 @@ class QuotationEmail(View, LoginRequiredMixin):
     template = "europarts/quotation/email_template.html"
 
     def get(self, request, **kwargs):
+        quotation = Quotation.objects.get(pk=kwargs['pk'])
+        ref_no = quotation.ref_no
+        date = quotation.created
+        recipient = quotation.recipient
+        address = quotation.recipient_address
+        quotation_rows = QuotationRow.objects.filter(quotation=quotation)
+        total = quotation.total
+        total_in_words = final(total)
+
         context = {
-            "pk": kwargs['pk'],
+            "ref_no": ref_no,
+            "date": date,
+            "recipient": recipient,
+            "address": address,
+            "quotation_rows": quotation_rows,
+            "total": total,
+            "total_in_words": total_in_words,
         }
 
         response = PDFTemplateResponse(
