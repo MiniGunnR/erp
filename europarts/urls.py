@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^quotation/$', views.quotation_list, name='quotation_list'),
     url(r'^quotation/create/from/worksheet/(?P<ws_id>\d+)/$', views.quotation_create, name='quotation_create'),
     url(r'^quotation/details/(?P<pk>\d+)/$', views.quotation_details, name='quotation_details'),
+    url(r'^quotation/email/(?P<pk>\d+)$', views.QuotationEmail.as_view(), name='quotation_email'),
 
     url(r'^invoice/$', views.invoice_list, name='invoice_list'),
     url(r'^invoice/create/from/quotation/(?P<qt_id>\d+)/$', views.invoice_create, name='invoice_create'),

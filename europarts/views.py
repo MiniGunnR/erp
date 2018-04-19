@@ -1,5 +1,9 @@
 from datetime import datetime
 from decimal import Decimal
+import os
+from django.conf import settings
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.mail import EmailMessage
 from django.db import transaction
 
 from django.shortcuts import render
@@ -8,10 +12,12 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.db.models import Sum
 from django.contrib.auth.decorators import login_required
+from django.views.generic import View
 
 from .models import Worksheet, WorksheetRow, Inventory, Quotation, QuotationRow, Invoice, InvoiceRow, Challan, ChallanRow
 from .forms import WorksheetForm, WorksheetRowForm, InventoryForm, BillRowForm, BillForm
 from utils.n2w import final
+from wkhtmltopdf.views import PDFTemplateResponse
 
 
 @login_required
@@ -438,6 +444,44 @@ def quotation_details(request, pk):
         "pk": pk,
     }
     return render(request, "europarts/quotation/quotation_details.html", context)
+
+
+class QuotationEmail(View, LoginRequiredMixin):
+    template = "europarts/quotation/email_template.html"
+
+    def get(self, request, **kwargs):
+        context = {
+            "pk": kwargs['pk'],
+        }
+
+        response = PDFTemplateResponse(
+            request=request,
+            template=self.template,
+            filename='quotation_email.pdf',
+            context=context,
+            show_content_in_browser=True,
+            cmd_options={'margin-top': 10,
+                         'zoom': 1,
+                         'viewport-size': '1366 x 513',
+                         'javascript-delay': 1000,
+                         'footer-center': '[page]/[topage]',
+                         'no-stop-slow-scripts': True},
+        )
+
+        with open('media/quotation_email.pdf', 'wb') as f:
+            f.write(response.rendered_content)
+
+        email = EmailMessage()
+        email.subject = 'Demo subject'
+        email.body = self.request.GET.get('email_body', '')
+        email.from_email = 'Sorower Hossain <sorower@europartsbd.com>'
+        email.to = ['{}'.format(self.request.GET.get('to_address'))]
+
+        email.attach_file(os.path.join(settings.MEDIA_ROOT, 'quotation_email.pdf'))
+
+        email.send()
+
+        return HttpResponseRedirect(reverse('europarts:quotation_details', args=(kwargs['pk'],)))
 
 
 @login_required

@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'wkhtmltopdf',
+
     'attn',
     'attendance',
     'core',
@@ -45,6 +47,16 @@ INSTALLED_APPS = [
     'ticket',
     'europarts',
 ]
+
+WKHTMLTOPDF_CMD_OPTIONS = {
+    'dpi': 380,
+}
+
+EMAIL_HOST = 'mail.groupdesignace.com'
+EMAIL_HOST_USER = 'michel@groupdesignace.com'
+EMAIL_HOST_PASSWORD = 'mmii123#'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
