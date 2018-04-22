@@ -172,7 +172,7 @@ class RequisitionView(View, LoginRequiredMixin):
             template=self.template,
             filename='requisition.pdf',
             context=context,
-            show_content_in_browser=False,
+            show_content_in_browser=True,
             cmd_options={'margin-top': 10,
                          'zoom': 1,
                          'viewport-size': '1366 x 513',
