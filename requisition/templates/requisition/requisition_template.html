@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<title>Requisition</title>
+
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	</head>
+
+	<body>
+		<div class="container-fluid">
+		    <div class="row">
+		        <div class="col-xs-12">
+		            <div class="invoice-title">
+		                <h2>Group Design Ace</h2><h3 class="pull-right">Requisition # {{ pk }}</h3>
+			            <p style="line-height: 0.5em;"></p>
+		            </div>
+		            <hr>
+			        <div class="row">
+		                <div class="col-xs-5">
+		                    <address>
+		                    <strong>Prepared By:</strong><br>
+		                        {{ full_name }}<br>
+		                    </address>
+		                </div>
+				        <div class="col-xs-3"></div>
+		                <div class="col-xs-4 text-right">
+		                    <address>
+		                    <strong>Issue Date:</strong><br>
+		                        June 6, 2017<br>
+		                    </address>
+		                </div>
+		            </div>
+			        <div class="row">
+		                <div class="col-xs-5">
+		                    <address>
+
+
+		                    </address>
+		                </div>
+				        <div class="col-xs-3"></div>
+		                <div class="col-xs-4 text-right">
+		                    <address>
+		                    </address>
+		                </div>
+		            </div>
+			        <div class="row">
+		                <div class="col-xs-5">
+			                <address>
+
+
+		                    </address>
+		                </div>
+				        <div class="col-xs-3"></div>
+		                <div class="col-xs-4 text-right">
+		                    <address>
+		                    <strong>Department:</strong><br>
+		                        IT<br><br>
+		                    </address>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+
+		    <div class="row">
+		        <div class="col-xs-12">
+		            <div class="panel panel-default">
+		                <div class="panel-heading">
+		                    <h3 class="panel-title"><strong>Order summary</strong></h3>
+		                </div>
+		                <div class="panel-body">
+		                    <div class="table-responsive">
+		                        <table class="table table-condensed">
+		                            <thead>
+		                                <tr style="border-bottom: solid; border-width: 2px;">
+		                                    <td><strong>Item</strong></td>
+		                                    <td class="text-center"><strong>Quantity</strong></td>
+		                                    <td class="text-center"><strong>Price</strong></td>
+		                                    <td class="text-right"><strong>Totals</strong></td>
+			                                <td class="text-right">Remarks</td>
+		                                </tr>
+		                            </thead>
+		                            <tbody>
+		                                <!-- foreach ($order->lineItems as $line) or some such thing here -->
+
+		                                {% for item in items %}
+		                                <tr>
+		                                    <td style="border-bottom: solid; border-width: 1px;">
+			                                    {{ item.name }} <br/>
+			                                    <small></small>
+		                                    </td>
+		                                    <td class="text-center" style="border-bottom: solid; border-width: 1px;">{{ item.quantity }} pc</td>
+		                                    <td class="text-center" style="border-bottom: solid; border-width: 1px;">৳ {{ item.price }}</td>
+		                                    <td class="text-right" style="border-bottom: solid; border-width: 1px;">৳ {{ item.amount }}</td>
+		                                    <td class="text-right" style="border-bottom: solid; border-width: 1px;"></td>
+		                                </tr>
+		                                {% endfor %}
+
+		                                <tr>
+		                                    <td class="thick-line"></td>
+		                                    <td class="thick-line"></td>
+		                                    <td class="thick-line text-center"><strong>Total</strong></td>
+		                                    <td class="thick-line text-right">৳ {{ requisition.total }}</td>
+		                                </tr>
+		                            </tbody>
+		                        </table>
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+
+			<div class="spacer"></div>
+			<div class="spacer"></div>
+			<div class="spacer"></div>
+			<div class="spacer"></div>
+
+			<div class="row" id="signatures">
+				<div class="col-xs-4">
+					____________________ <br/>
+					<small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Requested By</small>
+				</div>
+				<div class="col-xs-4 text-center">
+					____________________ <br/>
+					<small>Reviewed By</small>
+				</div>
+				<div class="col-xs-4 text-right">
+					____________________ <br/>
+					<small>Approved By&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small>
+				</div>
+			</div>
+		</div>
+
+		<style>
+			.invoice-title h2, .invoice-title h3 {
+			    display: inline-block;
+			}
+
+			#signatures {
+				padding-top: 50px;
+			}
+		</style>
+	</body>
+</html>

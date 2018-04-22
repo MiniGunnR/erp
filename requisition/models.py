@@ -37,7 +37,7 @@ class Requisition(Timestamped):
         return "Requisition {0}".format(str(self.id))
 
     def view_requisition(self):
-        return reverse("requisition:requisition-detail-view", args=[str(self.id)])
+        return reverse("requisition:requisition-pdf-view", args=[str(self.id)])
 
     def view_work_order(self):
         self.read_only = True

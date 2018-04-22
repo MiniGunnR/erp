@@ -1,11 +1,13 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, reverse
-from django.views.generic import DetailView
+from django.views.generic import DetailView, View
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.forms.formsets import formset_factory
 from django.db import IntegrityError, transaction
 from django.contrib import messages
 from django.http import HttpResponseRedirect
+from wkhtmltopdf.views import PDFTemplateResponse
 
 from .models import Requisition, Item, PurchaseOrder
 from .forms import RequisitionForm, ItemForm
@@ -149,3 +151,33 @@ def purchase_order(request, pk):
         "po": po,
     }
     return render(request, "requisition/purchase_order.html", context)
+
+
+class RequisitionView(View, LoginRequiredMixin):
+    template = "requisition/requisition_template.html"
+
+    def get(self, request, **kwargs):
+        req = Requisition.objects.get(pk=kwargs['pk'])
+        objs = Item.objects.filter(requisition_id=kwargs['pk'])
+
+        context = {
+            "pk": kwargs['pk'],
+            "full_name": self.request.user.get_full_name(),
+            "requisition": req,
+            "items": objs,
+        }
+
+        response = PDFTemplateResponse(
+            request=request,
+            template=self.template,
+            filename='requisition.pdf',
+            context=context,
+            show_content_in_browser=False,
+            cmd_options={'margin-top': 10,
+                         'zoom': 1,
+                         'viewport-size': '1366 x 513',
+                         'javascript-delay': 1000,
+                         'no-stop-slow-scripts': True}
+        )
+
+        return response

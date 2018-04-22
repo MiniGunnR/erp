@@ -479,7 +479,6 @@ class QuotationEmail(View, LoginRequiredMixin):
                          'zoom': 1,
                          'viewport-size': '1366 x 513',
                          'javascript-delay': 1000,
-                         'footer-center': '[page]/[topage]',
                          'no-stop-slow-scripts': True},
         )
 
