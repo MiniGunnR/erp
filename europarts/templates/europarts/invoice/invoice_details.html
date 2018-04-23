@@ -44,6 +44,7 @@
 						<b>Total Price (excluding VAT & AIT)</b>
 					</td>
 					<td>Tk. {{ invoice.total }}</td>
+					<td></td>
 				</tr>
 
 				<tr>
@@ -52,6 +53,7 @@
 						<b>BD Govt. VAT (8.5%)</b>
 					</td>
 					<td>Tk. {{ vat }}</td>
+					<td></td>
 				</tr>
 
 				<tr>
@@ -60,6 +62,7 @@
 						<b>Payable Total</b>
 					</td>
 					<td>Tk. {{ invoice.total_after_tax }}</td>
+					<td></td>
 				</tr>
 			</tbody>
 		</table>
@@ -92,6 +95,33 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- Send Email Modal -->
+	<div class="modal fade" id="emailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<form method="get" action="{% url 'europarts:invoice_email' pk %}">
+					<div class="modal-header">
+						<h4 class="modal-title" id="emailModalLabel">Send Email</h4>
+					</div>
+					<div class="modal-body">
+						<label for="to_address">To:</label>
+						<input name="to_address" id="to_address" type="text" class="form-control"/>
+
+						<br>
+
+						<label for="email_body"> Body:</label>
+						<textarea name="email_body" id="email_body" cols="30" rows="10" class="form-control"></textarea>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+						<input type="submit" class="btn btn-primary" value="Send Email" />
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 {% endblock %}
 
 {% block extra-js %}
@@ -100,6 +130,8 @@
 		$("#invoice-tab").addClass("active");
 
 		$("#invoice-details").addClass("active");
+
+		$("#conditional-buttons").css('display', 'block');
 
 	</script>
 {% endblock %}

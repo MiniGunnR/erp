@@ -551,6 +551,62 @@ def invoice_details(request, pk):
     return render(request, "europarts/invoice/invoice_details.html", context)
 
 
+class InvoiceEmail(View, LoginRequiredMixin):
+    template = "europarts/invoice/email_template.html"
+
+    def get(self, request, **kwargs):
+        invoice = Invoice.objects.get(pk=kwargs['pk'])
+        ref_no = invoice.ref_no
+        date = invoice.created
+        recipient = invoice.recipient
+        address = invoice.recipient_address
+        invoice_rows = InvoiceRow.objects.filter(invoice=invoice)
+        total = invoice.total
+        vat = float(total) * 0.085
+        total_after_tax = float(total) + vat
+        total_in_words = final(total)
+
+        context = {
+            "ref_no": ref_no,
+            "date": date,
+            "recipient": recipient,
+            "address": address,
+            "invoice_rows": invoice_rows,
+            "total": total,
+            "vat": vat,
+            "total_after_tax": total_after_tax,
+            "total_in_words": total_in_words,
+        }
+
+        response = PDFTemplateResponse(
+            request=request,
+            template=self.template,
+            filename='invoice_email.pdf',
+            context=context,
+            show_content_in_browser=True,
+            cmd_options={'margin-top': 10,
+                         'zoom': 1,
+                         'viewport-size': '1366 x 513',
+                         'javascript-delay': 1000,
+                         'no-stop-slow-scripts': True},
+        )
+
+        with open(os.path.join(settings.BASE_DIR, settings.MEDIA_ROOT, 'invoice_email.pdf'), 'wb') as f:
+            f.write(response.rendered_content)
+
+        email = EmailMessage()
+        email.subject = 'Demo subject'
+        email.body = self.request.GET.get('email_body', '')
+        email.from_email = 'Sorower Hossain <sorower@europartsbd.com>'
+        email.to = ['{}'.format(self.request.GET.get('to_address'))]
+
+        email.attach_file(os.path.join(settings.MEDIA_ROOT, 'invoice_email.pdf'))
+
+        email.send()
+
+        return HttpResponseRedirect(reverse('europarts:invoice_details', args=(kwargs['pk'],)))
+
+
 @login_required
 def challan_list(request):
     challans = Challan.objects.all()

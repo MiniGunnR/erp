@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<title>DAL ERP</title>
+
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	</head>
+
+	<body>
+
+	<div style="padding: 10px;" id="invoice-body">
+		<span id="ref_no"><b>Ref No. :</b> {{ ref_no }}</span>
+		<span style="float: right;" id="date"><b>Dated:</b> {{ date|date:"F d, Y" }}</span>
+		<hr/>
+
+		<div class="text-center">
+			<h3>Invoice</h3>
+		</div>
+
+		<b>To</b> <br/>
+		{{ recipient }} <br/>
+		{{ address }} <br/>
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Part No.</th>
+					<th>Particulars</th>
+					<th>Brand</th>
+					<th>Quantity</th>
+					<th>Unit Price</th>
+					<th>Total Price</th>
+				</tr>
+			</thead>
+
+			<tbody>
+			{% for item in invoice_rows %}
+				<tr>
+					<td>{{ item.part_no }}</td>
+					<td>{{ item.description }}</td>
+					<td>{{ item.brand }}</td>
+					<td>{{ item.quantity }}</td>
+					<td>{{ item.sale_price }}</td>
+					<td>{{ item.total }}</td>
+				</tr>
+				{% endfor %}
+				<tr>
+					<td></td>
+					<td class="text-right" colspan="3">
+						<b>Total Price (excluding VAT & AIT)</b>
+					</td>
+					<td>Tk. {{ total }}</td>
+					<td></td>
+				</tr>
+
+				<tr>
+					<td></td>
+					<td class="text-right" colspan="3">
+						<b>BD Govt. VAT (8.5%)</b>
+					</td>
+					<td>Tk. {{ vat }}</td>
+					<td></td>
+				</tr>
+
+				<tr>
+					<td></td>
+					<td class="text-right" colspan="3">
+						<b>Payable Total</b>
+					</td>
+					<td>Tk. {{ total_after_tax }}</td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div style="border: solid;" class="text-center" id="total_in_words">
+			<h4>Total Taka: {{ total_in_words|capfirst }}</h4>
+		</div>
+	</div>
+
+    <br><br>
+    
+	<footer class="text-right">
+	<p>_______________________</p>
+	<p>For EURO PARTS BD LTD.</p>
+    </footer>
+    
+	</body>
+</html>

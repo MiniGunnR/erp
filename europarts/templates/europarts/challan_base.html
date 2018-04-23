@@ -10,6 +10,10 @@
 			<a id="challan-list" href="{% url 'europarts:challan_list' %}" class="btn btn-default btn-sm">List</a>
 			<a id="challan-details" href="#" class="btn btn-default btn-sm disabled">Details</a>
 		</div>
+
+		<div id="conditional-buttons" style="float: right; display: none;" class="btn-group">
+			<a id="generate-invoice" href="#" class="btn btn-default btn-sm">Send Email</a>
+		</div>
 	</div>
 
 	{% block challan-content %}{% endblock %}
