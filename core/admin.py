@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.http import HttpResponseRedirect
 
-from .models import Department, Profile, Company, Designation
+from .models import Department, Profile, Company, Designation, Mail
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 
@@ -27,3 +27,4 @@ admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Department)
 admin.site.register(Company)
 admin.site.register(Designation)
+admin.site.register(Mail)

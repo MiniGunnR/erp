@@ -1,4 +1,5 @@
 import os
+from django.conf import settings
 from django.db import models
 from utils.models import Timestamped
 from django.conf import settings
@@ -216,3 +217,9 @@ class Profile(BaseProfile, AccountsProfile, ITProfile):
         self.proximity_id = ('0' * (10 - len(self.proximity_id))) + self.proximity_id
         super(Profile, self).save(*args, **kwargs)
 
+
+class Mail(Timestamped):
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL)
+    to_email = models.EmailField()
+    from_email = models.EmailField()
+    cc_emails = models.CharField(max_length=255)
