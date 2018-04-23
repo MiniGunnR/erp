@@ -30,6 +30,7 @@ urlpatterns = [
 
     url(r'^challan/$', views.challan_list, name='challan_list'),
     url(r'^challan/details/(?P<pk>\d+)/$', views.challan_details, name='challan_details'),
+    url(r'^challan/email/(?P<pk>\d+)$', views.ChallanEmail.as_view(), name='challan_email'),
 
     # API
 

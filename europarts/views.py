@@ -629,3 +629,50 @@ def challan_details(request, pk):
     }
     return render(request, "europarts/challan/challan_details.html", context)
 
+
+class ChallanEmail(View, LoginRequiredMixin):
+    template = "europarts/challan/email_template.html"
+
+    def get(self, request, **kwargs):
+        challan = Challan.objects.get(pk=kwargs['pk'])
+        ref_no = challan.ref_no
+        date = challan.created
+        recipient = challan.recipient
+        address = challan.recipient_address
+        challan_rows = ChallanRow.objects.filter(challan=challan)
+        
+        context = {
+            "ref_no": ref_no,
+            "date": date,
+            "recipient": recipient,
+            "address": address,
+            "challan_rows": challan_rows,
+        }
+
+        response = PDFTemplateResponse(
+            request=request,
+            template=self.template,
+            filename='challan_email.pdf',
+            context=context,
+            show_content_in_browser=True,
+            cmd_options={'margin-top': 10,
+                         'zoom': 1,
+                         'viewport-size': '1366 x 513',
+                         'javascript-delay': 1000,
+                         'no-stop-slow-scripts': True},
+        )
+
+        with open(os.path.join(settings.BASE_DIR, settings.MEDIA_ROOT, 'challan_email.pdf'), 'wb') as f:
+            f.write(response.rendered_content)
+        
+        email = EmailMessage()
+        email.subject = 'Demo subject'
+        email.body = self.request.GET.get('email_body', '')
+        email.from_email = 'Sorower Hossain <sorower@europartsbd.com>'
+        email.to = ['{}'.format(self.request.GET.get('to_address'))]
+
+        email.attach_file(os.path.join(settings.MEDIA_ROOT, 'challan_email.pdf'))
+
+        email.send()
+
+        return HttpResponseRedirect(reverse('europarts:challan_details', args=(kwargs['pk'],)))
