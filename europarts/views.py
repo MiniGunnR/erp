@@ -16,6 +16,9 @@ from django.views.generic import View
 
 from .models import Worksheet, WorksheetRow, Inventory, Quotation, QuotationRow, Invoice, InvoiceRow, Challan, ChallanRow
 from .forms import WorksheetForm, WorksheetRowForm, InventoryForm, BillRowForm, BillForm
+from core.models import Mail
+
+from utils.mixins import AtomicMixin
 from utils.n2w import final
 from wkhtmltopdf.views import PDFTemplateResponse
 
@@ -446,7 +449,7 @@ def quotation_details(request, pk):
     return render(request, "europarts/quotation/quotation_details.html", context)
 
 
-class QuotationEmail(View, LoginRequiredMixin):
+class QuotationEmail(AtomicMixin, View, LoginRequiredMixin):
     template = "europarts/quotation/email_template.html"
 
     def get(self, request, **kwargs):
@@ -486,14 +489,25 @@ class QuotationEmail(View, LoginRequiredMixin):
             f.write(response.rendered_content)
 
         email = EmailMessage()
-        email.subject = 'Demo subject'
+        email.subject = 'From Design Ace Limited'
         email.body = self.request.GET.get('email_body', '')
-        email.from_email = 'Sorower Hossain <sorower@europartsbd.com>'
+        # email.from_email = 'Sorower Hossain <sorower@europartsbd.com>'
+        email.from_email = '{full_name} <{email}>'.format(
+            full_name=self.request.user.get_full_name(),
+            email=self.request.user.email
+        )
         email.to = ['{}'.format(self.request.GET.get('to_address'))]
-
         email.attach_file(os.path.join(settings.MEDIA_ROOT, 'quotation_email.pdf'))
-
         email.send()
+
+        # sent mail save with contenttype
+        Mail.objects.create(
+            owner           = self.request.user,
+            to_email        = self.request.GET.get('to_address'),
+            from_email      = email.from_email,
+            subject         = email.subject,
+            content_object  = quotation,
+        )
 
         return HttpResponseRedirect(reverse('europarts:quotation_details', args=(kwargs['pk'],)))
 
@@ -551,7 +565,7 @@ def invoice_details(request, pk):
     return render(request, "europarts/invoice/invoice_details.html", context)
 
 
-class InvoiceEmail(View, LoginRequiredMixin):
+class InvoiceEmail(AtomicMixin, View, LoginRequiredMixin):
     template = "europarts/invoice/email_template.html"
 
     def get(self, request, **kwargs):
@@ -595,14 +609,21 @@ class InvoiceEmail(View, LoginRequiredMixin):
             f.write(response.rendered_content)
 
         email = EmailMessage()
-        email.subject = 'Demo subject'
+        email.subject = 'From Design Ace Limited'
         email.body = self.request.GET.get('email_body', '')
         email.from_email = 'Sorower Hossain <sorower@europartsbd.com>'
         email.to = ['{}'.format(self.request.GET.get('to_address'))]
-
         email.attach_file(os.path.join(settings.MEDIA_ROOT, 'invoice_email.pdf'))
-
         email.send()
+
+        # sent mail save with contenttype
+        Mail.objects.create(
+            owner           = self.request.user,
+            to_email        = self.request.GET.get('to_address'),
+            from_email      = email.from_email,
+            subject         = email.subject,
+            content_object  = invoice,
+        )
 
         return HttpResponseRedirect(reverse('europarts:invoice_details', args=(kwargs['pk'],)))
 
@@ -630,7 +651,7 @@ def challan_details(request, pk):
     return render(request, "europarts/challan/challan_details.html", context)
 
 
-class ChallanEmail(View, LoginRequiredMixin):
+class ChallanEmail(AtomicMixin, View, LoginRequiredMixin):
     template = "europarts/challan/email_template.html"
 
     def get(self, request, **kwargs):
@@ -666,13 +687,20 @@ class ChallanEmail(View, LoginRequiredMixin):
             f.write(response.rendered_content)
         
         email = EmailMessage()
-        email.subject = 'Demo subject'
+        email.subject = 'From Design Ace Limited'
         email.body = self.request.GET.get('email_body', '')
         email.from_email = 'Sorower Hossain <sorower@europartsbd.com>'
         email.to = ['{}'.format(self.request.GET.get('to_address'))]
-
         email.attach_file(os.path.join(settings.MEDIA_ROOT, 'challan_email.pdf'))
-
         email.send()
+
+        # sent mail save with contenttype
+        Mail.objects.create(
+            owner           = self.request.user,
+            to_email        = self.request.GET.get('to_address'),
+            from_email      = email.from_email,
+            subject         = email.subject,
+            content_object  = challan,
+        )
 
         return HttpResponseRedirect(reverse('europarts:challan_details', args=(kwargs['pk'],)))

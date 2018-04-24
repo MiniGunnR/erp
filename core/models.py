@@ -1,9 +1,9 @@
-import os
-from django.conf import settings
 from django.db import models
 from utils.models import Timestamped
 from django.conf import settings
 from django.core.validators import MaxValueValidator
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 
 
 class Company(models.Model):
@@ -222,4 +222,12 @@ class Mail(Timestamped):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL)
     to_email = models.EmailField()
     from_email = models.EmailField()
-    cc_emails = models.CharField(max_length=255)
+    cc_emails = models.CharField(max_length=255, blank=True, null=True)
+    subject = models.CharField(max_length=255, default='From Design Ace Limited')
+
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+
+    def __str__(self):
+        return "{content_type} : {to_email} - {subject}".format(content_type=self.content_type, to_email=self.to_email, subject=self.subject[:50])
