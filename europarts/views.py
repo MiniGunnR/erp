@@ -16,6 +16,7 @@ from django.views.generic import View
 
 from .models import Worksheet, WorksheetRow, Inventory, Quotation, QuotationRow, Invoice, InvoiceRow, Challan, ChallanRow
 from .forms import WorksheetForm, WorksheetRowForm, InventoryForm, BillRowForm, BillForm
+from .tasks import send_email
 from core.models import Mail
 
 from utils.mixins import AtomicMixin
@@ -683,23 +684,24 @@ class ChallanEmail(AtomicMixin, View, LoginRequiredMixin):
                          'no-stop-slow-scripts': True},
         )
 
-        with open(os.path.join(settings.BASE_DIR, settings.MEDIA_ROOT, 'challan_email.pdf'), 'wb') as f:
+        file_path = os.path.join(settings.BASE_DIR, settings.MEDIA_ROOT, 'challan_email.pdf')
+        with open(file_path, 'wb') as f:
             f.write(response.rendered_content)
-        
-        email = EmailMessage()
-        email.subject = 'From Design Ace Limited'
-        email.body = self.request.GET.get('email_body', '')
-        email.from_email = 'Sorower Hossain <sorower@europartsbd.com>'
-        email.to = ['{}'.format(self.request.GET.get('to_address'))]
-        email.attach_file(os.path.join(settings.MEDIA_ROOT, 'challan_email.pdf'))
-        email.send()
+
+        subject = 'From Design Ace Limited'
+        body = self.request.GET.get('email_body', '')
+        from_email = 'Sorower Hossain <sorower@europartsbd.com>'
+        to = ['{}'.format(self.request.GET.get('to_address'))]
+        attachment = os.path.join(settings.MEDIA_ROOT, 'challan_email.pdf')
+
+        send_email(subject, body, from_email, to, attachment)
 
         # sent mail save with contenttype
         Mail.objects.create(
             owner           = self.request.user,
             to_email        = self.request.GET.get('to_address'),
-            from_email      = email.from_email,
-            subject         = email.subject,
+            from_email      = from_email,
+            subject         = subject,
             content_object  = challan,
         )
 

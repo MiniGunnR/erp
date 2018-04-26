@@ -1,10 +1,17 @@
+amqp==2.2.2
 appdirs==1.4.3
+billiard==3.5.0.3
+celery==4.1.0
 Django==1.10
+django-wkhtmltopdf==3.1.0
+kombu==4.1.0
 olefile==0.44
 packaging==16.8
 Pillow==4.0.0
 pyparsing==2.2.0
 pytz==2016.10
+redis==2.10.6
 requests==2.12.4
 simplejson==3.10.0
 six==1.10.0
+vine==1.1.4

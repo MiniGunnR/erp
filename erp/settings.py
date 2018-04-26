@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'celery',
     'wkhtmltopdf',
 
     'attn',
@@ -169,3 +170,4 @@ CACHES = {
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
 
+CELERY_BROKER_URL = 'redis://localhost:6379/'
