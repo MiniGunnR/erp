@@ -12,11 +12,11 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.db.models import Sum
 from django.contrib.auth.decorators import login_required
-from django.views.generic import View
+from django.views.generic import View, ListView
 
 from .models import Worksheet, WorksheetRow, Inventory, Quotation, QuotationRow, Invoice, InvoiceRow, Challan, ChallanRow
 from .forms import WorksheetForm, WorksheetRowForm, InventoryForm, BillRowForm, BillForm
-from .tasks import send_email
+from .tasks import generate_pdf_and_send_email
 from core.models import Mail
 
 from utils.mixins import AtomicMixin
@@ -661,32 +661,13 @@ class ChallanEmail(AtomicMixin, View, LoginRequiredMixin):
         date = challan.created
         recipient = challan.recipient
         address = challan.recipient_address
-        challan_rows = ChallanRow.objects.filter(challan=challan)
-        
+
         context = {
             "ref_no": ref_no,
             "date": date,
             "recipient": recipient,
             "address": address,
-            "challan_rows": challan_rows,
         }
-
-        response = PDFTemplateResponse(
-            request=request,
-            template=self.template,
-            filename='challan_email.pdf',
-            context=context,
-            show_content_in_browser=True,
-            cmd_options={'margin-top': 10,
-                         'zoom': 1,
-                         'viewport-size': '1366 x 513',
-                         'javascript-delay': 1000,
-                         'no-stop-slow-scripts': True},
-        )
-
-        file_path = os.path.join(settings.BASE_DIR, settings.MEDIA_ROOT, 'challan_email.pdf')
-        with open(file_path, 'wb') as f:
-            f.write(response.rendered_content)
 
         subject = 'From Design Ace Limited'
         body = self.request.GET.get('email_body', '')
@@ -694,7 +675,8 @@ class ChallanEmail(AtomicMixin, View, LoginRequiredMixin):
         to = ['{}'.format(self.request.GET.get('to_address'))]
         attachment = os.path.join(settings.MEDIA_ROOT, 'challan_email.pdf')
 
-        send_email(subject, body, from_email, to, attachment)
+        # task
+        generate_pdf_and_send_email.delay(self.template, 'challan_email.pdf', context, self.kwargs['pk'], 'challan', subject, body, from_email, to, attachment)
 
         # sent mail save with contenttype
         Mail.objects.create(
@@ -704,5 +686,6 @@ class ChallanEmail(AtomicMixin, View, LoginRequiredMixin):
             subject         = subject,
             content_object  = challan,
         )
+
 
         return HttpResponseRedirect(reverse('europarts:challan_details', args=(kwargs['pk'],)))

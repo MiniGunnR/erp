@@ -1,3 +1,4 @@
+from django.views.generic import ListView
 import os, csv, shutil
 from django.shortcuts import render, reverse
 from django.contrib.auth.decorators import login_required
@@ -8,7 +9,7 @@ from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
 
 from .forms import CreateUserForm, BaseProfileForm
-from .models import Designation, Department
+from .models import Designation, Department, Mail
 
 
 @login_required
@@ -103,3 +104,9 @@ def db_backup(request):
     response['Content-Length'] = dbfile.size
 
     return response
+
+
+class Mailbox(ListView):
+    model = Mail
+    paginate_by = 50
+    template_name = 'core/mailbox.html'

@@ -16,4 +16,6 @@ urlpatterns = [
     url(r'^logout/$', logout, name="my_logout"),
 
     url(r'^db/backup/$', views.db_backup, name='db_backup'),
+
+    url(r'^mailbox/$', views.Mailbox.as_view(), name='mailbox'),
 ]

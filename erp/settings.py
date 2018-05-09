@@ -15,15 +15,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '_^m0rs47dn9)i2k=2jffso7$=(@2k&#=kd*%q1!f*(4u@c^o+b'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 HOSTNAME = socket.gethostname()
 
 if HOSTNAME == 'erp':
     ALLOWED_HOSTS = ['172.16.16.172', '111.221.7.58']
+    DEBUG = False
 else:
     ALLOWED_HOSTS = ['*']
-
+    DEBUG = True
 
 # Application definition
 

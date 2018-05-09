@@ -224,6 +224,7 @@ class Mail(Timestamped):
     from_email = models.EmailField()
     cc_emails = models.CharField(max_length=255, blank=True, null=True)
     subject = models.CharField(max_length=255, default='From Design Ace Limited')
+    body = models.TextField(default='No Content')
 
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()

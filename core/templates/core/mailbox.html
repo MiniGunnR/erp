@@ -1,0 +1,32 @@
+{% extends "base_template.html" %}
+
+{% block main %}
+	<table class="table">
+		<thead>
+		<tr>
+			<th>To</th>
+			<th>Body</th>
+			<th>Attachment</th>
+			<th>Sent By</th>
+			<th>Action</th>
+		</tr>
+		</thead>
+		<tbody>
+		{% for mail in object_list %}
+		<tr>
+			<td>
+				{{ mail.to_email|urlize }}
+			</td>
+			<td>{{ mail.body }}</td>
+			<td></td>
+			<td>{{ mail.owner.get_full_name }}</td>
+			<td>
+				<a href="#" class="btn btn-default btn-xs">
+					View
+				</a>
+			</td>
+		</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}
