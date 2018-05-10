@@ -456,10 +456,10 @@ class QuotationEmail(AtomicMixin, View, LoginRequiredMixin):
     def get(self, request, **kwargs):
         quotation = Quotation.objects.get(pk=kwargs['pk'])
         ref_no = quotation.ref_no
-        date = quotation.created
+        date = quotation.created.strftime("%b %d, %Y")
         recipient = quotation.recipient
         address = quotation.recipient_address
-        quotation_rows = QuotationRow.objects.filter(quotation=quotation)
+        # quotation_rows = QuotationRow.objects.filter(quotation=quotation)
         total = quotation.total
         total_in_words = final(total)
 
@@ -468,45 +468,24 @@ class QuotationEmail(AtomicMixin, View, LoginRequiredMixin):
             "date": date,
             "recipient": recipient,
             "address": address,
-            "quotation_rows": quotation_rows,
             "total": total,
             "total_in_words": total_in_words,
         }
 
-        response = PDFTemplateResponse(
-            request=request,
-            template=self.template,
-            filename='quotation_email.pdf',
-            context=context,
-            show_content_in_browser=True,
-            cmd_options={'margin-top': 10,
-                         'zoom': 1,
-                         'viewport-size': '1366 x 513',
-                         'javascript-delay': 1000,
-                         'no-stop-slow-scripts': True},
-        )
+        subject = 'From Design Ace Limited'
+        body = self.request.GET.get('email_body', '')
+        from_email = 'Sorower Hossain <sorower@europartsbd.com>'
+        to = ['{}'.format(self.request.GET.get('to_address'))]
 
-        with open(os.path.join(settings.BASE_DIR, settings.MEDIA_ROOT, 'quotation_email.pdf'), 'wb') as f:
-            f.write(response.rendered_content)
-
-        email = EmailMessage()
-        email.subject = 'From Design Ace Limited'
-        email.body = self.request.GET.get('email_body', '')
-        # email.from_email = 'Sorower Hossain <sorower@europartsbd.com>'
-        email.from_email = '{full_name} <{email}>'.format(
-            full_name=self.request.user.get_full_name(),
-            email=self.request.user.email
-        )
-        email.to = ['{}'.format(self.request.GET.get('to_address'))]
-        email.attach_file(os.path.join(settings.MEDIA_ROOT, 'quotation_email.pdf'))
-        email.send()
+        # task
+        generate_pdf_and_send_email.delay(self.template, 'invoice_email.pdf', context, self.kwargs['pk'], 'invoice', subject, body, from_email, to)
 
         # sent mail save with contenttype
         Mail.objects.create(
             owner           = self.request.user,
             to_email        = self.request.GET.get('to_address'),
-            from_email      = email.from_email,
-            subject         = email.subject,
+            from_email      = from_email,
+            subject         = subject,
             content_object  = quotation,
         )
 
@@ -572,10 +551,9 @@ class InvoiceEmail(AtomicMixin, View, LoginRequiredMixin):
     def get(self, request, **kwargs):
         invoice = Invoice.objects.get(pk=kwargs['pk'])
         ref_no = invoice.ref_no
-        date = invoice.created
+        date = invoice.created.strftime("%b %d, %Y")
         recipient = invoice.recipient
         address = invoice.recipient_address
-        invoice_rows = InvoiceRow.objects.filter(invoice=invoice)
         total = invoice.total
         vat = float(total) * 0.085
         total_after_tax = float(total) + vat
@@ -586,43 +564,26 @@ class InvoiceEmail(AtomicMixin, View, LoginRequiredMixin):
             "date": date,
             "recipient": recipient,
             "address": address,
-            "invoice_rows": invoice_rows,
             "total": total,
             "vat": vat,
             "total_after_tax": total_after_tax,
             "total_in_words": total_in_words,
         }
 
-        response = PDFTemplateResponse(
-            request=request,
-            template=self.template,
-            filename='invoice_email.pdf',
-            context=context,
-            show_content_in_browser=True,
-            cmd_options={'margin-top': 10,
-                         'zoom': 1,
-                         'viewport-size': '1366 x 513',
-                         'javascript-delay': 1000,
-                         'no-stop-slow-scripts': True},
-        )
+        subject = 'From Design Ace Limited'
+        body = self.request.GET.get('email_body', '')
+        from_email = 'Sorower Hossain <sorower@europartsbd.com>'
+        to = ['{}'.format(self.request.GET.get('to_address'))]
 
-        with open(os.path.join(settings.BASE_DIR, settings.MEDIA_ROOT, 'invoice_email.pdf'), 'wb') as f:
-            f.write(response.rendered_content)
-
-        email = EmailMessage()
-        email.subject = 'From Design Ace Limited'
-        email.body = self.request.GET.get('email_body', '')
-        email.from_email = 'Sorower Hossain <sorower@europartsbd.com>'
-        email.to = ['{}'.format(self.request.GET.get('to_address'))]
-        email.attach_file(os.path.join(settings.MEDIA_ROOT, 'invoice_email.pdf'))
-        email.send()
+        # task
+        generate_pdf_and_send_email.delay(self.template, 'invoice_email.pdf', context, self.kwargs['pk'], 'invoice', subject, body, from_email, to)
 
         # sent mail save with contenttype
         Mail.objects.create(
             owner           = self.request.user,
             to_email        = self.request.GET.get('to_address'),
-            from_email      = email.from_email,
-            subject         = email.subject,
+            from_email      = from_email,
+            subject         = subject,
             content_object  = invoice,
         )
 
@@ -658,7 +619,7 @@ class ChallanEmail(AtomicMixin, View, LoginRequiredMixin):
     def get(self, request, **kwargs):
         challan = Challan.objects.get(pk=kwargs['pk'])
         ref_no = challan.ref_no
-        date = challan.created
+        date = challan.created.strftime("%b %d, %Y")
         recipient = challan.recipient
         address = challan.recipient_address
 
@@ -673,10 +634,9 @@ class ChallanEmail(AtomicMixin, View, LoginRequiredMixin):
         body = self.request.GET.get('email_body', '')
         from_email = 'Sorower Hossain <sorower@europartsbd.com>'
         to = ['{}'.format(self.request.GET.get('to_address'))]
-        attachment = os.path.join(settings.MEDIA_ROOT, 'challan_email.pdf')
 
         # task
-        generate_pdf_and_send_email.delay(self.template, 'challan_email.pdf', context, self.kwargs['pk'], 'challan', subject, body, from_email, to, attachment)
+        generate_pdf_and_send_email.delay(self.template, 'challan_email.pdf', context, self.kwargs['pk'], 'challan', subject, body, from_email, to)
 
         # sent mail save with contenttype
         Mail.objects.create(
@@ -686,6 +646,5 @@ class ChallanEmail(AtomicMixin, View, LoginRequiredMixin):
             subject         = subject,
             content_object  = challan,
         )
-
 
         return HttpResponseRedirect(reverse('europarts:challan_details', args=(kwargs['pk'],)))

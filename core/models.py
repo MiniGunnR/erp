@@ -1,3 +1,4 @@
+from django.shortcuts import reverse
 from django.db import models
 from utils.models import Timestamped
 from django.conf import settings
@@ -232,3 +233,6 @@ class Mail(Timestamped):
 
     def __str__(self):
         return "{content_type} : {to_email} - {subject}".format(content_type=self.content_type, to_email=self.to_email, subject=self.subject[:50])
+
+    def get_absolute_url(self):
+        return reverse('europarts:{}_details'.format(self.content_type), args=[str(self.object_id)])

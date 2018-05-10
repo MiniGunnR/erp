@@ -8,7 +8,7 @@
 			<th>Body</th>
 			<th>Attachment</th>
 			<th>Sent By</th>
-			<th>Action</th>
+{#			<th>Action</th>#}
 		</tr>
 		</thead>
 		<tbody>
@@ -17,14 +17,18 @@
 			<td>
 				{{ mail.to_email|urlize }}
 			</td>
-			<td>{{ mail.body }}</td>
-			<td></td>
-			<td>{{ mail.owner.get_full_name }}</td>
 			<td>
-				<a href="#" class="btn btn-default btn-xs">
-					View
-				</a>
+				<a href="#">{{ mail.body|truncatechars:30 }}</a>
 			</td>
+			<td>
+				<a href="{{ mail.get_absolute_url }}">{{ mail.content_type|capfirst }} {{ mail.content_object }}</a>
+			</td>
+			<td>{{ mail.owner.get_full_name }}</td>
+{#			<td>#}
+{#				<a href="#" class="btn btn-default btn-xs">#}
+{#					View#}
+{#				</a>#}
+{#			</td>#}
 		</tr>
 		{% endfor %}
 		</tbody>

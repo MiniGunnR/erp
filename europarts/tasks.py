@@ -2,23 +2,25 @@ from __future__ import absolute_import, unicode_literals
 import os
 
 from celery import shared_task
+from django.apps import apps
 from django.conf import settings
 from django.core.mail import EmailMessage
 from django.shortcuts import reverse
 from django.test.client import RequestFactory
-from europarts.models import ChallanRow
 from wkhtmltopdf.views import PDFTemplateResponse
 
 
 @shared_task
-def generate_pdf_and_send_email(template, filename, context, pk, model, subject, body, from_email, to, attachment):
-    request = RequestFactory().get(reverse('europarts:challan_email', args=[pk]))
+def generate_pdf_and_send_email(template, filename, context, pk, model, subject, body, from_email, to):
+    request = RequestFactory().get(reverse('europarts:{model}_email'.format(model=model), args=[pk]))
 
     kw = {
-        'challan_id': pk
+        '{model}_id'.format(model=model): pk
     }
-    rows = ChallanRow.objects.filter(**kw)
-    context['challan_rows'] = rows
+    row_model = '{model}Row'.format(model=model)
+    rows = apps.get_model('europarts', row_model).objects.filter(**kw)
+    context['{model}_rows'.format(model=model)] = rows
+    file_name = '{model}_email.pdf'.format(model=model)
 
     response = PDFTemplateResponse(
         request=request,
@@ -33,9 +35,11 @@ def generate_pdf_and_send_email(template, filename, context, pk, model, subject,
                      'no-stop-slow-scripts': True},
     )
 
-    file_path = os.path.join(settings.BASE_DIR, settings.MEDIA_ROOT, 'challan_email.pdf')
+    file_path = os.path.join(settings.BASE_DIR, settings.MEDIA_ROOT, file_name)
     with open(file_path, 'wb+') as f:
         f.write(response.rendered_content)
+
+    attachment = os.path.join(settings.MEDIA_ROOT, file_name)
 
     email = EmailMessage()
     email.subject = subject
@@ -46,8 +50,4 @@ def generate_pdf_and_send_email(template, filename, context, pk, model, subject,
 
     email.send()
 
-    os.remove(attachment)
-
     return response
-
-
