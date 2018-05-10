@@ -35,12 +35,12 @@ def generate_pdf_and_send_email(template, filename, context, pk, model, subject,
                      'no-stop-slow-scripts': True},
     )
 
-    file_path = os.path.join(settings.BASE_DIR, settings.MEDIA_ROOT, file_name)
+    file_path = os.path.join(settings.MEDIA_ROOT, file_name)
 
     if os.path.exists(file_path):
         os.remove(file_path)
 
-    with open(file_path, 'wb+') as f:
+    with open(file_path, 'wb') as f:
         f.write(response.rendered_content)
 
     attachment = os.path.join(settings.MEDIA_ROOT, file_name)
