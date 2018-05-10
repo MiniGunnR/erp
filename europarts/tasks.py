@@ -37,8 +37,13 @@ def generate_pdf_and_send_email(template, filename, context, pk, model, subject,
 
     file_path = os.path.join(settings.MEDIA_ROOT, file_name)
 
-    with open(file_path, 'wb') as f:
-        f.write(response.rendered_content)
+    f = open(file_path, "wb")
+    os.chmod(file_path, 0777)
+    f.write(response.rendered_content)
+    f.close()
+
+    # with open(file_path, 'wb') as f:
+    #     f.write(response.rendered_content)
 
     attachment = os.path.join(settings.MEDIA_ROOT, file_name)
 
