@@ -1,5 +1,5 @@
 from __future__ import absolute_import, unicode_literals
-import os
+import os, pwd, grp
 
 from celery import shared_task
 from django.apps import apps
@@ -38,6 +38,9 @@ def generate_pdf_and_send_email(template, filename, context, pk, model, subject,
     file_path = os.path.join(settings.MEDIA_ROOT, file_name)
 
     f = open(file_path, "wb")
+    uid = pwd.getpwnam("michel").pw_uid
+    gid = grp.getgrnam("apache").gr_gid
+    os.chown(path, uid, gid)
     os.chmod(file_path, 0777)
     f.write(response.rendered_content)
     f.close()
