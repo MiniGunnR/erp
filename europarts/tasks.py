@@ -35,27 +35,27 @@ def generate_pdf_and_send_email(template, filename, context, pk, model, subject,
                      'no-stop-slow-scripts': True},
     )
 
-    file_path = os.path.join(settings.MEDIA_ROOT, file_name)
+    # file_path = os.path.join(settings.MEDIA_ROOT, file_name)
 
-    f = open(file_path, "wb+")
-    os.chmod(file_path, 0777)
-    uid = pwd.getpwnam("michel").pw_uid
-    gid = grp.getgrnam("apache").gr_gid
-    os.chown(file_path, uid, gid)
-    f.write(response.rendered_content)
-    f.close()
+    # f = open(file_path, "wb+")
+    # os.chmod(file_path, 0777)
+    # uid = pwd.getpwnam("michel").pw_uid
+    # gid = grp.getgrnam("apache").gr_gid
+    # os.chown(file_path, uid, gid)
+    # f.write(response.rendered_content)
+    # f.close()
 
     # with open(file_path, 'wb') as f:
     #     f.write(response.rendered_content)
 
-    attachment = os.path.join(settings.MEDIA_ROOT, file_name)
+    # attachment = os.path.join(settings.MEDIA_ROOT, file_name)
 
     email = EmailMessage()
     email.subject = subject
     email.body = body
     email.from_email = from_email
     email.to = to
-    email.attach_file(attachment)
+    email.attach(file_name, response.rendered_content, 'application/pdf')
 
     email.send()
 
