@@ -22,18 +22,18 @@ def generate_pdf_and_send_email(template, filename, context, pk, model, subject,
     context['{model}_rows'.format(model=model)] = rows
     file_name = '{model}_email.pdf'.format(model=model)
 
-    # response = PDFTemplateResponse(
-    #     request=request,
-    #     template=template,
-    #     filename=filename,
-    #     context=context,
-    #     show_content_in_browser=True,
-    #     cmd_options={'margin-top': 10,
-    #                  'zoom': 1,
-    #                  'viewport-size': '1366 x 513',
-    #                  'javascript-delay': 1000,
-    #                  'no-stop-slow-scripts': True},
-    # )
+    response = PDFTemplateResponse(
+        request=request,
+        template=template,
+        filename=file_name,
+        context=context,
+        show_content_in_browser=True,
+        cmd_options={'margin-top': 10,
+                     'zoom': 1,
+                     'viewport-size': '1366 x 513',
+                     'javascript-delay': 1000,
+                     'no-stop-slow-scripts': True},
+    )
 
     # file_path = os.path.join(settings.MEDIA_ROOT, file_name)
 
