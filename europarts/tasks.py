@@ -59,4 +59,4 @@ def generate_pdf_and_send_email(template, filename, context, pk, model, subject,
 
     email.send()
 
-    return response
+    return
