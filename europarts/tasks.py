@@ -59,8 +59,8 @@ def generate_pdf_and_send_email(template, filename, context, pk, model, subject,
     temp = tempfile.NamedTemporaryFile()
     temp.write('hello')
     email.attach(file_name, temp, 'application/pdf')
-    temp.close()
 
     email.send()
+    temp.close()
 
     return
