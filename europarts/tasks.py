@@ -1,5 +1,5 @@
 from __future__ import absolute_import, unicode_literals
-import os, pwd, grp
+import os, pwd, grp, tempfile
 
 from celery import shared_task
 from django.apps import apps
@@ -55,7 +55,10 @@ def generate_pdf_and_send_email(template, filename, context, pk, model, subject,
     email.body = body
     email.from_email = from_email
     email.to = to
-    email.attach(file_name, response.rendered_content, 'application/pdf')
+
+    with tempfile.NamedTemporaryFile() as temp:
+        temp.write(response.rendered_content)
+        email.attach(file_name, temp, 'application/pdf')
 
     email.send()
 
