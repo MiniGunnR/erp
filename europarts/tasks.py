@@ -10,7 +10,7 @@ from django.test.client import RequestFactory
 from wkhtmltopdf.views import PDFTemplateResponse
 
 
-@shared_task
+# @shared_task
 def generate_pdf_and_send_email(template, filename, context, pk, model, subject, body, from_email, to):
     request = RequestFactory().get(reverse('europarts:{model}_email'.format(model=model), args=[pk]))
 
