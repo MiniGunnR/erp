@@ -636,20 +636,7 @@ class ChallanEmail(AtomicMixin, View, LoginRequiredMixin):
         to = ['{}'.format(self.request.GET.get('to_address'))]
 
         # task
-        response = generate_pdf_and_send_email.delay(self.template, 'challan_email.pdf', context, self.kwargs['pk'], 'challan', subject, body, from_email, to)
-
-        email = EmailMessage()
-        email.subject = subject
-        email.body = body
-        email.from_email = from_email
-        email.to = to
-
-        while True:
-            if not response is None:
-                email.attach('challan_email.pdf', response, 'application/pdf')
-                break
-
-        email.send()
+        generate_pdf_and_send_email.delay(self.template, 'challan_email.pdf', context, self.kwargs['pk'], 'challan', subject, body, from_email, to)
 
         # sent mail save with contenttype
         Mail.objects.create(
