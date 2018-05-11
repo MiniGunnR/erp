@@ -646,7 +646,7 @@ class ChallanEmail(AtomicMixin, View, LoginRequiredMixin):
 
         while True:
             if not response is None:
-                email.attach(file_name, response.rendered_content, 'application/pdf')
+                email.attach('challan_email.pdf', response.rendered_content, 'application/pdf')
                 break
 
         email.send()
