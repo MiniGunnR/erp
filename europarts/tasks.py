@@ -56,7 +56,7 @@ def generate_pdf_and_send_email(template, filename, context, pk, model, subject,
     email.from_email = from_email
     email.to = to
 
-    email.attach(file_name, 'hello world', 'application/pdf')
+    email.attach(file_name, response.rendered_content, DEFAULT_ATTACHMENT_MIME_TYPE)
 
     email.send()
 
