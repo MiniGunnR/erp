@@ -27,7 +27,7 @@ def generate_pdf_and_send_email(template, filename, context, pk, model, subject,
     response = PDFTemplateResponse(
         request=request,
         template=template,
-        # filename=file_path,
+        filename=file_path,
         context=context,
         show_content_in_browser=False,
         cmd_options={'margin-top': 10,
