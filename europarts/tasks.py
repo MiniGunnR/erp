@@ -50,7 +50,7 @@ def generate_pdf_and_send_email(template, filename, context, pk, model, subject,
 
     # attachment = os.path.join(settings.MEDIA_ROOT, file_name)
 
-    pdf = response.rendered_content
+    # pdf = response.rendered_content
 
     email = EmailMessage()
     email.subject = subject
@@ -58,7 +58,7 @@ def generate_pdf_and_send_email(template, filename, context, pk, model, subject,
     email.from_email = from_email
     email.to = to
 
-    email.attach(file_name, pdf, 'application/pdf')
+    # email.attach(file_name, pdf, 'application/pdf')
 
     email.send()
 
