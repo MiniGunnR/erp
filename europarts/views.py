@@ -16,7 +16,7 @@ from django.views.generic import View, ListView
 
 from .models import Worksheet, WorksheetRow, Inventory, Quotation, QuotationRow, Invoice, InvoiceRow, Challan, ChallanRow
 from .forms import WorksheetForm, WorksheetRowForm, InventoryForm, BillRowForm, BillForm
-from .tasks import generate_pdf_and_send_email
+from europarts.tasks import generate_pdf_and_send_email
 from core.models import Mail
 
 from utils.mixins import AtomicMixin
