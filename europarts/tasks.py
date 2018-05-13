@@ -29,27 +29,14 @@ def generate_pdf_and_send_email(template, filename, context, pk, model, subject,
         template=template,
         filename=file_path,
         context=context,
-        show_content_in_browser=False,
-        cmd_options={'margin-top': 10,
-                     'zoom': 1,
-                     'viewport-size': '1366 x 513',
-                     'show_content_in_browser': False,
-                     'javascript-delay': 1000,
-                     'no-stop-slow-scripts': True},
+        # show_content_in_browser=False,
+        # cmd_options={'margin-top': 10,
+        #              'zoom': 1,
+        #              'viewport-size': '1366 x 513',
+        #              'show_content_in_browser': False,
+        #              'javascript-delay': 1000,
+        #              'no-stop-slow-scripts': True},
     )
-
-    # f = open(file_path, "wb+")
-    # os.chmod(file_path, 0777)
-    # uid = pwd.getpwnam("michel").pw_uid
-    # gid = grp.getgrnam("apache").gr_gid
-    # os.chown(file_path, uid, gid)
-    # f.write(response.rendered_content)
-    # f.close()
-
-    # with open(file_path, 'wb') as f:
-    #     f.write(response.rendered_content)
-
-    # attachment = os.path.join(settings.MEDIA_ROOT, file_name)
 
     pdf = response.rendered_content
 
