@@ -451,7 +451,7 @@ def quotation_details(request, pk):
 
 
 class QuotationEmail(AtomicMixin, View, LoginRequiredMixin):
-    template = "/home/michel/erp/europarts/template/europarts/quotation/email_template.html"
+    template = "europarts/quotation/email_template.html"
 
     def get(self, request, **kwargs):
         quotation = Quotation.objects.get(pk=kwargs['pk'])
