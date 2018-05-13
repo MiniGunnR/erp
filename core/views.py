@@ -110,3 +110,4 @@ class Mailbox(ListView):
     model = Mail
     paginate_by = 50
     template_name = 'core/mailbox.html'
+    ordering = '-created'
