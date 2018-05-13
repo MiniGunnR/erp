@@ -40,16 +40,19 @@ def generate_pdf_and_send_email(template, context, pk, model, subject, body, fro
 
     pdf = response.rendered_content
 
-    email = EmailMessage()
-    email.subject = subject
-    if not body:
-        body = '''Dear Sir,
+    default_body = """
+    Dear Sir,
 
     Please find the attached file.
 
-    Sincerely Yours,
+    Sincerely yours,
     Md Sorower Hossain
-    '''
+    """
+
+    email = EmailMessage()
+    email.subject = subject
+    if not body:
+        body = default_body
     email.body = body
     email.from_email = from_email
     email.to = to
