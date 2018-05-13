@@ -23,24 +23,34 @@ def generate_pdf_and_send_email(template, filename, context, pk, model, subject,
     context['{model}_rows'.format(model=model)] = rows
     file_name = '{model}_email.pdf'.format(model=model)
 
-    file_path = "/home/michel/erp/europarts/templates/europarts/challan/email_template.html"
+    file_path = os.path.join(settings.MEDIA_ROOT, file_name)
 
-    response = PDFTemplateResponse(
-        request=request,
-        template=template,
-        filename=file_path,
+    # response = PDFTemplateResponse(
+    #     request=request,
+    #     template=template,
+    #     filename=file_path,
+    #     context=context,
+    #     show_content_in_browser=False,
+    #     cmd_options={'margin-top': 10,
+    #                  'zoom': 1,
+    #                  'viewport-size': '1366 x 513',
+    #                  'javascript-delay': 1000,
+    #                  'no-stop-slow-scripts': True},
+    # )
+
+    response = render_pdf_from_template(
+        input_template=os.path.join('/home/michel/erp/europarts/templates/europarts/challan/email_template.html'),
+        header_template=None,
+        footer_template=None,
         context=context,
-        show_content_in_browser=False,
+        request=request,
         cmd_options={'margin-top': 10,
                      'zoom': 1,
                      'viewport-size': '1366 x 513',
                      'javascript-delay': 1000,
-                     'no-stop-slow-scripts': True},
+                     'no-stop-slow-scripts': True
+        }
     )
-
-    # response = render_pdf_from_template(
-    #     input_template=os.path.join(settings.MEDIA_ROOT, )
-    # )
 
     # f = open(file_path, "wb+")
     # os.chmod(file_path, 0777)
@@ -55,7 +65,7 @@ def generate_pdf_and_send_email(template, filename, context, pk, model, subject,
 
     # attachment = os.path.join(settings.MEDIA_ROOT, file_name)
 
-    pdf = response.rendered_content
+    pdf = response
 
     email = EmailMessage()
     email.subject = subject
