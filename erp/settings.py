@@ -44,6 +44,8 @@ INSTALLED_APPS = [
 WKHTMLTOPDF_CMD_OPTIONS = {
     'dpi': 380,
 }
+WKHTMLTOPDF_CMD = '/usr/local/bin/wkhtmltopdf'
+
 
 EMAIL_HOST = 'mail.groupdesignace.com'
 EMAIL_HOST_USER = 'michel@groupdesignace.com'
