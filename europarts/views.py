@@ -614,7 +614,8 @@ def challan_details(request, pk):
 
 
 class ChallanEmail(AtomicMixin, View, LoginRequiredMixin):
-    template = os.path.join(settings.BASE_DIR, "europarts", "templates", "europarts/challan/email_template.html")
+    # template = os.path.join(settings.BASE_DIR, "europarts", "templates", "europarts/challan/email_template.html")
+    template = "europarts/challan/email_template.html"
 
     def get(self, request, **kwargs):
         challan = Challan.objects.get(pk=kwargs['pk'])
