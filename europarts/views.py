@@ -472,7 +472,7 @@ class QuotationEmail(AtomicMixin, View, LoginRequiredMixin):
         }
 
         subject = 'From Design Ace Limited'
-        body = self.request.GET.get('email_body', '')
+        body = self.request.GET.get('email_body', 'Dear Sir,\n\nPlease find the attached file.\n\nSincerely yours,\nMd Sorower Hossain')
         from_email = 'Sorower Hossain <sorower@europartsbd.com>'
         to = ['{}'.format(self.request.GET.get('to_address'))]
 
