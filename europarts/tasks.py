@@ -1,5 +1,5 @@
 from __future__ import absolute_import, unicode_literals
-import os, pwd, grp, tempfile
+import os
 
 from celery import shared_task
 from django.apps import apps
@@ -7,7 +7,7 @@ from django.conf import settings
 from django.core.mail import EmailMessage
 from django.shortcuts import reverse
 from django.test.client import RequestFactory
-from wkhtmltopdf.views import PDFTemplateResponse, PDFTemplateView
+from wkhtmltopdf.views import PDFTemplateResponse
 
 
 @shared_task
