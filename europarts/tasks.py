@@ -42,14 +42,14 @@ def generate_pdf_and_send_email(template, context, pk, model, subject, body, fro
 
     email = EmailMessage()
     email.subject = subject
-    if body == '':
+    if not body:
         body = '''Dear Sir,
 
         Please find the attached file.
 
         Sincerely Yours,
-        {full_name}
-        '''.format(full_name=request.user.get_full_name)
+        Md Sorower Hossain
+        '''
     email.body = body
     email.from_email = from_email
     email.to = to
