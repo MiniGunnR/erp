@@ -108,6 +108,6 @@ def db_backup(request):
 
 class Mailbox(ListView):
     model = Mail
-    paginate_by = 10
+    paginate_by = 25
     template_name = 'core/mailbox.html'
     ordering = '-created'
