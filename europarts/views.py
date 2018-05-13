@@ -459,7 +459,6 @@ class QuotationEmail(AtomicMixin, View, LoginRequiredMixin):
         date = quotation.created.strftime("%b %d, %Y")
         recipient = quotation.recipient
         address = quotation.recipient_address
-        # quotation_rows = QuotationRow.objects.filter(quotation=quotation)
         total = quotation.total
         total_in_words = final(total)
 
