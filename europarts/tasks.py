@@ -8,6 +8,7 @@ from django.core.mail import EmailMessage
 from django.shortcuts import reverse
 from django.test.client import RequestFactory
 from wkhtmltopdf.views import PDFTemplateResponse
+from wkhtmltopdf.utils import render_pdf_from_template
 
 
 @shared_task
@@ -22,7 +23,7 @@ def generate_pdf_and_send_email(template, filename, context, pk, model, subject,
     context['{model}_rows'.format(model=model)] = rows
     file_name = '{model}_email.pdf'.format(model=model)
 
-    file_path = os.path.join(settings.MEDIA_ROOT, file_name)
+    file_path = "/home/michel/erp/europarts/templates/europarts/challan/email_template.html"
 
     response = PDFTemplateResponse(
         request=request,
@@ -36,6 +37,10 @@ def generate_pdf_and_send_email(template, filename, context, pk, model, subject,
                      'javascript-delay': 1000,
                      'no-stop-slow-scripts': True},
     )
+
+    # response = render_pdf_from_template(
+    #     input_template=os.path.join(settings.MEDIA_ROOT, )
+    # )
 
     # f = open(file_path, "wb+")
     # os.chmod(file_path, 0777)
@@ -58,7 +63,7 @@ def generate_pdf_and_send_email(template, filename, context, pk, model, subject,
     email.from_email = from_email
     email.to = to
 
-    email.attach(file_path, pdf, 'application/pdf')
+    email.attach(filename, pdf, 'application/pdf')
 
     email.send()
 
