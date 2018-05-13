@@ -42,7 +42,7 @@ def generate_pdf_and_send_email(template, context, pk, model, subject, body, fro
 
     email = EmailMessage()
     email.subject = subject
-    if body is None:
+    if not body:
         body = '''Dear Sir,
 
         Please find the attached file.
