@@ -486,6 +486,7 @@ class QuotationEmail(AtomicMixin, View, LoginRequiredMixin):
             from_email      = from_email,
             subject         = subject,
             content_object  = quotation,
+            body            = body,
         )
 
         return HttpResponseRedirect(reverse('europarts:quotation_details', args=(kwargs['pk'],)))
@@ -584,6 +585,7 @@ class InvoiceEmail(AtomicMixin, View, LoginRequiredMixin):
             from_email      = from_email,
             subject         = subject,
             content_object  = invoice,
+            body            = body,
         )
 
         return HttpResponseRedirect(reverse('europarts:invoice_details', args=(kwargs['pk'],)))
@@ -645,6 +647,7 @@ class ChallanEmail(AtomicMixin, View, LoginRequiredMixin):
             from_email      = from_email,
             subject         = subject,
             content_object  = challan,
+            body            = body,
         )
 
         return HttpResponseRedirect(reverse('europarts:challan_details', args=(kwargs['pk'],)))
