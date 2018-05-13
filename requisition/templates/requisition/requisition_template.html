@@ -15,7 +15,7 @@
 		    <div class="row">
 		        <div class="col-xs-12">
 		            <div class="invoice-title">
-		                <h2>Group Design Ace</h2><h3 class="pull-right">Requisition # {{ pk }}</h3>
+		                <h2>{{ requisition.company }}</h2><h3 class="pull-right">Requisition # {{ pk }}</h3>
 			            <p style="line-height: 0.5em;"></p>
 		            </div>
 		            <hr>
@@ -30,7 +30,7 @@
 		                <div class="col-xs-4 text-right">
 		                    <address>
 		                    <strong>Issue Date:</strong><br>
-		                        June 6, 2017<br>
+		                        {{ requisition.issue_date }}<br>
 		                    </address>
 		                </div>
 		            </div>

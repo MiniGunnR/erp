@@ -7,7 +7,7 @@ from django.conf import settings
 from django.core.mail import EmailMessage
 from django.shortcuts import reverse
 from django.test.client import RequestFactory
-from wkhtmltopdf.views import PDFTemplateResponse
+from wkhtmltopdf.views import PDFTemplateResponse, PDFTemplateView
 
 
 @shared_task
@@ -33,7 +33,7 @@ def generate_pdf_and_send_email(template, filename, context, pk, model, subject,
         cmd_options={'margin-top': 10,
                      'zoom': 1,
                      'viewport-size': '1366 x 513',
-                     'show_content_in_browser': True,
+                     'show_content_in_browser': False,
                      'javascript-delay': 1000,
                      'no-stop-slow-scripts': True},
     )
