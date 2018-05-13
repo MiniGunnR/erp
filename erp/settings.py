@@ -43,7 +43,6 @@ INSTALLED_APPS = [
 
 WKHTMLTOPDF_CMD_OPTIONS = {
     'dpi': 380,
-    'quiet': True,
 }
 
 EMAIL_HOST = 'mail.groupdesignace.com'
