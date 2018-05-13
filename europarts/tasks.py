@@ -22,10 +22,12 @@ def generate_pdf_and_send_email(template, filename, context, pk, model, subject,
     context['{model}_rows'.format(model=model)] = rows
     file_name = '{model}_email.pdf'.format(model=model)
 
+    file_path = os.path.join(settings.MEDIA_ROOT, file_name)
+
     response = PDFTemplateResponse(
         request=request,
         template=template,
-        filename=os.path.join(settings.MEDIA_ROOT, file_name),
+        filename=file_path,
         context=context,
         show_content_in_browser=False,
         cmd_options={'margin-top': 10,
@@ -34,8 +36,6 @@ def generate_pdf_and_send_email(template, filename, context, pk, model, subject,
                      'javascript-delay': 1000,
                      'no-stop-slow-scripts': True},
     )
-
-    # file_path = os.path.join(settings.MEDIA_ROOT, file_name)
 
     # f = open(file_path, "wb+")
     # os.chmod(file_path, 0777)
@@ -50,7 +50,7 @@ def generate_pdf_and_send_email(template, filename, context, pk, model, subject,
 
     # attachment = os.path.join(settings.MEDIA_ROOT, file_name)
 
-    # pdf = response.rendered_content
+    pdf = response.rendered_content
 
     email = EmailMessage()
     email.subject = subject
@@ -58,7 +58,7 @@ def generate_pdf_and_send_email(template, filename, context, pk, model, subject,
     email.from_email = from_email
     email.to = to
 
-    # email.attach(file_name, pdf, 'application/pdf')
+    email.attach(file_path, pdf, 'application/pdf')
 
     email.send()
 
