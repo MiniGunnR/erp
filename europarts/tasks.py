@@ -25,7 +25,7 @@ def generate_pdf_and_send_email(template, filename, context, pk, model, subject,
     response = PDFTemplateResponse(
         request=request,
         template=template,
-        # filename=os.path.join(settings.MEDIA_ROOT, file_name),
+        filename=os.path.join(settings.MEDIA_ROOT, file_name),
         context=context,
         show_content_in_browser=True,
         cmd_options={'margin-top': 10,
@@ -58,7 +58,7 @@ def generate_pdf_and_send_email(template, filename, context, pk, model, subject,
     email.from_email = from_email
     email.to = to
 
-    email.attach(os.path.join(settings.MEDIA_ROOT, file_name), pdf, 'application/pdf')
+    email.attach(file_name, pdf, 'application/pdf')
 
     email.send()
 
