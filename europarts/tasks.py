@@ -45,11 +45,11 @@ def generate_pdf_and_send_email(template, context, pk, model, subject, body, fro
     if not body:
         body = '''Dear Sir,
 
-        Please find the attached file.
+    Please find the attached file.
 
-        Sincerely Yours,
-        Md Sorower Hossain
-        '''
+    Sincerely Yours,
+    Md Sorower Hossain
+    '''
     email.body = body
     email.from_email = from_email
     email.to = to
