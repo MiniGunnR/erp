@@ -472,13 +472,16 @@ class QuotationEmail(AtomicMixin, View, LoginRequiredMixin):
         }
 
         subject = 'From Design Ace Limited'
-        body = self.request.GET.get('email_body', 'Dear Sir,\n\nPlease find the attached file.\n\nSincerely yours,\nMd Sorower Hossain')
+        body = self.request.GET['email_body']
+        body = body.strip()
+        if not body:
+            body = 'Dear Sir,\n\nPlease find the attached file.\n\nSincerely yours,\nMd Sorower Hossain'
         from_email = 'Sorower Hossain <sorower@europartsbd.com>'
         to = ['{}'.format(self.request.GET.get('to_address'))]
 
         # task
         generate_pdf_and_send_email.delay(self.template, context, self.kwargs['pk'], 'quotation', subject, body, from_email, to)
-
+            
         # sent mail save with contenttype
         Mail.objects.create(
             owner           = self.request.user,
@@ -571,7 +574,10 @@ class InvoiceEmail(AtomicMixin, View, LoginRequiredMixin):
         }
 
         subject = 'From Design Ace Limited'
-        body = self.request.GET.get('email_body', '')
+        body = self.request.GET['email_body']
+        body = body.strip()
+        if not body:
+            body = 'Dear Sir,\n\nPlease find the attached file.\n\nSincerely yours,\nMd Sorower Hossain'
         from_email = 'Sorower Hossain <sorower@europartsbd.com>'
         to = ['{}'.format(self.request.GET.get('to_address'))]
 
@@ -633,7 +639,10 @@ class ChallanEmail(AtomicMixin, View, LoginRequiredMixin):
         }
 
         subject = 'From Design Ace Limited'
-        body = self.request.GET.get('email_body', '')
+        body = self.request.GET['email_body']
+        body = body.strip()
+        if not body:
+            body = 'Dear Sir,\n\nPlease find the attached file.\n\nSincerely yours,\nMd Sorower Hossain'
         from_email = 'Sorower Hossain <sorower@europartsbd.com>'
         to = ['{}'.format(self.request.GET.get('to_address'))]
 
