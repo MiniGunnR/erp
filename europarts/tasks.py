@@ -9,16 +9,22 @@ from django.shortcuts import reverse
 from django.test.client import RequestFactory
 from wkhtmltopdf.views import PDFTemplateResponse
 
+from core.models import Mail
+from django.contrib.auth.models import User
+from .models import Challan
+
 
 @shared_task
 def generate_pdf_and_send_email(template, context, pk, model, subject, body, from_email, to):
     request = RequestFactory().get(reverse('europarts:{model}_email'.format(model=model), args=[pk]))
+    user = User.objects.get(username='sorower')
 
     kw = {
         '{model}_id'.format(model=model): pk
     }
     row_model = '{model}Row'.format(model=model)
     rows = apps.get_model('europarts', row_model).objects.filter(**kw)
+    parent = apps.get_model('europarts', model).objects.get(id=pk)
     context['{model}_rows'.format(model=model)] = rows
     file_name = '{model}_email.pdf'.format(model=model)
 
@@ -48,6 +54,18 @@ def generate_pdf_and_send_email(template, context, pk, model, subject, body, fro
 
     email.attach(file_name, pdf, 'application/pdf')
 
-    email.send()
+    try:
+        email.send()
+    except:
+        pass
+    else:
+        Mail.objects.create(
+            owner           = user,
+            to_email        = to,
+            from_email      = from_email,
+            subject         = subject,
+            content_object  = Challan.objects.get(id=pk),
+            body            = body,
+        )
 
     return

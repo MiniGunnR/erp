@@ -1,9 +1,6 @@
 from datetime import datetime
 from decimal import Decimal
-import os
-from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.mail import EmailMessage
 from django.db import transaction
 
 from django.shortcuts import render
@@ -12,7 +9,7 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.db.models import Sum
 from django.contrib.auth.decorators import login_required
-from django.views.generic import View, ListView
+from django.views.generic import View
 
 from .models import Worksheet, WorksheetRow, Inventory, Quotation, QuotationRow, Invoice, InvoiceRow, Challan, ChallanRow
 from .forms import WorksheetForm, WorksheetRowForm, InventoryForm, BillRowForm, BillForm
@@ -21,7 +18,6 @@ from core.models import Mail
 
 from utils.mixins import AtomicMixin
 from utils.n2w import final
-from wkhtmltopdf.views import PDFTemplateResponse
 
 
 @login_required
@@ -621,7 +617,6 @@ def challan_details(request, pk):
 
 
 class ChallanEmail(AtomicMixin, View, LoginRequiredMixin):
-    # template = os.path.join(settings.BASE_DIR, "europarts", "templates", "europarts/challan/email_template.html")
     template = "europarts/challan/email_template.html"
 
     def get(self, request, **kwargs):
@@ -650,13 +645,13 @@ class ChallanEmail(AtomicMixin, View, LoginRequiredMixin):
         generate_pdf_and_send_email.delay(self.template, context, self.kwargs['pk'], 'challan', subject, body, from_email, to)
 
         # sent mail save with contenttype
-        Mail.objects.create(
-            owner           = self.request.user,
-            to_email        = self.request.GET.get('to_address'),
-            from_email      = from_email,
-            subject         = subject,
-            content_object  = challan,
-            body            = body,
-        )
+        # Mail.objects.create(
+        #     owner           = self.request.user,
+        #     to_email        = self.request.GET.get('to_address'),
+        #     from_email      = from_email,
+        #     subject         = subject,
+        #     content_object  = challan,
+        #     body            = body,
+        # )
 
         return HttpResponseRedirect(reverse('europarts:challan_details', args=(kwargs['pk'],)))
