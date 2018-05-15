@@ -49,8 +49,8 @@ WKHTMLTOPDF_CMD = '/usr/local/bin/wkhtmltopdf'
 
 EMAIL_HOST = 'mail.groupdesignace.com'
 EMAIL_HOST_USER = 'michel@groupdesignace.com'
-EMAIL_HOST_PASSWORD = 'mmii123#'
-EMAIL_PORT = 5877
+EMAIL_HOST_PASSWORD = 'mmii123##'
+EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 MIDDLEWARE = [
