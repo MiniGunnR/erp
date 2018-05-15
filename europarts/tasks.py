@@ -50,7 +50,7 @@ def generate_pdf_and_send_email(template, context, pk, model, subject, body, fro
 
     try:
         email.send()
-    except Exception as e:
+    except:
         return False
 
     return True
