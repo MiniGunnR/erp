@@ -48,6 +48,9 @@ def generate_pdf_and_send_email(template, context, pk, model, subject, body, fro
 
     email.attach(file_name, pdf, 'application/pdf')
 
-    email.send()
+    try:
+        email.send()
+    except Exception as e:
+        return False
 
-    return
+    return True

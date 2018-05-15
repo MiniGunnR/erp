@@ -647,16 +647,17 @@ class ChallanEmail(AtomicMixin, View, LoginRequiredMixin):
         to = ['{}'.format(self.request.GET.get('to_address'))]
 
         # task
-        generate_pdf_and_send_email.delay(self.template, context, self.kwargs['pk'], 'challan', subject, body, from_email, to)
+        email_boolean = generate_pdf_and_send_email.delay(self.template, context, self.kwargs['pk'], 'challan', subject, body, from_email, to)
 
-        # sent mail save with contenttype
-        Mail.objects.create(
-            owner           = self.request.user,
-            to_email        = self.request.GET.get('to_address'),
-            from_email      = from_email,
-            subject         = subject,
-            content_object  = challan,
-            body            = body,
-        )
+        if email_boolean:
+            # sent mail save with contenttype
+            Mail.objects.create(
+                owner           = self.request.user,
+                to_email        = self.request.GET.get('to_address'),
+                from_email      = from_email,
+                subject         = subject,
+                content_object  = challan,
+                body            = body,
+            )
 
         return HttpResponseRedirect(reverse('europarts:challan_details', args=(kwargs['pk'],)))
