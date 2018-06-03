@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.shortcuts import reverse
 from django.http import HttpResponseRedirect
 
-from .models import Requisition, Item, Vendor, Company, PurchaseOrder
+from .models import Requisition, Item, Vendor, Company, PurchaseOrder, QuotationRequest, QuotationRequestItem
 
 # admin.site.register(Company)
 admin.site.register(PurchaseOrder) # need to make requisition field read only in admin
@@ -63,3 +63,18 @@ admin.site.register(Requisition, RequisitionAdmin)
 
 admin.site.register(Vendor)
 admin.site.register(Item)
+
+
+class QuotationRequestItemInline(admin.TabularInline):
+    model = QuotationRequestItem
+    extra = 0
+
+
+class QuotationRequestAdmin(admin.ModelAdmin):
+    inlines = [
+        QuotationRequestItemInline,
+    ]
+    list_display = ('__str__', 'created')
+    list_per_page = 100
+
+admin.site.register(QuotationRequest, QuotationRequestAdmin)

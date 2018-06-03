@@ -9,8 +9,9 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from wkhtmltopdf.views import PDFTemplateResponse
 
-from .models import Requisition, Item, PurchaseOrder
+from .models import Requisition, Item, PurchaseOrder, QuotationRequest, QuotationRequestItem
 from .forms import RequisitionForm, ItemForm
+from requisition.tasks import generate_pdf_and_send_email
 
 
 def home(request):
@@ -181,3 +182,32 @@ class RequisitionView(View, LoginRequiredMixin):
         )
 
         return response
+
+from utils.mixins import AtomicMixin
+
+class QuotationRequestEmail(AtomicMixin, View, LoginRequiredMixin):
+    template = "requisition/quotationrequest/email_template.html"
+
+    def get(self, request, **kwargs):
+        qr = QuotationRequest.objects.get(pk=kwargs['pk'])
+        date = qr.created.strftime("%b %d, %Y")
+        recipient = qr.vendor.name
+        address = "{add1}, {add2}, {phone}".format(add1=qr.vendor.address_line_1, add2=qr.vendor.address_line_2, phone=qr.vendor.phone)
+        qritem_rows = QuotationRequestItem.objects.filter(quotationrequest=qr)
+
+        context = {
+            "qr": qr.pk,
+            "date": date,
+            "recipient": recipient,
+            "address": address,
+        }
+
+        subject = 'From Design Ace Limited'
+        body = 'Dear Sir,\n\nPlease find the attached file containing the quotation request.\n\nSincerely yours,\nTarik Mohammed'
+        from_email = 'Tarik Mohammed <tarik@groupdesignace.com>'
+        to = [qr.email]
+
+        # task
+        generate_pdf_and_send_email.delay(self.template, context, self.kwargs['pk'], 'quotationrequest', subject, body, from_email, to)
+
+        return HttpResponseRedirect('/admin/requisition/quotationrequest/{pk}/change/'.format(pk=kwargs['pk']))

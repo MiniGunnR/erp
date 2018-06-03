@@ -15,4 +15,5 @@ urlpatterns = [
 
     url(r'^(?P<pk>\d+)/pdf/$', views.RequisitionView.as_view(), name='requisition-pdf-view'),
     # url(r'^(?P<pk>\d+)/pdf/$', PDFTemplateView.as_view(template_name='requisition/requisition_template.html', filename='requisition.pdf'), name='requisition_view'),
+    url(r'^quotation/request/email/(?P<pk>\d+)/$', views.QuotationRequestEmail.as_view(), name='quotationrequest_email'),
 ]

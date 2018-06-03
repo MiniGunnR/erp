@@ -66,3 +66,19 @@ class PurchaseOrder(Timestamped):
 
     def __str__(self):
         return self.reference_no
+
+
+class QuotationRequest(Timestamped):
+    vendor = models.ForeignKey(Vendor)
+    email = models.EmailField()
+
+    def __str__(self):
+        return "DAL-IT_{}".format(self.pk)
+
+class QuotationRequestItem(Timestamped):
+    quotationrequest = models.ForeignKey(QuotationRequest)
+    name = models.CharField(max_length=200)
+    quantity = models.SmallIntegerField()
+
+    def __str__(self):
+        return "{qr} - {name}".format(qr=self.quotationrequest, name=self.name)

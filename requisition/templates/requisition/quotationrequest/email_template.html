@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <title>DAL ERP</title>
+        
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	</head>
+
+	<body>
+
+	<div style="padding: 10px;" id="challan-body">
+		<span id="ref_no"><b>Ref No. :</b> {{ qr }}</span>
+		<span style="float: right;" id="date"><b>Dated:</b> {{ date }}</span>
+		<hr/>
+
+		<div class="text-center">
+			<h3>Quotation Request</h3>
+		</div>
+
+		<b>To</b> <br/>
+		{{ recipient }} <br/>
+		{{ address }} <br/>
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Quantity</th>
+				</tr>
+			</thead>
+
+			<tbody>
+			{% for item in quotationrequest_rows %}
+				<tr>
+					<td>{{ item.name }}</td>
+					<td>{{ item.quantity }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<hr/>
+    </div>
+    
+    <br><br>
+
+	<footer class="text-right">
+	<p><em>This is an auto generated email. No signature required. You MAY reply to this email for further queries.</em></p>
+	<p>DESIGN ACE LTD.</p>
+	</footer>
+
+	</body>
+</html>
