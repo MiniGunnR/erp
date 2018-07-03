@@ -210,4 +210,5 @@ class QuotationRequestEmail(AtomicMixin, View, LoginRequiredMixin):
         # task
         generate_pdf_and_send_email.delay(self.template, context, self.kwargs['pk'], 'quotationrequest', subject, body, from_email, to)
 
+
         return HttpResponseRedirect('/admin/requisition/quotationrequest/{pk}/change/'.format(pk=kwargs['pk']))
