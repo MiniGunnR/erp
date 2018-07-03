@@ -59,12 +59,13 @@ def generate_pdf_and_send_email(template, context, pk, model, subject, body, fro
     except:
         pass
     else:
+        model = apps.get_model('europarts', model)
         Mail.objects.create(
             owner           = user,
             to_email        = to,
             from_email      = from_email,
             subject         = subject,
-            content_object  = Challan.objects.get(id=pk),
+            content_object  = model.objects.get(id=pk),
             body            = body,
         )
 
