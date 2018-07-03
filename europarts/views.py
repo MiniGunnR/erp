@@ -480,14 +480,14 @@ class QuotationEmail(AtomicMixin, View, LoginRequiredMixin):
         generate_pdf_and_send_email(self.template, context, self.kwargs['pk'], 'quotation', subject, body, from_email, to)
             
         # sent mail save with contenttype
-        Mail.objects.create(
-            owner           = self.request.user,
-            to_email        = self.request.GET.get('to_address'),
-            from_email      = from_email,
-            subject         = subject,
-            content_object  = quotation,
-            body            = body,
-        )
+        # Mail.objects.create(
+        #     owner           = self.request.user,
+        #     to_email        = self.request.GET.get('to_address'),
+        #     from_email      = from_email,
+        #     subject         = subject,
+        #     content_object  = quotation,
+        #     body            = body,
+        # )
 
         return HttpResponseRedirect(reverse('europarts:quotation_details', args=(kwargs['pk'],)))
 
@@ -583,14 +583,14 @@ class InvoiceEmail(AtomicMixin, View, LoginRequiredMixin):
         generate_pdf_and_send_email(self.template, context, self.kwargs['pk'], 'invoice', subject, body, from_email, to)
 
         # sent mail save with contenttype
-        Mail.objects.create(
-            owner           = self.request.user,
-            to_email        = self.request.GET.get('to_address'),
-            from_email      = from_email,
-            subject         = subject,
-            content_object  = invoice,
-            body            = body,
-        )
+        # Mail.objects.create(
+        #     owner           = self.request.user,
+        #     to_email        = self.request.GET.get('to_address'),
+        #     from_email      = from_email,
+        #     subject         = subject,
+        #     content_object  = invoice,
+        #     body            = body,
+        # )
 
         return HttpResponseRedirect(reverse('europarts:invoice_details', args=(kwargs['pk'],)))
 
