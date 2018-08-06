@@ -17,6 +17,7 @@
 
 		<tr>
 			<th>Part No</th>
+			<th>Barcode</th>
 			<th>Description</th>
 			<th>Qnty</th>
 			<th>Gram p/s</th>
@@ -33,6 +34,7 @@
 		{% for row_form in row_formset %}
 			<tr>
 				<td>{{ row_form.part_no }}</td>
+				<td>{{ row_form.barcode }}</td>
 				<td>{{ row_form.description }}</td>
 				<td>{{ row_form.quantity }}</td>
 				<td>{{ row_form.gram_p_s }}</td>

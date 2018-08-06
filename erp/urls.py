@@ -23,6 +23,8 @@ urlpatterns = [
     url(r'^ticket/', include('ticket.urls', namespace='ticket')),
 
     url(r'^euro/', include('europarts.urls', namespace='europarts')),
+
+    url(r'^knitwear/', include('knitwear.urls', namespace='knitwear')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'inv',
     'ticket',
     'europarts',
+    'knitwear',
 ]
 
 WKHTMLTOPDF_CMD_OPTIONS = {

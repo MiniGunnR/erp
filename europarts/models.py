@@ -92,6 +92,7 @@ class Worksheet(Timestamped):
 class WorksheetRow(Timestamped):
     worksheet = models.ForeignKey(Worksheet)
     part_no = models.CharField(max_length=100, blank=True, null=True)
+    barcode = models.CharField(max_length=255, blank=True, null=True)
     description = models.CharField(max_length=255, blank=True, null=True)
     quantity = models.IntegerField(null=True)
     gram_p_s = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)

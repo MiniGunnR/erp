@@ -1,0 +1,86 @@
+{% load static %}
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{% static 'css/mui.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'knitwear/style.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/select2.min.css' %}" rel="stylesheet" />
+    <script src="{% static 'js/mui.min.js' %}"></script>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/select2.min.js' %}"></script>
+    <script src="{% static 'knitwear/script.js' %}"></script>
+  </head>
+  <body>
+    <div id="sidedrawer" class="mui--no-user-select">
+      <div id="sidedrawer-brand" class="mui--appbar-line-height">
+        <span class="mui--text-title">
+	        <a class="plain-link" href="{% url 'core:dashboard' %}">KNITWEAR</a>
+        </span>
+      </div>
+      <div class="mui-divider"></div>
+      <ul>
+	    <li>
+          <strong>Item</strong>
+          <ul>
+            <li><a href="{% url 'knitwear:item_createview' %}">Create</a></li>
+{#            <li><a href="{% url 'knitwear:item_listview' %}">List</a></li>#}
+          </ul>
+        </li>
+        <li>
+          <strong>Order Collection</strong>
+          <ul>
+            <li><a href="{% url 'knitwear:order_collection_createview' %}">Create</a></li>
+            <li><a href="{% url 'knitwear:order_collection_listview' %}">Order in Hand</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <header id="header">
+	    <div class="mui-appbar">
+		  <table width="100%">
+		    <tr style="vertical-align:middle;">
+		      <td class="mui--appbar-height">
+			      <a class="sidedrawer-toggle mui--visible-xs-inline-block mui--visible-sm-inline-block js-show-sidedrawer">☰</a>
+			      <a class="sidedrawer-toggle mui--hidden-xs mui--hidden-sm js-hide-sidedrawer">☰</a>
+			      <span class="mui--text-title mui--visible-xs-inline-block mui--visible-sm-inline-block">
+				      <a class="sidedrawer-toggle" href="{% url 'core:dashboard' %}">DAL ERP : INV</a>
+			      </span>
+		      </td>
+		      <td class="mui--appbar-height" align="right">
+			      <a class="sidedrawer-toggle" href="{% url 'core:my_logout' %}">Logout</a>
+		      </td>
+		    </tr>
+		  </table>
+		</div>
+{#      <div class="mui-appbar mui--appbar-line-height">#}
+{#        <div class="mui-container-fluid">#}
+{#          <a class="sidedrawer-toggle mui--visible-xs-inline-block mui--visible-sm-inline-block js-show-sidedrawer">☰</a>#}
+{#          <a class="sidedrawer-toggle mui--hidden-xs mui--hidden-sm js-hide-sidedrawer">☰</a>#}
+{#          <span class="mui--text-title mui--visible-xs-inline-block mui--visible-sm-inline-block">DAL ERP : INV</span>#}
+{#        </div>#}
+{#      </div>#}
+    </header>
+    <div id="content-wrapper">
+      <div class="mui--appbar-height"></div>
+      <div class="mui-container-fluid">
+        <br>
+          <main>{% block main %}{% endblock %}</main>
+      </div>
+    </div>
+    <footer id="footer">
+      <div class="mui-container-fluid">
+        <br>
+        Made with ♥ by <a href="https://www.muicss.com">MUI</a>
+      </div>
+    </footer>
+  </body>
+  <script type="text/javascript">
+    $(document).ready(function() {
+        $('select').select2();
+    });
+  </script>
+  {% block script %}{% endblock %}
+</html>

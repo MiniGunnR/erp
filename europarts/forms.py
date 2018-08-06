@@ -12,7 +12,7 @@ class WorksheetForm(forms.ModelForm):
 class WorksheetRowForm(forms.ModelForm):
     class Meta:
         model = WorksheetRow
-        fields = ['part_no', 'description', 'quantity', 'gram_p_s', 'total', 'per_pcs_duty_tax', 'air_freight_cost_p_pcs', 'net_purchase_price_taka', 'price_after_tax', 'unit_price_in_taka', 'brand', 'total_price_in_taka']
+        fields = ['part_no', 'barcode', 'description', 'quantity', 'gram_p_s', 'total', 'per_pcs_duty_tax', 'air_freight_cost_p_pcs', 'net_purchase_price_taka', 'price_after_tax', 'unit_price_in_taka', 'brand', 'total_price_in_taka']
 
 
 class BillForm(forms.ModelForm):

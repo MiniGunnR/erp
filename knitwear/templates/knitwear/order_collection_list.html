@@ -1,0 +1,28 @@
+{% extends "knitwear_base.html" %}
+
+{% block main %}
+	<table class="mui-table mui-table--bordered">
+	<thead>
+	<tr>
+		<th>Item</th>
+		<th>Order No.</th>
+		<th>Style</th>
+		<th>Quantity</th>
+		<th>Unit Price</th>
+		<th>Total</th>
+	</tr>
+	</thead>
+	<tbody>
+	{% for obj in object_list %}
+	<tr>
+		<td>{{ obj.item }}</td>
+		<td>{{ obj.order_no }}</td>
+		<td>{{ obj.style }}</td>
+		<td>{{ obj.quantity }}</td>
+		<td>{{ obj.unit_price }}</td>
+		<td>{{ obj.total }}</td>
+	</tr>
+	{% endfor %}
+	</tbody>
+	</table>
+{% endblock %}

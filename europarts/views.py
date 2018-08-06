@@ -146,6 +146,7 @@ def worksheet_create(request):
 
             for row_form in row_formset:
                 part_no = row_form.cleaned_data.get('part_no')
+                barcode = row_form.cleaned_data.get('part_no')
                 description = row_form.cleaned_data.get('description')
                 quantity = row_form.cleaned_data.get('quantity')
                 gram_p_s = row_form.cleaned_data.get('gram_p_s')
@@ -162,6 +163,7 @@ def worksheet_create(request):
                     WorksheetRow.objects.create(
                         worksheet=worksheet,
                         part_no=part_no,
+                        barcode=barcode,
                         description=description,
                         quantity=quantity,
                         gram_p_s=gram_p_s,
@@ -199,6 +201,7 @@ def worksheet_edit(request, pk):
     old_rows = WorksheetRow.objects.filter(worksheet=worksheet)
     row_data = [{
         'part_no': row.part_no,
+        'barcode': row.barcode,
         'description': row.description,
         'quantity': row.quantity,
         'gram_p_s': row.gram_p_s,
@@ -222,6 +225,7 @@ def worksheet_edit(request, pk):
             for row_form in row_formset:
                 print('row_form')
                 part_no = row_form.cleaned_data.get('part_no')
+                barcode = row_form.cleaned_data.get('barcode')
                 description = row_form.cleaned_data.get('description')
                 quantity = row_form.cleaned_data.get('quantity')
                 gram_p_s = row_form.cleaned_data.get('gram_p_s')
@@ -238,6 +242,7 @@ def worksheet_edit(request, pk):
                     WorksheetRow.objects.create(
                         worksheet=worksheet,
                         part_no=part_no,
+                        barcode=barcode,
                         description=description,
                         quantity=quantity,
                         gram_p_s=gram_p_s,
