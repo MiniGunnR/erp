@@ -7,6 +7,7 @@ def fetch_item_details(request, part_no):
     item = Inventory.objects.get(part_no=part_no)
     return JsonResponse({
         "part_no": part_no,
+        "barcode": item.barcode,
         "brand": item.brand,
         "type": item.type,
         "description": item.description,

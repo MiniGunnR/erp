@@ -13,6 +13,7 @@ $(function() {
                 success: function(data){
                     console.log($id);
                     $("#id_form-" + $id + "-brand").val(data.brand);
+                    $("#id_form-" + $id + "-barcode").val(data.barcode);
                     $("#id_form-" + $id + "-type").val(data.type);
                     $("#id_form-" + $id + "-description").val(data.description);
                     $("#id_form-" + $id + "-cost_price").val(data.cost_price);
