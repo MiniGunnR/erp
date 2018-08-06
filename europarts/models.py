@@ -41,6 +41,7 @@ class Part(Timestamped):
 
 class Inventory(Timestamped):
     part_no = models.CharField(max_length=100)
+    barcode = models.CharField(max_length=255)
     brand = models.CharField(max_length=50, blank=True, null=True)
     type = models.CharField(max_length=50, blank=True, null=True, choices=TYPE_CHOICES)
     description = models.CharField(max_length=255, blank=True, null=True)

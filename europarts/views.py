@@ -40,6 +40,7 @@ def inventory_create(request):
 
     if form.is_valid():
         part_no = form.cleaned_data.get('part_no')
+        barcode = form.cleaned_data.get('barcode')
         brand = form.cleaned_data.get('brand')
         type = form.cleaned_data.get('type')
         description = form.cleaned_data.get('description')
@@ -51,6 +52,7 @@ def inventory_create(request):
         cost_price = form.cleaned_data.get('cost_price')
 
         Inventory.objects.create(part_no=part_no,
+                                 barcode=barcode,
                                  brand=brand,
                                  type=type,
                                  description=description,
@@ -78,6 +80,7 @@ def inventory_edit(request, pk):
 
         if form.is_valid():
             part_no = form.cleaned_data.get('part_no')
+            barcode = form.cleaned_data.get('barcode')
             brand = form.cleaned_data.get('brand')
             type = form.cleaned_data.get('type')
             description = form.cleaned_data.get('description')
@@ -89,6 +92,7 @@ def inventory_edit(request, pk):
             cost_price = form.cleaned_data.get('cost_price')
 
             Inventory.objects.filter(pk=inventory.pk).update(part_no=part_no,
+                                                             barcode=barcode,
                                                              brand=brand,
                                                              type=type,
                                                              description=description,

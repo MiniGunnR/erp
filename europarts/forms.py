@@ -30,5 +30,5 @@ class BillRowForm(forms.ModelForm):
 class InventoryForm(forms.ModelForm):
     class Meta:
         model = Inventory
-        fields = ['part_no', 'brand', 'type', 'description', 'engine_no', 'ship_name', 'serial_no', 'chassis_no', 'cost_price', 'quantity']
+        fields = ['part_no', 'barcode', 'brand', 'type', 'description', 'engine_no', 'ship_name', 'serial_no', 'chassis_no', 'cost_price', 'quantity']
 
