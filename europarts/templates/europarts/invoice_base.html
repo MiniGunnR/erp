@@ -12,6 +12,11 @@
 		</div>
 
 		<div id="conditional-buttons" style="float: right; display: none;" class="btn-group">
+			{% if paid %}
+				<a id="invoice-mark-as-paid" href="#" class="btn btn-success btn-sm disabled">Paid</a>
+				{% else %}
+				<a id="invoice-mark-as-paid" href="#" class="btn btn-primary btn-sm">Mark as Paid</a>
+				{% endif %}
 			<a id="generate-invoice" href="#" class="btn btn-default btn-sm" data-toggle="modal" data-target="#emailModal">Send Email</a>
 		</div>
 	</div>

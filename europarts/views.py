@@ -550,6 +550,7 @@ def invoice_details(request, pk):
         "total_in_words": total_in_words,
         "pk": pk,
         "vat": invoice.total_after_tax - invoice.total,
+        "paid": invoice.paid
     }
     return render(request, "europarts/invoice/invoice_details.html", context)
 

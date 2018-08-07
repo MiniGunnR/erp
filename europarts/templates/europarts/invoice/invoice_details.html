@@ -1,7 +1,6 @@
 {% extends "europarts/invoice_base.html" %}
 
 {% block invoice-content %}
-{#	<input type='button' id='btn' value='Print' onclick='printDiv();'>#}
 	<div style="padding: 10px;" id="invoice-body">
 		<span id="ref_no"><b>Ref No. :</b> {{ invoice.ref_no }}</span>
 		<span style="float: right;" id="date"><b>Dated:</b> {{ now.date }}</span>
@@ -18,7 +17,8 @@
 		<table class="table">
 			<thead>
 				<tr>
-					<th>Part No.</th>
+{#					<th>Part No.</th>#}
+					<th></th>
 					<th>Particulars</th>
 					<th>Brand</th>
 					<th>Quantity</th>
@@ -30,7 +30,8 @@
 			<tbody>
 			{% for item in invoice_rows %}
 				<tr>
-					<td>{{ item.part_no }}</td>
+					<td>{{ forloop.counter }}</td>
+{#					<td>{{ item.part_no }}</td>#}
 					<td>{{ item.description }}</td>
 					<td>{{ item.brand }} {{ item.type }}</td>
 					<td>{{ item.quantity }}</td>

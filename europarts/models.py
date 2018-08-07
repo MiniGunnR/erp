@@ -145,6 +145,7 @@ class Invoice(Timestamped):
     total_after_tax = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     recipient = models.CharField(max_length=100, default='')
     recipient_address = models.CharField(max_length=255, default='')
+    paid = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['-created']
