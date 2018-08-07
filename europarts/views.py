@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 
 from django.shortcuts import render
+from django.views import generic
 from django.forms import formset_factory
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -603,6 +604,19 @@ class InvoiceEmail(AtomicMixin, View, LoginRequiredMixin):
         # )
 
         return HttpResponseRedirect(reverse('europarts:invoice_details', args=(kwargs['pk'],)))
+
+
+class MarkAsPaid(generic.UpdateView):
+    model = Invoice
+    fields = []
+    template_name = 'europarts/invoice/mark_as_paid.html'
+
+    def form_valid(self, form):
+        form.instance.paid = True
+        return super(MarkAsPaid, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse('europarts:invoice_details', args=[self.kwargs['pk']],)
 
 
 @login_required

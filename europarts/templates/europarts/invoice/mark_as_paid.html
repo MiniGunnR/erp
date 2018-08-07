@@ -1,0 +1,10 @@
+{% extends "europarts/invoice_base.html" %}
+
+{% block main %}
+	<form method="post">
+		{% csrf_token %}
+		Do you want to continue?
+		{{ form.as_p }}
+		<input type="submit" value="Confirm"/>
+	</form>
+{% endblock %}

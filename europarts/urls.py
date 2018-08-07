@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^invoice/create/from/quotation/(?P<qt_id>\d+)/$', views.invoice_create, name='invoice_create'),
     url(r'^invoice/details/(?P<pk>\d+)/$', views.invoice_details, name='invoice_details'),
     url(r'^invoice/email/(?P<pk>\d+)$', views.InvoiceEmail.as_view(), name='invoice_email'),
+    url(r'^invoice/mark/as/paid/(?P<pk>\d+)/$', views.MarkAsPaid.as_view(), name='mark_as_paid_update'),
 
     url(r'^challan/$', views.challan_list, name='challan_list'),
     url(r'^challan/details/(?P<pk>\d+)/$', views.challan_details, name='challan_details'),
