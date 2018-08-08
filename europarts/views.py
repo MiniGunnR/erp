@@ -697,7 +697,7 @@ class ClientListView(generic.ListView):
 class ClientCreateView(generic.CreateView):
     model = Client
     fields = ['name', 'address']
-    template_name = 'europarts/clients/client_update.html'
+    template_name = 'europarts/clients/client_form.html'
 
     def get_success_url(self):
         return reverse('europarts:clients_list')
@@ -706,7 +706,7 @@ class ClientCreateView(generic.CreateView):
 class ClientUpdateView(generic.UpdateView):
     model = Client
     fields = ['name', 'address']
-    template_name = 'europarts/clients/client_update.html'
+    template_name = 'europarts/clients/client_form.html'
 
     def get_success_url(self):
         return reverse('europarts:clients_list')
