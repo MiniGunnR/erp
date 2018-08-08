@@ -45,13 +45,21 @@
 						<h4 class="modal-title" id="myModalLabel">Are you sure?</h4>
 					</div>
 					<div class="modal-body">
+{#						<div class="form-group">#}
+{#						    <label for="recipient">Recipient:</label>#}
+{#						    <input type="text" class="form-control" id="recipient" name="recipient" value="{{ recipient }}" required>#}
+{#						</div>#}
+{#						<div class="form-group">#}
+{#						    <label for="recipient_address">Address:</label>#}
+{#						    <input type="text" class="form-control" id="recipient_address" name="recipient_address" value="{{ recipient_address }}" required>#}
+{#						</div>#}
 						<div class="form-group">
-						    <label for="recipient">Recipient:</label>
-						    <input type="text" class="form-control" id="recipient" name="recipient" value="{{ recipient }}" required>
-						</div>
-						<div class="form-group">
-						    <label for="recipient_address">Address:</label>
-						    <input type="text" class="form-control" id="recipient_address" name="recipient_address" value="{{ recipient_address }}" required>
+						    <label for="client">Client:</label>
+						    <select id="client" name="client">
+						    {% for client in clients %}
+						        <option value="{{ client.id }}">{{ client.name }}</option>
+							    {% endfor %}
+						    </select>
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -80,5 +88,9 @@
 			addText: 'add row',
 			deleteText: 'remove'
 		});
+
+		$(document).ready(function() {
+	        $('select').select2();
+	    });
 	</script>
 {% endblock %}

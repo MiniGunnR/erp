@@ -42,4 +42,3 @@ urlpatterns = [
     url(r'^sale/price/toggle/(?P<pk>\d+)/$', api_views.sale_price_toggle, name='sale_price_toggle'),
     url(r'^total/price/toggle/(?P<pk>\d+)/$', api_views.total_toggle, name='total_toggle'),
 ]
-

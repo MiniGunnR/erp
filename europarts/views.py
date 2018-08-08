@@ -12,7 +12,8 @@ from django.db.models import Sum
 from django.contrib.auth.decorators import login_required
 from django.views.generic import View
 
-from .models import Worksheet, WorksheetRow, Inventory, Quotation, QuotationRow, Invoice, InvoiceRow, Challan, ChallanRow
+from .models import Worksheet, WorksheetRow, Inventory, Quotation, QuotationRow, Invoice, InvoiceRow, Challan, \
+    ChallanRow, Client
 from .forms import WorksheetForm, WorksheetRowForm, InventoryForm, BillRowForm, BillForm
 from europarts.tasks import generate_pdf_and_send_email
 from core.models import Mail
@@ -355,6 +356,7 @@ def bill_edit(request, pk):
                  'unit_price_in_taka': row.unit_price_in_taka,
                  'total_price_in_taka': row.total_price_in_taka}
                 for row in old_rows]
+    clients = Client.objects.all()
 
     if request.method == "POST":
         row_formset = BillRowFormset(request.POST)
@@ -384,6 +386,7 @@ def bill_edit(request, pk):
         "worksheet": worksheet,
         "row_formset": row_formset,
         "pk": pk,
+        "clients": clients
     }
     return render(request, "europarts/bill/bill_edit.html", context)
 
@@ -404,6 +407,7 @@ def quotation_create(request, ws_id):
     qt_objs = Quotation.objects.filter(worksheet=worksheet)
 
     if request.method == "POST":
+        print(request.POST)
         first_obj = qt_objs.last()
 
         # generate display_id that increases by 5
@@ -427,7 +431,8 @@ def quotation_create(request, ws_id):
             # ref_no = 'EPBD/{id}-{count}/{year}'.format(id=worksheet.id, count=count, year=datetime.now().year)
             ref_no = 'EPBD/{id}-{count}/{year}'.format(id=worksheet.display_id, count=count, year=datetime.now().year)
 
-        quotation = Quotation.objects.create(ref_no=ref_no, worksheet=worksheet, total=0, recipient=request.POST.get('recipient'), recipient_address=request.POST.get('recipient_address'))
+        # quotation = Quotation.objects.create(ref_no=ref_no, worksheet=worksheet, total=0, recipient=request.POST.get('recipient'), recipient_address=request.POST.get('recipient_address'))
+        quotation = Quotation.objects.create(ref_no=ref_no, worksheet=worksheet, total=0, client_id=request.POST.get('client'))
 
         worksheet_rows = WorksheetRow.objects.filter(worksheet=worksheet)
         for item in worksheet_rows:

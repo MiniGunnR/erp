@@ -11,13 +11,12 @@
 			<h3>Quotation</h3>
 		</div>
 
-		{{ quotation.recipient }} <br/>
-		{{ quotation.recipient_address }} <br/>
+		{{ quotation.client.name }} <br/>
+		{{ quotation.client.address }} <br/>
 
 		<table class="table">
 			<thead>
 				<tr>
-					<th>Part No.</th>
 					<th>Particulars</th>
 					<th>Quantity</th>
 					<th>Unit Price</th>
@@ -28,7 +27,6 @@
 			<tbody>
 			{% for item in quotation_rows %}
 				<tr>
-					<td>{{ item.part_no }}</td>
 					<td>{{ item.description }}</td>
 					<td>{{ item.quantity }}</td>
 					<td>Tk. {{ item.sale_price }}</td>
@@ -37,7 +35,7 @@
 				{% endfor %}
 				<tr>
 					<td></td>
-					<td class="text-right" colspan="2">
+					<td class="text-right" colspan="1">
 						<b>Total Price (excluding VAT & AIT)</b>
 					</td>
 					<td></td>
