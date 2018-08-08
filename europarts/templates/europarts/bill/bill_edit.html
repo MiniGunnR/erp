@@ -60,6 +60,8 @@
 						        <option value="{{ client.id }}">{{ client.name }}</option>
 							    {% endfor %}
 						    </select>
+						&nbsp;
+							<a href="{% url 'europarts:clients_create' %}" class="btn btn-primary btn-sm">+</a>
 						</div>
 					</div>
 					<div class="modal-footer">

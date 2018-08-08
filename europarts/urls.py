@@ -33,6 +33,10 @@ urlpatterns = [
     url(r'^challan/details/(?P<pk>\d+)/$', views.challan_details, name='challan_details'),
     url(r'^challan/email/(?P<pk>\d+)$', views.ChallanEmail.as_view(), name='challan_email'),
 
+    url(r'^clients/$', views.ClientListView.as_view(), name='clients_list'),
+    url(r'^clients/add/$', views.ClientCreateView.as_view(), name='clients_create'),
+    url(r'^clients/(?P<pk>\d+)/$', views.ClientUpdateView.as_view(), name='clients_update'),
+
     # API
 
     url(r'^fetch/item/details/(?P<part_no>.*)/$', api_views.fetch_item_details, name='fetch_item_details'),

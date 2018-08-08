@@ -1,0 +1,17 @@
+{% extends "europarts/home.html" %}
+
+{% block nav-content %}
+	<div class="btn-toolbar" style="margin: 10px;">
+
+		<div class="btn-group">
+			<a id="invoice-list" href="{% url 'europarts:invoice_list' %}" class="btn btn-default btn-sm">List</a>
+			<a id="invoice-details" href="#" class="btn btn-default btn-sm disabled">Details</a>
+		</div>
+
+		<div id="conditional-buttons" style="float: right; display: none;" class="btn-group">
+			<a id="generate-invoice" href="#" class="btn btn-default btn-sm" data-toggle="modal" data-target="#emailModal">Send Email</a>
+		</div>
+	</div>
+
+	{% block clients-content %}{% endblock %}
+{% endblock %}

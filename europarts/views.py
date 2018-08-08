@@ -687,3 +687,26 @@ class ChallanEmail(AtomicMixin, View, LoginRequiredMixin):
         # )
 
         return HttpResponseRedirect(reverse('europarts:challan_details', args=(kwargs['pk'],)))
+
+
+class ClientListView(generic.ListView):
+    model = Client
+    template_name = 'europarts/clients/client_list.html'
+
+
+class ClientCreateView(generic.CreateView):
+    model = Client
+    fields = ['name', 'address']
+    template_name = 'europarts/clients/client_update.html'
+
+    def get_success_url(self):
+        return reverse('europarts:clients_list')
+
+
+class ClientUpdateView(generic.UpdateView):
+    model = Client
+    fields = ['name', 'address']
+    template_name = 'europarts/clients/client_update.html'
+
+    def get_success_url(self):
+        return reverse('europarts:clients_list')
