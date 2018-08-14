@@ -13,13 +13,14 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import View
 
 from .models import Worksheet, WorksheetRow, Inventory, Quotation, QuotationRow, Invoice, InvoiceRow, Challan, \
-    ChallanRow, Client
+    ChallanRow, Client, Job
 from .forms import WorksheetForm, WorksheetRowForm, InventoryForm, BillRowForm, BillForm
 from europarts.tasks import generate_pdf_and_send_email
 from core.models import Mail
 
 from utils.mixins import AtomicMixin
 from utils.n2w import final
+from utils.func import is_member
 
 
 @login_required
@@ -530,8 +531,10 @@ def invoice_create(request, qt_id):
             count = invoice_objs.count()
             ref_no = 'EPBD/{id}-{count}/{year}'.format(id=quotation.worksheet.display_id, count=count, year=datetime.now().year)
 
-        invoice = Invoice.objects.create(ref_no=ref_no, quotation=quotation, total=quotation.total, total_after_tax=int(round(quotation.total * Decimal(1.085))), recipient=quotation.recipient, recipient_address=quotation.recipient_address)
-        challan = Challan.objects.create(ref_no=ref_no, invoice=invoice, recipient=quotation.recipient, recipient_address=quotation.recipient_address)
+        # invoice = Invoice.objects.create(ref_no=ref_no, quotation=quotation, total=quotation.total, total_after_tax=int(round(quotation.total * Decimal(1.085))), recipient=quotation.recipient, recipient_address=quotation.recipient_address)
+        invoice = Invoice.objects.create(ref_no=ref_no, quotation=quotation, total=quotation.total, total_after_tax=int(round(quotation.total * Decimal(1.085))), client=quotation.client)
+        # challan = Challan.objects.create(ref_no=ref_no, invoice=invoice, recipient=quotation.recipient, recipient_address=quotation.recipient_address)
+        challan = Challan.objects.create(ref_no=ref_no, invoice=invoice, client=quotation.client)
 
         quotation_rows = QuotationRow.objects.filter(quotation=quotation)
         for item in quotation_rows:
@@ -710,3 +713,48 @@ class ClientUpdateView(generic.UpdateView):
 
     def get_success_url(self):
         return reverse('europarts:clients_list')
+
+
+class ClientTransactions(generic.ListView):
+    model = Invoice
+    template_name = 'europarts/clients/client_transactions.html'
+
+    def get_queryset(self):
+        return Invoice.objects.filter(client_id=self.kwargs['pk'])
+
+
+class JobListView(generic.ListView):
+    model = Job
+    template_name = 'europarts/jobs/job_list.html'
+
+    def get_queryset(self):
+        if not is_member(self.request.user, 'EuropartsAdmin'):
+            return Job.objects.filter(user=self.request.user)
+        return Job.objects.all()
+
+
+class JobCreateView(generic.CreateView):
+    model = Job
+    fields = ['appointment_date', 'client_name', 'client_address', 'subject', 'body']
+    template_name = 'europarts/jobs/job_form.html'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('europarts:jobs_list')
+
+
+class JobUpdateView(generic.UpdateView):
+    model = Job
+    fields = ['appointment_date', 'client_name', 'client_address', 'subject', 'body']
+    template_name = 'europarts/jobs/job_form.html'
+
+    def get_success_url(self):
+        return reverse('europarts:jobs_list')
+
+
+class JobDetailView(generic.DetailView):
+    model = Job
+    template_name = 'europarts/jobs/job_detail.html'

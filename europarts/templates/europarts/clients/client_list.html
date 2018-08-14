@@ -19,7 +19,7 @@
 				<td>{{ client.address }}</td>
 				<td>
 					<a class="btn btn-xs btn-primary" href="{% url 'europarts:clients_update' client.pk %}">Edit</a>
-					<a class="btn btn-xs btn-primary" href="#">Transactions</a>
+					<a class="btn btn-xs btn-primary" href="{% url 'europarts:clients_transactions' client.pk %}">Transactions</a>
 				</td>
 			</tr>
 				{% empty %}
@@ -35,6 +35,6 @@
 
 		$("#clients-tab").addClass("active");
 
-		$("#clients-list").addClass("active");
+		$("#invoice-list").addClass("active");
 	</script>
 {% endblock %}

@@ -1,0 +1,15 @@
+{% extends "europarts/jobs_base.html" %}
+
+{% block jobs-content %}
+	<p>Created by: {{ object.user }}</p>
+	<p>{{ object.job_no }}</p>
+	<p>{{ object.created }}</p>
+	<p>{{ object.appointment_date }}</p>
+	<p>{{ object.client_name }}</p>
+	<p>{{ object.client_address }}</p>
+	<p>{{ object.subject }}</p>
+	<p>{{ object.body }}</p>
+
+	<a class="btn btn-success" href="#">Send to Server</a>
+
+{% endblock %}

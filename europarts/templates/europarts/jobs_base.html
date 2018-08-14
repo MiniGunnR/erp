@@ -1,0 +1,20 @@
+{% extends "europarts/home.html" %}
+
+{% block nav-content %}
+	<div class="btn-toolbar" style="margin: 10px;">
+		<div class="btn-group">
+			<a id="jobs-create" href="{% url 'europarts:jobs_create' %}" class="btn btn-danger btn-sm">Create</a>
+		</div>
+
+		<div class="btn-group">
+			<a id="jobs-list" href="#" class="btn btn-default btn-sm">List</a>
+			<a id="jobs-details" href="#" class="btn btn-default btn-sm disabled">Details</a>
+		</div>
+
+		<div id="conditional-buttons" style="float: right; display: none;" class="btn-group">
+			<a id="generate-invoice" href="#" class="btn btn-default btn-sm" data-toggle="modal" data-target="#emailModal">Send Email</a>
+		</div>
+	</div>
+
+	{% block jobs-content %}{% endblock %}
+{% endblock %}

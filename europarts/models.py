@@ -1,4 +1,7 @@
+import datetime
 from django.db import models
+
+from django.contrib.auth.models import User
 
 from utils.models import Timestamped
 
@@ -155,6 +158,7 @@ class Invoice(Timestamped):
     recipient = models.CharField(max_length=100, default='')
     recipient_address = models.CharField(max_length=255, default='')
     paid = models.BooleanField(default=False)
+    client = models.ForeignKey(Client, on_delete=models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
         ordering = ['-created']
@@ -182,6 +186,7 @@ class Challan(Timestamped):
     invoice = models.ForeignKey(Invoice)
     recipient = models.CharField(max_length=100, default='')
     recipient_address = models.CharField(max_length=255, default='')
+    client = models.ForeignKey(Client, on_delete=models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
         ordering = ['-created']
@@ -201,3 +206,24 @@ class ChallanRow(Timestamped):
     def __str__(self):
         return self.part_no
 
+
+class Job(Timestamped):
+    user = models.ForeignKey(User)
+    job_no = models.CharField(max_length=100)
+    appointment_date = models.DateField()
+    client_name = models.CharField(max_length=255)
+    client_address = models.CharField(max_length=255)
+    subject = models.CharField(max_length=255)
+    body = models.TextField()
+
+    def __str__(self):
+        return self.job_no
+
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            job_no_format = "EPBD-{date}"
+            d = datetime.date.today()
+            d_str = d.strftime('%Y/%m/%d')
+            job_no = job_no_format.format(date=d_str)
+            self.job_no = job_no
+        super().save(*args, **kwargs)

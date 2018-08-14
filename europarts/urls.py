@@ -36,6 +36,12 @@ urlpatterns = [
     url(r'^clients/$', views.ClientListView.as_view(), name='clients_list'),
     url(r'^clients/add/$', views.ClientCreateView.as_view(), name='clients_create'),
     url(r'^clients/(?P<pk>\d+)/$', views.ClientUpdateView.as_view(), name='clients_update'),
+    url(r'^clients/(?P<pk>\d+)/transactions/$', views.ClientTransactions.as_view(), name='clients_transactions'),
+
+    url(r'^jobs/$', views.JobListView.as_view(), name='jobs_list'),
+    url(r'^jobs/create/$', views.JobCreateView.as_view(), name='jobs_create'),
+    url(r'^jobs/(?P<pk>\d+)/edit/$', views.JobUpdateView.as_view(), name='jobs_update'),
+    url(r'^jobs/(?P<pk>\d+)/$', views.JobDetailView.as_view(), name='jobs_detail'),
 
     # API
 
