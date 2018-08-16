@@ -227,3 +227,11 @@ class Job(Timestamped):
             job_no = job_no_format.format(date=d_str)
             self.job_no = job_no
         super().save(*args, **kwargs)
+
+
+class Option(models.Model):
+    title = models.CharField(max_length=100)
+    value = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.title

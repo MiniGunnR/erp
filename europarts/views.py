@@ -14,7 +14,7 @@ from django.views.generic import View
 from django.core.mail import EmailMessage
 
 from .models import Worksheet, WorksheetRow, Inventory, Quotation, QuotationRow, Invoice, InvoiceRow, Challan, \
-    ChallanRow, Client, Job
+    ChallanRow, Client, Job, Option
 from .forms import WorksheetForm, WorksheetRowForm, InventoryForm, BillRowForm, BillForm
 from europarts.tasks import generate_pdf_and_send_email
 from core.models import Mail
@@ -763,6 +763,7 @@ class JobDetailView(generic.DetailView):
 
 def jobs_info_email(request, pk):
     job = Job.objects.get(id=pk)
+    to = Option.objects.get(title='job_report_email').value
 
     subject = job.subject
     body = """Created by: {username}
@@ -783,7 +784,7 @@ Report : {body}
         body=job.body
     )
     from_email = request.user.email
-    to = ['info@europartsbd.com']
+    to = [to]
 
     email = EmailMessage()
     email.subject = "Job Report : {subject}".format(subject=subject)
