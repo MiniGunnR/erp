@@ -42,6 +42,7 @@ urlpatterns = [
     url(r'^jobs/create/$', views.JobCreateView.as_view(), name='jobs_create'),
     url(r'^jobs/(?P<pk>\d+)/edit/$', views.JobUpdateView.as_view(), name='jobs_update'),
     url(r'^jobs/(?P<pk>\d+)/$', views.JobDetailView.as_view(), name='jobs_detail'),
+    url(r'^jobs/(?P<pk>\d+)/info/email/$', views.jobs_info_email, name='jobs_info_email'),
 
     # API
 

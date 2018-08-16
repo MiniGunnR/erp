@@ -11,7 +11,7 @@ from wkhtmltopdf.views import PDFTemplateResponse
 
 from core.models import Mail
 from django.contrib.auth.models import User
-from .models import Challan
+from .models import Job
 
 
 @shared_task

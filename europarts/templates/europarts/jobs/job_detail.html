@@ -10,6 +10,24 @@
 	<p>{{ object.subject }}</p>
 	<p>{{ object.body }}</p>
 
-	<a class="btn btn-success" href="#">Send to Server</a>
+	<a class="btn btn-success" href="#" data-toggle="modal" data-target="#jobEmailModal">Send to Server</a>
+
+	<div id="jobEmailModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Please Confirm</h4>
+				</div>
+				<div class="modal-body">
+					Are you sure you want to send the job information to <i>info@europartsbd.com</i>?
+				</div>
+				<div class="modal-footer">
+					<a href="{% url 'europarts:jobs_info_email' object.pk %}" class="btn btn-primary">Yes</a>
+					<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 {% endblock %}

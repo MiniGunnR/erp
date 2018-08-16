@@ -11,6 +11,7 @@ from django.core.urlresolvers import reverse
 from django.db.models import Sum
 from django.contrib.auth.decorators import login_required
 from django.views.generic import View
+from django.core.mail import EmailMessage
 
 from .models import Worksheet, WorksheetRow, Inventory, Quotation, QuotationRow, Invoice, InvoiceRow, Challan, \
     ChallanRow, Client, Job
@@ -758,3 +759,38 @@ class JobUpdateView(generic.UpdateView):
 class JobDetailView(generic.DetailView):
     model = Job
     template_name = 'europarts/jobs/job_detail.html'
+
+
+def jobs_info_email(request, pk):
+    job = Job.objects.get(id=pk)
+
+    subject = job.subject
+    body = """Created by: {username}
+{job_no}
+Created on : {created}
+Appointment date : {appointment_date}
+Client Name : {client_name}
+Client Address : {client_address}
+
+Report : {body}
+    """.format(
+        username=job.user,
+        job_no=job.job_no,
+        created=job.created,
+        appointment_date=job.appointment_date.strftime("%B %d, %Y"),
+        client_name=job.client_name,
+        client_address=job.client_address,
+        body=job.body
+    )
+    from_email = request.user.email
+    to = ['hasan.mohaiminul@gmail.com']
+
+    email = EmailMessage()
+    email.subject = "Job Report : {subject}".format(subject=subject)
+    email.body = body
+    email.from_email = from_email
+    email.to = to
+
+    email.send()
+
+    return HttpResponseRedirect(reverse('europarts:jobs_detail', args=[pk, ]))
