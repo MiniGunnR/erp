@@ -783,7 +783,7 @@ Report : {body}
         body=job.body
     )
     from_email = request.user.email
-    to = ['hasan.mohaiminul@gmail.com']
+    to = ['info@europartsbd.com']
 
     email = EmailMessage()
     email.subject = "Job Report : {subject}".format(subject=subject)
