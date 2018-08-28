@@ -2,7 +2,7 @@ $(function() {
 
     $("input[id^='id_form-'][id$='-part_no']").on('blur', function(e) {
         var $part_no = $(this).val();
-        var $url = '/euro/fetch/item/details/' + $part_no + '/';
+        var $url = '/europarts/fetch/item/details/' + $part_no + '/';
         var $id = $(this).attr('id').replace("id_form-", "").replace("-part_no", "");
 
         if ($part_no != "") {
@@ -60,7 +60,7 @@ $(function() {
 
             $.ajax({
                 type: 'GET',
-                url: '/euro/get/past/price/' + $part_no + '/',
+                url: '/europarts/get/past/price/' + $part_no + '/',
 
                 success: function(data) {
                     html = '';
