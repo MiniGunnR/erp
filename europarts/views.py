@@ -272,8 +272,8 @@ def worksheet_edit(request, pk):
     qt_objs = Quotation.objects.filter(worksheet=worksheet)
     qt_obj = qt_objs.last()
     if qt_obj is not None:
-        recipient = qt_obj.recipient
-        recipient_address = qt_obj.recipient_address
+        recipient = qt_obj.client.name
+        recipient_address = qt_obj.client.address
     else:
         recipient = ''
         recipient_address = ''

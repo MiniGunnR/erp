@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'inv',
     'ticket',
     'europarts',
+    'euro',
     'knitwear',
 ]
 
