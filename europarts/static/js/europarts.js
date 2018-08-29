@@ -106,14 +106,14 @@ $(function() {
     //    $("#past_price").hide();
     //});
 
-    $("input[id^='id_form-'][id$='-total']").on('focus', function(e) {
-        var $id = $(this).attr('id').replace("id_form-", "").replace("-total", "");
+    $("input[id^='id_form-'][id$='-total_price_in_taka']").on('focus', function(e) {
+        var $id = $(this).attr('id').replace("id_form-", "").replace("-total_price_in_taka", "");
         var $quantity = $("#id_form-" + $id + "-quantity").val();
-        var $sale_price = $("#id_form-" + $id + "-sale_price").val();
+        var $sale_price = $("#id_form-" + $id + "-unit_price_in_taka").val();
 
         if ($quantity && $sale_price) {
             $total = $quantity * $sale_price;
-            $("#id_form-" + $id + "-total").val($total);
+            $("#id_form-" + $id + "-total_price_in_taka").val($total);
         }
     });
 
