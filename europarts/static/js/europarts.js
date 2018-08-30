@@ -117,6 +117,13 @@ $(function() {
         }
     });
 
+    $("input[id^='id_form-'][id$='-per_pcs_duty_tax']").on('focus', function(e) {
+        $(this).val(800);
+    });
+
+    $("input[id^='id_form-'][id$='-air_freight_cost_p_pcs']").on('focus', function(e) {
+        $(this).val(500);
+    });
 
     // using jQuery
     function getCookie(name) {
