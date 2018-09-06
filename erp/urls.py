@@ -24,7 +24,7 @@ urlpatterns = [
 
     url(r'^europarts/', include('europarts.urls', namespace='europarts')),
 
-    url(r'^euro/', include('euro.urls', namespace='euro')),
+    # url(r'^euro/', include('euro.urls', namespace='euro')),
 
     url(r'^knitwear/', include('knitwear.urls', namespace='knitwear')),
 ]
