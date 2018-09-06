@@ -112,9 +112,11 @@ class WorksheetRow(Timestamped):
     per_pcs_duty_tax = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     air_freight_cost_p_pcs = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     net_purchase_price_taka = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    tax = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     price_after_tax = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     unit_price_in_taka = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     brand = models.CharField(max_length=50, blank=True, null=True)
+    vat = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     total_price_in_taka = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
 
     def __str__(self):

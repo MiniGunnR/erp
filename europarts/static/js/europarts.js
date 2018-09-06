@@ -106,23 +106,48 @@ $(function() {
     //    $("#past_price").hide();
     //});
 
+    $("input[id^='id_form-'][id$='-per_pcs_duty_tax']").on('focus', function(e) {
+        $val = $(this).val();
+        if ($val === '') {
+            $(this).val(800);
+        }
+    });
+
+    $("input[id^='id_form-'][id$='-air_freight_cost_p_pcs']").on('focus', function(e) {
+        $val = $(this).val();
+        if ($val === '') {
+            $(this).val(500);
+        }
+    });
+
+    $("input[id^='id_form-'][id$='-vat']").on('focus', function(e) {
+        $val = $(this).val();
+        if ($val === '') {
+            $(this).val(0.00);
+        }
+    });
+
+    $("input[id^='id_form-'][id$='-price_after_tax']").on('focus', function(e) {
+        var $id = $(this).attr('id').replace("id_form-", "").replace("-price_after_tax", "");
+        var $net = $("#id_form-" + $id + "-net_purchase_price_taka").val();
+        var $tax = $("#id_form-" + $id + "-tax").val();
+
+        if ($net && $tax) {
+            $price_after_tax = $net * (100 + parseFloat($tax)) / 100;
+            $("#id_form-" + $id + "-price_after_tax").val($price_after_tax);
+        }
+    });
+
     $("input[id^='id_form-'][id$='-total_price_in_taka']").on('focus', function(e) {
         var $id = $(this).attr('id').replace("id_form-", "").replace("-total_price_in_taka", "");
         var $quantity = $("#id_form-" + $id + "-quantity").val();
         var $sale_price = $("#id_form-" + $id + "-unit_price_in_taka").val();
+        var $vat = $("#id_form-" + $id + "-vat").val();
 
-        if ($quantity && $sale_price) {
-            $total = $quantity * $sale_price;
+        if ($quantity && $sale_price && $vat) {
+            $total = $quantity * $sale_price * (100 + parseFloat($vat)) / 100;
             $("#id_form-" + $id + "-total_price_in_taka").val($total);
         }
-    });
-
-    $("input[id^='id_form-'][id$='-per_pcs_duty_tax']").on('focus', function(e) {
-        $(this).val(800);
-    });
-
-    $("input[id^='id_form-'][id$='-air_freight_cost_p_pcs']").on('focus', function(e) {
-        $(this).val(500);
     });
 
     // using jQuery

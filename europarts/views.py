@@ -162,9 +162,11 @@ def worksheet_create(request):
                 per_pcs_duty_tax = row_form.cleaned_data.get('per_pcs_duty_tax')
                 air_freight_cost_p_pcs = row_form.cleaned_data.get('air_freight_cost_p_pcs')
                 net_purchase_price_taka = row_form.cleaned_data.get('net_purchase_price_taka')
+                tax = row_form.cleaned_data.get('tax')
                 price_after_tax = row_form.cleaned_data.get('price_after_tax')
                 unit_price_in_taka = row_form.cleaned_data.get('unit_price_in_taka')
                 brand = row_form.cleaned_data.get('brand')
+                vat = row_form.cleaned_data.get('vat')
                 total_price_in_taka = row_form.cleaned_data.get('total_price_in_taka')
 
                 if part_no is not None:
@@ -179,9 +181,11 @@ def worksheet_create(request):
                         per_pcs_duty_tax=per_pcs_duty_tax,
                         air_freight_cost_p_pcs=air_freight_cost_p_pcs,
                         net_purchase_price_taka=net_purchase_price_taka,
+                        tax=tax,
                         price_after_tax=price_after_tax,
                         unit_price_in_taka=unit_price_in_taka,
                         brand=brand,
+                        vat=vat,
                         total_price_in_taka=total_price_in_taka,
                         )
 
@@ -217,9 +221,11 @@ def worksheet_edit(request, pk):
         'per_pcs_duty_tax': row.per_pcs_duty_tax,
         'air_freight_cost_p_pcs': row.air_freight_cost_p_pcs,
         'net_purchase_price_taka': row.net_purchase_price_taka,
+        'tax': row.tax,
         'price_after_tax': row.price_after_tax,
         'unit_price_in_taka': row.unit_price_in_taka,
         'brand': row.brand,
+        'vat': row.vat,
         'total_price_in_taka': row.total_price_in_taka,
                 } for row in old_rows]
 
@@ -241,9 +247,11 @@ def worksheet_edit(request, pk):
                 per_pcs_duty_tax = row_form.cleaned_data.get('per_pcs_duty_tax')
                 air_freight_cost_p_pcs = row_form.cleaned_data.get('air_freight_cost_p_pcs')
                 net_purchase_price_taka = row_form.cleaned_data.get('net_purchase_price_taka')
+                tax = row_form.cleaned_data.get('tax')
                 price_after_tax = row_form.cleaned_data.get('price_after_tax')
                 unit_price_in_taka = row_form.cleaned_data.get('unit_price_in_taka')
                 brand = row_form.cleaned_data.get('brand')
+                vat = row_form.cleaned_data.get('vat')
                 total_price_in_taka = row_form.cleaned_data.get('total_price_in_taka')
                 if part_no is not None:
                     print('worksheet being created')
@@ -258,9 +266,11 @@ def worksheet_edit(request, pk):
                         per_pcs_duty_tax=per_pcs_duty_tax,
                         air_freight_cost_p_pcs=air_freight_cost_p_pcs,
                         net_purchase_price_taka=net_purchase_price_taka,
+                        tax=tax,
                         price_after_tax=price_after_tax,
                         unit_price_in_taka=unit_price_in_taka,
                         brand=brand,
+                        vat=vat,
                         total_price_in_taka=total_price_in_taka,
                         )
                     print('worksheet created')

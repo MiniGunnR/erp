@@ -24,9 +24,11 @@
 			<th>Per KG Duty/Tax</th>
 			<th>Air Freight Cost P/Pcs</th>
 			<th>Net Purchase Price Taka</th>
+			<th>Tax (%)</th>
 			<th>Price after Tax</th>
 			<th>Unit Price in Taka</th>
 			<th>Brand</th>
+			<th>VAT</th>
 			<th>Total Price in Taka</th>
 		</tr>
 
@@ -41,9 +43,11 @@
 				<td>{{ row_form.per_pcs_duty_tax }}</td>
 				<td>{{ row_form.air_freight_cost_p_pcs }}</td>
 				<td>{{ row_form.net_purchase_price_taka }}</td>
+				<td>{{ row_form.tax }}</td>
 				<td>{{ row_form.price_after_tax }}</td>
 				<td>{{ row_form.unit_price_in_taka }}</td>
 				<td>{{ row_form.brand }}</td>
+				<td>{{ row_form.vat }}</td>
 				<td>{{ row_form.total_price_in_taka }}</td>
 			</tr>
 			{% endfor %}
